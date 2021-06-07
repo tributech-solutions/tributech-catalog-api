@@ -1,0 +1,34 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:io:tributech:source:opcua;1",
+  "@type": "Interface",
+  "extends": "dtmi:io:tributech:source:base;1",
+  "displayName": "OPCUA Source",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ConnectionString",
+      "schema": "string",
+      "writable": true,
+      "displayName": "OPCUA Connection string",
+      "description": "The connection string for the opcua value source"
+    },
+    {
+      "@type": "Property",
+      "name": "PublishingInterval",
+      "schema": "integer",
+      "writable": true,
+      "displayName": "OPCUA publishing interval",
+      "description": "The opcua publishing interval"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Streams",
+      "minMultiplicity": 0,
+      "maxMultiplicity": 10,
+      "target": "dtmi:io:tributech:stream:opcua;1",
+      "displayName": "Streams",
+      "description": "Contains all opcua streams the given source."
+    }
+  ]
+}

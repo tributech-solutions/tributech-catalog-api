@@ -1,0 +1,127 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:io:tributech:stream:base;1",
+  "@type": "Interface",
+  "displayName": "Stream",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Name",
+      "schema": "string",
+      "writable": true,
+      "displayName": "Name",
+      "description": "Human-readable name of the stream."
+    },
+    {
+      "@type": "Property",
+      "name": "ValueMetadataId",
+      "schema": "string",
+      "writable": true,
+      "displayName": "ValueMetadataId",
+      "description": "Represents the global unique id of a stream."
+    },
+    {
+      "@type": "Property",
+      "name": "StreamConfig",
+      "writable": true,
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "key",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "value",
+          "schema": "string"
+        }
+      }
+    },
+    {
+      "@type": "Property",
+      "name": "MerkleTreeDepth",
+      "schema": "integer",
+      "writable": true,
+      "displayName": "Merkle Tree Depth",
+      "description": "Depth of the binary merkle-tree used for proof generation. Value used as 2^MerkleTreeDepth.",
+      "comment": "Proofs allows to verify integrity and origin of the stream. A proof represents a binary-merkle-tree and 2^MerkleTreeDepth values are necessary to build a single proof."
+    },
+    {
+      "@type": "Property",
+      "name": "MerkleTreeTimeout",
+      "schema": "duration",
+      "writable": true,
+      "displayName": "Merkle Tree Timeout",
+      "description": "Timeout for a single merkle-tree for proofs in ms.",
+      "comment": "If a stream doesn't provides enough values to build an entire merkle tree with the given depth in the given period it will be split into smaller merkle-trees."
+    },
+    {
+      "@type": "Property",
+      "name": "SubmissionInterval",
+      "schema": "duration",
+      "writable": true,
+      "displayName": "Submission Interval",
+      "description": "Periodic interval to submit values e.g. T1M30S",
+      "comment": "ISO 8601 format"
+    },
+    {
+      "@type": "Telemetry",
+      "name": "CurrentValue",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "String",
+            "schema": "string",
+            "description": "String-value (UTF-8)."
+          },
+          {
+            "name": "Double",
+            "schema": "double",
+            "description": "Double-encoded value."
+          },
+          {
+            "name": "Long",
+            "schema": "long",
+            "description": "Long-encoded value."
+          },
+          {
+            "name": "Boolean",
+            "schema": "boolean",
+            "description": "Boolean-encoded value."
+          },
+          {
+            "name": "DateTime",
+            "schema": "dateTime",
+            "description": "DateTime-encoded value."
+          },
+          {
+            "name": "Base64String",
+            "schema": "string",
+            "description": "Base64-encoded value."
+          }
+        ],
+        "displayName": "Value",
+        "description": "Strongly typed value. At least one field must be set. Multiple encodings are possible."
+      },
+      "displayName": "Current Value",
+      "description": "Current value of the stream."
+    },
+    {
+      "@type": "Property",
+      "name": "Unit",
+      "schema": "string",
+      "writable": true,
+      "displayName": "Unit",
+      "description": "Represents the unit of the stream."
+    },
+    {
+      "@type": "Relationship",
+      "name": "Annotations",
+      "minMultiplicity": 0,
+      "maxMultiplicity": 1,
+      "target": "dtmi:io:tributech:annotations:base;1",
+      "displayName": "Machine learning annotation",
+      "description": "Machine learning annotation."
+    }
+  ]
+}
