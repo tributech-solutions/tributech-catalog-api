@@ -1,4 +1,10 @@
-import { Controller, Get, Logger, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   InterfaceWithChildren,
@@ -20,7 +26,11 @@ export class ModelGraphController {
   @Get(':dtmi')
   getModel(@Param('dtmi') dtmi: string): Interface {
     this.logger.log(`getModel ${dtmi}`);
-    return this.modelService.get(dtmi)?.model;
+    const expandedModel = this.modelService.get(dtmi);
+    if (!expandedModel || !expandedModel?.model) {
+      throw new NotFoundException('Model not found');
+    }
+    return expandedModel?.model;
   }
 
   @Get('/expanded')

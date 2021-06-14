@@ -17,30 +17,30 @@ import {
 export const REL_TARGET_ANY = '*';
 
 export function getModelDisplayName(vertex: Vertex): string {
-  if (!vertex) return undefined;
+  if (!vertex) return '';
   return vertex.getAttributeValue('dtmi:dtdl:property:displayName;2');
 }
 
 export function getModelDescription(vertex: Vertex): string {
-  if (!vertex) return undefined;
+  if (!vertex) return '';
 
   return vertex.getAttributeValue('dtmi:dtdl:property:description;2');
 }
 
 export function getModelComment(vertex: Vertex): string {
-  if (!vertex) return undefined;
+  if (!vertex) return '';
 
   return vertex.getAttributeValue('dtmi:dtdl:property:comment;2');
 }
 
 export function getPropertyName(vertex: Vertex): string {
-  if (!vertex) return undefined;
+  if (!vertex) return '';
 
   return vertex.getAttributeValue('dtmi:dtdl:property:name;2');
 }
 
 export function getPropertyWritable(vertex: Vertex): boolean {
-  if (!vertex) return undefined;
+  if (!vertex) return true;
 
   return vertex.getAttributeValue('dtmi:dtdl:property:writable;2');
 }
@@ -63,8 +63,8 @@ export function getObjectSchema(vertex: Vertex): ObjectSchema {
       ...vertex
         .getOutgoing('dtmi:dtdl:property:fields;2')
         .map((edge) => ({
-          name: getPropertyName(edge.to),
-          schema: inferSchema(edge.to),
+          name: getPropertyName(edge.to) as string,
+          schema: inferSchema(edge.to) as Schema,
         }))
         .filter((edge) => !!edge.schema),
     ],
@@ -109,15 +109,15 @@ export function getMapSchema(vertex: Vertex): MapSchema {
       .getOutgoing('dtmi:dtdl:property:mapValue;2')
       .map((edge) => ({
         name: getPropertyName(edge.to),
-        schema: inferSchema(edge.to),
+        schema: inferSchema(edge.to) as Schema,
       }))
       .first(),
   };
 }
 
-export function inferSchema(vertex: Vertex): Schema {
+export function inferSchema(vertex: Vertex): Schema | undefined {
   const schemaEdge = vertex.getOutgoing('dtmi:dtdl:property:schema;2').first();
-  if (!schemaEdge) return null;
+  if (!schemaEdge) return undefined;
 
   if (schemaEdge.to.isType('dtmi:dtdl:class:Object;2')) {
     return getObjectSchema(schemaEdge?.to);
@@ -133,10 +133,12 @@ export function inferSchema(vertex: Vertex): Schema {
   return schemaEdge.to.id as PrimitiveSchema;
 }
 
-export function inferComponentSchema(vertex: Vertex): Interface | string {
+export function inferComponentSchema(
+  vertex: Vertex
+): Interface | string | undefined {
   const schemaEdge = vertex.getOutgoing('dtmi:dtdl:property:schema;2').first();
 
-  if (!schemaEdge) return null;
+  if (!schemaEdge) return undefined;
 
   if (schemaEdge.to.isType('dtmi:dtdl:class:Interface;2')) {
     return getInterfaceFromVertex(schemaEdge?.to);
@@ -145,9 +147,9 @@ export function inferComponentSchema(vertex: Vertex): Interface | string {
   return schemaEdge.to.id;
 }
 
-export function getPropertyFromVertex(vertex: Vertex): Property {
+export function getPropertyFromVertex(vertex: Vertex): Property | undefined {
   if (!vertex || !vertex?.isType(TwinContentType.Property)) {
-    return null;
+    return undefined;
   }
 
   return {
@@ -161,9 +163,9 @@ export function getPropertyFromVertex(vertex: Vertex): Property {
   };
 }
 
-export function getTelemetryFromVertex(vertex: Vertex): Telemetry {
+export function getTelemetryFromVertex(vertex: Vertex): Telemetry | undefined {
   if (!vertex || !vertex?.isType(TwinContentType.Telemetry)) {
-    return null;
+    return undefined;
   }
 
   return {
@@ -176,9 +178,11 @@ export function getTelemetryFromVertex(vertex: Vertex): Telemetry {
   };
 }
 
-export function getRelationshipFromVertex(vertex: Vertex): Relationship {
+export function getRelationshipFromVertex(
+  vertex: Vertex
+): Relationship | undefined {
   if (!vertex || !vertex?.isType(TwinContentType.Relationship)) {
-    return null;
+    return undefined;
   }
 
   const outgoing = vertex.getOutgoing('dtmi:dtdl:property:properties;2');
@@ -200,9 +204,9 @@ export function getRelationshipFromVertex(vertex: Vertex): Relationship {
   };
 }
 
-export function getComponentFromVertex(vertex: Vertex): Component {
+export function getComponentFromVertex(vertex: Vertex): Component | undefined {
   if (!vertex || !vertex?.isType(TwinContentType.Component)) {
-    return null;
+    return undefined;
   }
 
   return {
@@ -231,7 +235,7 @@ export function getInterfaceFromVertex(v: Vertex): Interface {
 }
 
 export function expandInterface(v: Vertex): ExpandedInterface {
-  if (!v) return null;
+  if (!v) throw new Error('Empty Vertex!');
   return {
     '@id': v.id,
     '@type': 'Interface',
@@ -257,7 +261,8 @@ export function expandInterface(v: Vertex): ExpandedInterface {
 }
 
 export function getContentFromVertex(v: Vertex, type: TwinContentType) {
-  let content: (Property | Component | Relationship | Telemetry)[] = [];
+  let content: (Property | Component | Relationship | Telemetry | undefined)[] =
+    [];
 
   v.getOutgoing('dtmi:dtdl:property:extends;2')
     .items()
@@ -352,5 +357,6 @@ export function hasNoIncomingRelationships(v: Vertex) {
 }
 
 export function safeAdd<T>(collection: T[], item: T) {
-  Object.keys(item).every((x) => item[x] !== null) && collection.push(item);
+  Object.keys(item).every((x) => item[x] !== undefined) &&
+    collection.push(item);
 }

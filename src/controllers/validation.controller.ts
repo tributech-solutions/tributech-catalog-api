@@ -1,0 +1,24 @@
+import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { ValidationService } from '../model/validation.service';
+import { PartialSchema } from '../models/json-schema.model';
+import { BaseDigitalTwin, Interface } from '../models/models';
+
+@ApiTags('validation')
+@Controller('validate')
+export class ValidationController {
+  private readonly logger = new Logger(ValidationController.name);
+
+  constructor(private readonly validationService: ValidationService) {}
+
+  @Get('/schema/:dtmi')
+  getSchema(@Param('dtmi') dtmi: string): PartialSchema<Interface> {
+    this.logger.log(`getSchema ${dtmi}`);
+    return this.validationService.getJSONSchema(dtmi);
+  }
+
+  @Post()
+  validateInstance(@Body() model: BaseDigitalTwin) {
+    return this.validationService.validateInstance(model);
+  }
+}

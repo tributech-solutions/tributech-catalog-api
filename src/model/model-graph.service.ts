@@ -5,7 +5,7 @@ import { JsonldGraph } from 'jsonld-graph';
 import { forEach, isArray, isString } from 'lodash';
 import { ModelEntity } from '../models/db-model';
 import { context } from '../models/json-ld-context';
-import { ExpandedInterface, Interface } from '../models/models';
+import { ExpandedInterface, Interface, Relationship } from '../models/models';
 import {
   expandInterface,
   getChildrenVertices,
@@ -33,6 +33,7 @@ export class ModelGraphService {
   getExpanded(modelId: string): ExpandedInterface {
     this.logger.verbose(`Get expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
+    if (!model) throw new Error('model not found');
     return expandInterface(model);
   }
 
@@ -109,7 +110,10 @@ export class ModelGraphService {
     return dataTree;
   }
 
-  getInvolvedRelationships(sourceModelId: string, targetModelId?: string) {
+  getInvolvedRelationships(
+    sourceModelId: string,
+    targetModelId?: string
+  ): Relationship[] {
     this.logger.verbose(
       `Get involved relationships ${sourceModelId} --> ${targetModelId}`
     );
@@ -125,11 +129,13 @@ export class ModelGraphService {
         throw new Error(`Model with ${targetModelId} not found!`);
       }
 
-      return sourceModel.relationships.filter(
-        (x) =>
-          x.target === REL_TARGET_ANY ||
-          x.target === targetModelId ||
-          targetModel.bases.some((y) => y === x.target)
+      return (
+        sourceModel?.relationships?.filter(
+          (x) =>
+            x.target === REL_TARGET_ANY ||
+            x.target === targetModelId ||
+            targetModel?.bases?.some((y) => y === x.target)
+        ) || []
       );
     }
     return sourceModel?.relationships || [];
@@ -143,19 +149,22 @@ export class ModelGraphService {
       this.modelGraph.addContext('dtmi:dtdl:context;2', context);
 
       if (models.length > 0) {
-        this.loadModelsIntoGraph(models.map((m) => m?.model));
+        this.loadModelsIntoGraph(models.map((m) => m?.model) as Interface[]);
       }
     }
   }
 
   async loadModelsIntoGraph(models: Interface[]) {
-    Logger.log(`Loading ${models?.length} models into graph...`);
+    this.logger.log(`Loading ${models?.length} models into graph...`);
     const [error, success] = await to(this.modelGraph.parse(models));
     if (error) {
-      Logger.error(error);
+      this.logger.error(
+        `Error while trying to insert ${models?.length} into the graph.`,
+        error?.message
+      );
       return Promise.reject(error);
     }
-    Logger.log(`Success`);
+    this.logger.log(`Successfully inserted ${models?.length} into the graph.`);
     return Promise.resolve(true);
   }
 }
