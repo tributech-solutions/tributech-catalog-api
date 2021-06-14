@@ -13,6 +13,8 @@
     "incremental": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   }
 }

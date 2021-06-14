@@ -23,23 +23,13 @@ export class ModelGraphController {
     private readonly modelGraphService: ModelGraphService
   ) {}
 
-  @Get(':dtmi')
-  getModel(@Param('dtmi') dtmi: string): Interface {
-    this.logger.log(`getModel ${dtmi}`);
-    const expandedModel = this.modelService.get(dtmi);
-    if (!expandedModel || !expandedModel?.model) {
-      throw new NotFoundException('Model not found');
-    }
-    return expandedModel?.model;
-  }
-
   @Get('/expanded')
   getExpandedModels(): ExpandedInterface[] {
     this.logger.log(`getExpandedModels`);
     return this.modelGraphService.getAllExpanded();
   }
 
-  @Get('/roots')
+  @Get('roots')
   getRoots(): ExpandedInterface[] {
     this.logger.log(`getRoots`);
     return this.modelGraphService.getRoots();
@@ -51,19 +41,19 @@ export class ModelGraphController {
     return this.modelGraphService.getRootsWithChildren();
   }
 
-  @Get(':dtmi/expanded')
+  @Get('/:dtmi/expand')
   getExpanded(@Param('dtmi') dtmi: string): ExpandedInterface {
     this.logger.log(`getExpanded ${dtmi}`);
     return this.modelGraphService.getExpanded(dtmi);
   }
 
-  @Get(':dtmi/expanded/parents')
+  @Get('/:dtmi/expand/parents')
   getExpandedWithParents(@Param('dtmi') dtmi: string): ExpandedInterface[] {
     this.logger.log(`getExpandedWithParents ${dtmi}`);
     return this.modelGraphService.getExpandedWithParents(dtmi);
   }
 
-  @Get(':sourceDtmi/:targetDtmi')
+  @Get('/:sourceDtmi/:targetDtmi')
   getRelationships(
     @Param('sourceDtmi') sourceDtmi: string,
     @Param('targetDtmi') targetDtmi: string
@@ -74,5 +64,14 @@ export class ModelGraphController {
       sourceDtmi,
       targetDtmi
     );
+  }
+  @Get('/:dtmi')
+  getModel(@Param('dtmi') dtmi: string): Interface {
+    this.logger.log(`getModel ${dtmi}`);
+    const expandedModel = this.modelService.get(dtmi);
+    if (!expandedModel || !expandedModel?.model) {
+      throw new NotFoundException('Model not found');
+    }
+    return expandedModel?.model;
   }
 }

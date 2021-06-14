@@ -1,9 +1,18 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import Ajv from 'ajv';
+import Ajv, { ErrorObject } from 'ajv';
+import { every, forEach } from 'lodash';
 import { PartialSchema } from '../models/json-schema.model';
-import { BaseDigitalTwin, Interface } from '../models/models';
+import {
+  BaseDigitalTwin,
+  BasicRelationship,
+  DigitalTwinModel,
+  Interface,
+} from '../models/models';
 import { ValidationError } from '../models/validation-error.model';
-import { generateJSONSchema } from '../utils/validation.utils';
+import {
+  generateJSONSchema,
+  getRelationshipJSONSchema,
+} from '../utils/validation.utils';
 import { ModelGraphService } from './model-graph.service';
 import { ModelService } from './model.service';
 
@@ -34,10 +43,57 @@ export class ValidationService {
     const valid = validate(instance);
 
     if (valid) {
-      console.log('Instance is valid :-)');
       return { success: true, errors: [] };
     } else {
-      console.log('Instance is invalid :-(');
+      return { success: false, errors: validate?.errors };
+    }
+  }
+
+  validateSubgraph(graph: DigitalTwinModel) {
+    const twins = graph?.digitalTwins || [];
+    const relationships = graph?.relationships || [];
+
+    const validTwinIds = twins?.map((t) => t?.$dtId) as string[];
+    const twinValidationResults = twins?.map((t) => this.validateInstance(t));
+    const relationshipResults = relationships?.map((t) =>
+      this.validateRelationship(t, validTwinIds)
+    );
+
+    const success =
+      every(twinValidationResults, (res) => res?.success) &&
+      every(relationshipResults, (res) => res?.success);
+
+    if (success) {
+      return { success, errors: [] };
+    }
+
+    let errors: null | ErrorObject[] = [];
+
+    forEach(
+      twinValidationResults,
+      (res) => (errors = [...(errors as any[]), ...(res?.errors as any)])
+    );
+    forEach(
+      relationshipResults,
+      (res) => (errors = [...(errors as any[]), ...(res?.errors as any)])
+    );
+
+    return { success, errors };
+  }
+
+  private validateRelationship(
+    relationship: BasicRelationship,
+    validTwinIds: string[]
+  ) {
+    const schema: PartialSchema<BasicRelationship> =
+      getRelationshipJSONSchema(validTwinIds);
+    const ajv = new Ajv();
+    const validate = ajv.compile(schema);
+    const valid = validate(relationship);
+
+    if (valid) {
+      return { success: true, errors: [] };
+    } else {
       return { success: false, errors: validate?.errors };
     }
   }

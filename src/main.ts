@@ -13,7 +13,6 @@ async function bootstrap() {
     .setTitle('Tributech catalog')
     .setDescription('The catalog API description')
     .setVersion('1.0')
-    .addTag('vocabulary')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -2,7 +2,7 @@ import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ValidationService } from '../model/validation.service';
 import { PartialSchema } from '../models/json-schema.model';
-import { BaseDigitalTwin, Interface } from '../models/models';
+import { BaseDigitalTwin, DigitalTwinModel, Interface } from '../models/models';
 
 @ApiTags('validation')
 @Controller('validate')
@@ -20,5 +20,10 @@ export class ValidationController {
   @Post()
   validateInstance(@Body() model: BaseDigitalTwin) {
     return this.validationService.validateInstance(model);
+  }
+
+  @Post('/graph')
+  validateGraph(@Body() model: DigitalTwinModel) {
+    return this.validationService.validateSubgraph(model);
   }
 }

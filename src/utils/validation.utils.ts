@@ -2,6 +2,7 @@ import { filter, forEach } from 'lodash';
 import { JSONSchemaType, PartialSchema } from '../models/json-schema.model';
 import {
   ArraySchema,
+  BasicRelationship,
   EnumSchema,
   EnumValue,
   ExpandedInterface,
@@ -13,6 +14,53 @@ import {
   Schema,
 } from '../models/models';
 import { isProperty } from './dtml.utils';
+
+/**
+ * Basic generation for relationship validation
+ * For now we only check if targetId and sourceId are possible.
+ */
+export function getRelationshipJSONSchema(
+  validTwinIds: string[]
+): PartialSchema<BasicRelationship> {
+  const properties: JSONSchemaType<Interface>['properties'] = {};
+
+  properties['$relationshipId'] = {
+    type: 'string',
+  };
+
+  properties['$targetId'] = {
+    type: 'string',
+    enum: validTwinIds,
+  };
+
+  properties['$sourceId'] = {
+    type: 'string',
+    enum: validTwinIds,
+  };
+
+  properties['$relationshipName'] = {
+    type: 'string',
+  };
+
+  properties['$etag'] = {
+    type: 'string',
+  };
+
+  const schema: PartialSchema<Interface> = {
+    type: 'object',
+    properties,
+    required: [
+      '$relationshipId',
+      '$targetId',
+      '$sourceId',
+      '$relationshipName',
+      '$etag',
+    ],
+    additionalProperties: true,
+  };
+
+  return schema;
+}
 
 export function generateJSONSchema(
   model: ExpandedInterface
