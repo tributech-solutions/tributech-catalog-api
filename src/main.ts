@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ModelSeederService } from './model/model-seeder.service';
+import { StorageService } from './services/storage.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const seeder = app.get(ModelSeederService);
+  const seeder = app.get(StorageService);
 
-  seeder?.seedDatabase();
+  await seeder?.initStorage();
 
   const config = new DocumentBuilder()
     .setTitle('Tributech catalog')

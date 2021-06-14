@@ -28,6 +28,7 @@
     "@nestjs/swagger": "^4.8.0",
     "ajv": "^8.6.0",
     "await-to-js": "^3.0.0",
+    "fs-extra": "^10.0.0",
     "jsonld-graph": "^5.0.1",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",

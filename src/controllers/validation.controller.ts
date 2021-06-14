@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ValidationService } from '../model/validation.service';
 import { PartialSchema } from '../models/json-schema.model';
 import { BaseDigitalTwin, DigitalTwinModel, Interface } from '../models/models';
+import { ValidationService } from '../services/validation.service';
 
 @ApiTags('validation')
 @Controller('validate')

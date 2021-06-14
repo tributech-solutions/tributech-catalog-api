@@ -6,12 +6,12 @@ import {
   Param,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { ExpandedInterface, Interface, Relationship } from '../models/models';
 import {
   InterfaceWithChildren,
   ModelGraphService,
-} from '../model/model-graph.service';
-import { ModelService } from '../model/model.service';
-import { ExpandedInterface, Interface, Relationship } from '../models/models';
+} from '../services/model-graph.service';
+import { ModelManagerService } from '../services/model-manager.service';
 
 @ApiTags('models')
 @Controller('graph')
@@ -19,7 +19,7 @@ export class ModelGraphController {
   private readonly logger = new Logger(ModelGraphController.name);
 
   constructor(
-    private readonly modelService: ModelService,
+    private readonly modelService: ModelManagerService,
     private readonly modelGraphService: ModelGraphService
   ) {}
 

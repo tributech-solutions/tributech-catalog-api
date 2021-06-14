@@ -5,20 +5,23 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import to from 'await-to-js';
 import { cloneDeep } from 'lodash';
 import { ValidationError } from 'src/models/validation-error.model';
 import { ModelEntity, PagedResult } from '../models/db-model';
 import { Interface } from '../models/models';
 import { isValidInterface } from '../utils/dtml.utils';
 import { ModelGraphService } from './model-graph.service';
+import { StorageService } from './storage.service';
 
 @Injectable()
-export class ModelService {
-  private readonly logger = new Logger(ModelService.name);
+export class ModelManagerService {
+  private readonly logger = new Logger(ModelManagerService.name);
 
   constructor(
     private modelStore: InMemoryDBService<ModelEntity>,
-    private modelGraphService: ModelGraphService
+    private modelGraphService: ModelGraphService,
+    private storageService: StorageService
   ) {}
 
   get(dtmi: string, includeRevoked?: boolean) {
@@ -38,7 +41,7 @@ export class ModelService {
     };
   }
 
-  add(model: Interface) {
+  async addNew(model: Interface, loadIntoGraph = true) {
     if (!isValidInterface(model)) {
       throw new ValidationError('Invalid Interface!');
     }
@@ -49,22 +52,40 @@ export class ModelService {
     if (existing) {
       throw new ConflictException(
         `There is already a model for ${model?.['@id']} stored!`,
-        'Create a new model or raise the version number instead.'
+        'Create a new services or raise the version number instead.'
       );
     }
 
     const entity: ModelEntity = this.createEntity(model);
-    this.modelGraphService.loadModelsIntoGraph([model]);
+    const [error, success] = await to(this.storageService.saveModel(entity));
+    if (error) return Promise.reject(error);
+
+    if (loadIntoGraph) {
+      const [errorLoad, successLoad] = await to(
+        this.modelGraphService.loadModelsIntoGraph([model])
+      );
+      if (errorLoad) return Promise.reject(errorLoad);
+    }
+
     return this.modelStore.create(entity);
   }
 
-  addMany(models: Interface[]) {
-    const entities: ModelEntity[] = models.map((m) => this.createEntity(m));
-    this.modelGraphService.loadModelsIntoGraph(models);
-    return this.modelStore.createMany(entities);
+  async addManyNew(models: Interface[], loadIntoGraph = true) {
+    const [error, entities] = await to(
+      Promise.all(models.map((m) => this.addNew(m, false)))
+    );
+    if (error) return Promise.reject(error);
+
+    if (loadIntoGraph) {
+      const [errorLoad, success] = await to(
+        this.modelGraphService.loadModelsIntoGraph(models)
+      );
+      if (errorLoad) return Promise.reject(error);
+    }
+    return entities || [];
   }
 
-  revokeModel(dtmi: string) {
+  async revokeModel(dtmi: string) {
     const model = cloneDeep(this.get(dtmi));
 
     if (!model) {
@@ -74,8 +95,14 @@ export class ModelService {
     model.active = false;
     model.modifiedTime = new Date().toISOString();
 
-    console.log(`Deleting model(s) ${dtmi} ...`);
-    this.modelStore.delete(dtmi);
+    this.logger.log(`Revoking model(s) ${dtmi} ...`);
+    this.modelStore.update(model);
+    const [error, success] = await to(this.storageService.saveModel(model));
+    if (error) {
+      this.logger.error(error);
+      return Promise.reject(error);
+    }
+    return model;
   }
 
   private createEntity(m: Interface): ModelEntity {

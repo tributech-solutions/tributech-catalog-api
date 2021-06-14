@@ -26,14 +26,12 @@ export class ModelGraphService {
   private modelGraph: JsonldGraph;
   private readonly logger = new Logger(ModelGraphService.name);
 
-  constructor(private modelStore: InMemoryDBService<ModelEntity>) {
-    this.initialize();
-  }
+  constructor(private modelStore: InMemoryDBService<ModelEntity>) {}
 
   getExpanded(modelId: string): ExpandedInterface {
     this.logger.verbose(`Get expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
-    if (!model) throw new Error('model not found');
+    if (!model) throw new Error('services not found');
     return expandInterface(model);
   }
 
@@ -141,7 +139,7 @@ export class ModelGraphService {
     return sourceModel?.relationships || [];
   }
 
-  private initialize() {
+  async initialize() {
     if (!this.modelGraph) {
       const models = this.modelStore.getAll();
       // Load contexts/vocabulary
@@ -149,7 +147,9 @@ export class ModelGraphService {
       this.modelGraph.addContext('dtmi:dtdl:context;2', context);
 
       if (models.length > 0) {
-        this.loadModelsIntoGraph(models.map((m) => m?.model) as Interface[]);
+        await this.loadModelsIntoGraph(
+          models.map((m) => m?.model) as Interface[]
+        );
       }
     }
   }
