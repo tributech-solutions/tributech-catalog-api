@@ -1,0 +1,88 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:io:tributech:sink:proof;1",
+  "@type": "Interface",
+  "displayName": "Proof Sink",
+  "extends": "dtmi:io:tributech:sink:base;1",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "BaseUrl",
+      "schema": "string",
+      "writable": true,
+      "displayName": "API Url",
+      "description": ""
+    },
+    {
+      "@type": "Property",
+      "name": "AuthUrl",
+      "schema": "string",
+      "writable": true,
+      "displayName": "Identity server URL",
+      "description": ""
+    },
+    {
+      "@type": "Property",
+      "name": "AuthScope",
+      "schema": "string",
+      "writable": true,
+      "displayName": "Identity server scope",
+      "description": ""
+    },
+    {
+      "@type": "Property",
+      "name": "ClientId",
+      "schema": "string",
+      "writable": true,
+      "displayName": "Client id for authentication",
+      "description": ""
+    },
+    {
+      "@type": "Property",
+      "name": "ClientSecret",
+      "schema": "string",
+      "writable": true,
+      "displayName": "Client secret for authentication",
+      "description": ""
+    },
+    {
+      "@type": "Property",
+      "name": "BrokerType",
+      "schema": {
+        "@type": "Enum",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "MQTT",
+            "displayName": "Mqtt",
+            "enumValue": "MQTT"
+          },
+          {
+            "name": "AzureEdgeRuntime",
+            "displayName": "AzureEdgeRuntime",
+            "enumValue": "AzureEdgeRuntime"
+          }
+        ]
+      },
+      "writable": false,
+      "displayName": "Broker type",
+      "description": ""
+    },
+    {
+      "@type": "Property",
+      "name": "MaxRetries",
+      "schema": "integer",
+      "writable": true,
+      "displayName": "Max retries",
+      "description": "Number of maximum retries for calls at Trust-API"
+    },
+    {
+      "@type": "Property",
+      "name": "MaxRetryInterval",
+      "schema": "integer",
+      "writable": true,
+      "displayName": "Max retry interval",
+      "description": "Maximum interval for delays of calls at Trust-API on error"
+    }
+  ]
+}
