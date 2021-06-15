@@ -1,7 +1,35 @@
 import { ApiExtraModels, ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import { SemanticTypes } from './semantic-types';
+
+export enum InterfaceType {
+  Interface = 'Interface',
+}
+
+export enum ContextType {
+  DTDL2 = 'dtmi:dtdl:context;2',
+}
+
+export enum ModelType {
+  Property = 'Property',
+  Telemetry = 'Telemetry',
+  Command = 'Command',
+  Component = 'Component',
+  Relationship = 'Relationship',
+}
+
+export enum SchemaType {
+  Enum = 'Enum',
+  Map = 'Map',
+  Object = 'Object',
+  Array = 'Array',
+}
 
 export class DigitalTwinMetadata {
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    required: true,
+    nullable: false,
+    pattern: '^dtmi:[a-z:]*;[1-99]$',
+  })
   $model?: string;
 }
 
@@ -49,6 +77,11 @@ export class BaseModel {
   displayName?: string;
 }
 
+export class ModelContent extends BaseModel {
+  @ApiProperty({ nullable: false, required: true })
+  '@type'?: ModelType | [ModelType, SemanticTypes];
+}
+
 export type Schema =
   | PrimitiveSchema
   | ArraySchema
@@ -83,10 +116,15 @@ export type PrimitiveBooleanSchema =
   | 'boolean'
   | 'dtmi:dtdl:instance:Schema:boolean;2';
 
-@ApiExtraModels(() => EnumSchema, () => MapSchema, () => ObjectSchema)
+@ApiExtraModels(
+  () => ArraySchema,
+  () => EnumSchema,
+  () => MapSchema,
+  () => ObjectSchema
+)
 export class ArraySchema extends BaseModel {
-  @ApiProperty()
-  '@type': 'Array';
+  @ApiProperty({ type: 'string', enum: [SchemaType.Array] })
+  '@type': SchemaType.Array;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -107,8 +145,8 @@ export class EnumValue extends BaseModel {
 }
 
 export class EnumSchema extends BaseModel {
-  @ApiProperty()
-  '@type': 'Enum';
+  @ApiProperty({ type: 'string', enum: [SchemaType.Enum] })
+  '@type': SchemaType.Enum;
   @ApiProperty({ type: [EnumValue] })
   enumValues: EnumValue[];
   @ApiProperty()
@@ -139,8 +177,8 @@ export class MapValue extends BaseModel {
 }
 
 export class MapSchema extends BaseModel {
-  @ApiProperty()
-  '@type': 'Map';
+  @ApiProperty({ type: 'string', enum: [SchemaType.Map] })
+  '@type': SchemaType.Map;
   @ApiProperty()
   mapKey: MapKey;
   @ApiProperty()
@@ -164,18 +202,27 @@ export class Field extends BaseModel {
 }
 
 export class ObjectSchema extends BaseModel {
-  @ApiProperty()
-  '@type': 'Object';
+  @ApiProperty({ type: 'string', enum: [SchemaType.Object] })
+  '@type': SchemaType.Object;
   @ApiProperty({ type: [Field] })
   fields: Field[];
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
-export class Telemetry extends BaseModel {
+export class Telemetry extends ModelContent {
   @ApiProperty({
-    oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+    oneOf: [
+      { type: 'string', enum: [ModelType.Telemetry] },
+      {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: [ModelType.Telemetry, ...Object.keys(SemanticTypes)],
+        },
+      },
+    ],
   })
-  '@type': 'Telemetry' | ['Telemetry', string];
+  '@type': ModelType.Telemetry | [ModelType.Telemetry, SemanticTypes];
   @ApiProperty()
   name: string;
 
@@ -197,9 +244,18 @@ export class Telemetry extends BaseModel {
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
 export class Property extends BaseModel {
   @ApiProperty({
-    oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+    oneOf: [
+      { type: 'string', enum: [ModelType.Property] },
+      {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: [ModelType.Property, ...Object.keys(SemanticTypes)],
+        },
+      },
+    ],
   })
-  '@type': 'Property' | ['Property', string];
+  '@type': ModelType.Property | [ModelType.Property, SemanticTypes];
   @ApiProperty()
   name: string;
   @ApiProperty({
@@ -219,8 +275,8 @@ export class Property extends BaseModel {
 }
 
 export class Command extends BaseModel {
-  @ApiProperty()
-  '@type': 'Command';
+  @ApiProperty({ type: 'string', enum: [ModelType.Command] })
+  '@type': ModelType.Command;
   @ApiProperty()
   name: string;
   @ApiProperty()
@@ -232,8 +288,8 @@ export class Command extends BaseModel {
 }
 
 export class Relationship extends BaseModel {
-  @ApiProperty()
-  '@type': 'Relationship';
+  @ApiProperty({ type: 'string', enum: [ModelType.Relationship] })
+  '@type': ModelType.Relationship;
   @ApiProperty()
   name: string;
   @ApiProperty()
@@ -247,8 +303,8 @@ export class Relationship extends BaseModel {
 }
 
 export class Component extends BaseModel {
-  @ApiProperty()
-  '@type': 'Component';
+  @ApiProperty({ type: 'string', enum: [ModelType.Component] })
+  '@type': ModelType.Component;
   @ApiProperty()
   name: string;
   @ApiProperty({ type: () => Interface })
@@ -264,20 +320,20 @@ export type InterfaceContent =
   | undefined;
 
 export class InterfaceSchema extends BaseModel {
-  @ApiProperty()
-  '@type': 'Array' | 'Enum' | 'Map' | 'Object';
+  @ApiProperty({ type: 'string', enum: SchemaType })
+  '@type': SchemaType;
   @ApiProperty()
   '@id': string;
 }
 
 @ApiExtraModels(Property, Relationship, Component, Command)
 export class Interface extends BaseModel {
-  @ApiProperty()
-  '@type': 'Interface';
+  @ApiProperty({ type: 'string', enum: InterfaceType })
+  '@type': InterfaceType.Interface;
+  @ApiProperty({ type: 'string', enum: ContextType })
+  '@context': ContextType.DTDL2;
   @ApiProperty()
   '@id': string;
-  @ApiProperty()
-  '@context': 'dtmi:dtdl:context;2';
   @ApiProperty({
     type: 'array',
     items: {
@@ -298,10 +354,10 @@ export class Interface extends BaseModel {
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
 export class ExpandedInterface extends BaseModel {
-  @ApiProperty()
-  '@type': 'Interface';
-  @ApiProperty()
-  '@context': 'dtmi:dtdl:context;2';
+  @ApiProperty({ type: 'string', enum: InterfaceType })
+  '@type': InterfaceType.Interface;
+  @ApiProperty({ type: 'string', enum: ContextType })
+  '@context': ContextType.DTDL2;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
