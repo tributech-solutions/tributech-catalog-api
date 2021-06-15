@@ -7,7 +7,7 @@ export class ModelEntity implements InMemoryDBEntity {
   id: string;
   @ApiProperty()
   active: boolean;
-  @ApiProperty({ type: () => Interface })
+  @ApiProperty()
   model?: Interface;
   @ApiProperty()
   createdTime: string;

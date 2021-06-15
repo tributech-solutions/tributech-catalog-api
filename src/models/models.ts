@@ -1,43 +1,52 @@
+import { ApiExtraModels, ApiProperty, getSchemaPath } from '@nestjs/swagger';
+
 export class DigitalTwinMetadata {
+  @ApiProperty({ required: true, nullable: false })
   $model?: string;
 }
 
 export class BaseDigitalTwin {
   [key: string]: any;
 
+  @ApiProperty()
   $dtId?: string;
+  @ApiProperty()
   $etag?: string;
+  @ApiProperty()
   $metadata?: DigitalTwinMetadata;
 }
 
 export class BasicRelationship {
   [key: string]: any;
 
+  @ApiProperty()
   $relationshipId?: string;
+  @ApiProperty()
   $targetId?: string;
+  @ApiProperty()
   $sourceId?: string;
+  @ApiProperty()
   $relationshipName?: string;
+  @ApiProperty()
   $etag?: string;
 }
 
 export class DigitalTwinModel {
+  @ApiProperty({ type: [BaseDigitalTwin] })
   digitalTwins?: Array<BaseDigitalTwin>;
+  @ApiProperty({ type: [BasicRelationship] })
   relationships?: Array<BasicRelationship>;
 }
 
-export class ExpandedInterface {
-  '@id': string;
-  '@type': 'Interface';
-  '@context': 'dtmi:dtdl:context;2';
-  displayName?: string;
-  description?: string;
+export class BaseModel {
+  @ApiProperty({ nullable: false, required: true })
+  '@id'?: string;
+  @ApiProperty({ required: false })
   comment?: string;
-  schema?: Schema;
-  bases?: string[];
-  properties: Property[];
-  relationships?: Relationship[];
-  telemetries?: Telemetry[];
-  components?: Component[];
+  @ApiProperty({ required: false })
+  description?: string;
+  @ApiProperty({ required: false })
+  displayName?: string;
 }
 
 export type Schema =
@@ -74,139 +83,176 @@ export type PrimitiveBooleanSchema =
   | 'boolean'
   | 'dtmi:dtdl:instance:Schema:boolean;2';
 
-export class ArraySchema {
+@ApiExtraModels(() => EnumSchema, () => MapSchema, () => ObjectSchema)
+export class ArraySchema extends BaseModel {
+  @ApiProperty()
   '@type': 'Array';
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { $ref: getSchemaPath('ArraySchema') },
+      { $ref: getSchemaPath('EnumSchema') },
+      { $ref: getSchemaPath('MapSchema') },
+      { $ref: getSchemaPath('ObjectSchema') },
+    ],
+  })
   elementSchema: Schema;
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class EnumValue {
+export class EnumValue extends BaseModel {
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   enumValue: string | number;
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class EnumSchema {
+export class EnumSchema extends BaseModel {
+  @ApiProperty()
   '@type': 'Enum';
+  @ApiProperty({ type: [EnumValue] })
   enumValues: EnumValue[];
+  @ApiProperty()
   valueSchema: 'integer' | 'string' | string;
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class MapKey {
+export class MapKey extends BaseModel {
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   schema: 'string' | string;
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class MapValue {
+@ApiExtraModels(ArraySchema, EnumSchema, () => MapSchema, () => ObjectSchema)
+export class MapValue extends BaseModel {
+  @ApiProperty()
   name: string;
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { $ref: getSchemaPath('ArraySchema') },
+      { $ref: getSchemaPath('EnumSchema') },
+      { $ref: getSchemaPath('MapSchema') },
+      { $ref: getSchemaPath('ObjectSchema') },
+    ],
+  })
   schema: Schema;
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class MapSchema {
+export class MapSchema extends BaseModel {
+  @ApiProperty()
   '@type': 'Map';
+  @ApiProperty()
   mapKey: MapKey;
+  @ApiProperty()
   mapValue: MapValue;
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class Field {
+@ApiExtraModels(ArraySchema, EnumSchema, MapSchema, () => ObjectSchema)
+export class Field extends BaseModel {
+  @ApiProperty()
   name: string;
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { $ref: getSchemaPath('ArraySchema') },
+      { $ref: getSchemaPath('EnumSchema') },
+      { $ref: getSchemaPath('MapSchema') },
+      { $ref: getSchemaPath('ObjectSchema') },
+    ],
+  })
   schema: Schema;
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class ObjectSchema {
+export class ObjectSchema extends BaseModel {
+  @ApiProperty()
   '@type': 'Object';
+  @ApiProperty({ type: [Field] })
   fields: Field[];
-  '@id'?: string;
-  comment?: string;
-  description?: string;
-  displayName?: string;
 }
 
-export class Telemetry {
+@ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
+export class Telemetry extends BaseModel {
+  @ApiProperty({
+    oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+  })
   '@type': 'Telemetry' | ['Telemetry', string];
-  // https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier
+  @ApiProperty()
   name: string;
+
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { type: 'number' },
+      { $ref: getSchemaPath(ArraySchema) },
+      { $ref: getSchemaPath(EnumSchema) },
+      { $ref: getSchemaPath(MapSchema) },
+      { $ref: getSchemaPath(ObjectSchema) },
+    ],
+  })
   schema: Schema;
-  '@id'?: string; // DTMI
-  comment?: string;
-  description?: string;
-  displayName?: string;
+  @ApiProperty()
   unit?: string;
 }
 
-export class Property {
+@ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
+export class Property extends BaseModel {
+  @ApiProperty({
+    oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+  })
   '@type': 'Property' | ['Property', string];
-  // https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier
+  @ApiProperty()
   name: string;
-  schema: Schema; // may not be Array nor any complex schema that contains Array
-  '@id'?: string; // DTMI
-  comment?: string;
-  description?: string;
-  displayName?: string;
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { $ref: getSchemaPath(ArraySchema) },
+      { $ref: getSchemaPath(EnumSchema) },
+      { $ref: getSchemaPath(MapSchema) },
+      { $ref: getSchemaPath(ObjectSchema) },
+    ],
+  })
+  schema: Schema;
+  @ApiProperty()
   unit?: string;
+  @ApiProperty()
   writable?: boolean;
 }
 
-export class Command {
+export class Command extends BaseModel {
+  @ApiProperty()
   '@type': 'Command';
-  // https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier
+  @ApiProperty()
   name: string;
-  '@id'?: string; // DTMI
-  comment?: string;
-  description?: string;
-  displayName?: string;
+  @ApiProperty()
   commandType?: any;
+  @ApiProperty()
   request?: any;
+  @ApiProperty()
   response?: any;
 }
 
-export class Relationship {
+export class Relationship extends BaseModel {
+  @ApiProperty()
   '@type': 'Relationship';
+  @ApiProperty()
   name: string;
-  '@id'?: string; // DTMI
-  comment?: string;
-  description?: string;
-  displayName?: string;
+  @ApiProperty()
   maxMultiplicity?: number;
+  @ApiProperty()
   minMultiplicity?: number;
+  @ApiProperty({ type: [Property] })
   properties?: Property[];
+  @ApiProperty({ type: 'string' })
   target?: string | Interface;
 }
 
-export class Component {
+export class Component extends BaseModel {
+  @ApiProperty()
   '@type': 'Component';
+  @ApiProperty()
   name: string;
-  schema: Interface;
-  '@id'?: string; // DTMI
-  comment?: string;
-  description?: string;
-  displayName?: string;
+  @ApiProperty({ type: () => Interface })
+  schema: string | Interface;
 }
 
 export type InterfaceContent =
@@ -217,22 +263,63 @@ export type InterfaceContent =
   | Component
   | undefined;
 
-export class Interface {
-  '@type': 'Interface';
+export class InterfaceSchema extends BaseModel {
+  @ApiProperty()
+  '@type': 'Array' | 'Enum' | 'Map' | 'Object';
+  @ApiProperty()
   '@id': string;
+}
+
+@ApiExtraModels(Property, Relationship, Component, Command)
+export class Interface extends BaseModel {
+  @ApiProperty()
+  '@type': 'Interface';
+  @ApiProperty()
+  '@id': string;
+  @ApiProperty()
   '@context': 'dtmi:dtdl:context;2';
-  comment?: string;
-  description?: string;
-  displayName?: string;
+  @ApiProperty({
+    type: 'array',
+    items: {
+      anyOf: [
+        { $ref: getSchemaPath(Property) },
+        { $ref: getSchemaPath(Relationship) },
+        { $ref: getSchemaPath(Component) },
+        { $ref: getSchemaPath(Command) },
+      ],
+    },
+  })
   contents?: InterfaceContent[];
+  @ApiProperty({ type: [String] })
   extends?: string[] | Interface[] | string;
+  @ApiProperty({ type: [InterfaceSchema] })
   schemas?: InterfaceSchema[];
 }
 
-export class InterfaceSchema {
-  '@type': 'Array' | 'Enum' | 'Map' | 'Object';
-  '@id': string;
-  comment: string;
-  description: string;
-  displayName: string;
+@ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
+export class ExpandedInterface extends BaseModel {
+  @ApiProperty()
+  '@type': 'Interface';
+  @ApiProperty()
+  '@context': 'dtmi:dtdl:context;2';
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { $ref: getSchemaPath(ArraySchema) },
+      { $ref: getSchemaPath(EnumSchema) },
+      { $ref: getSchemaPath(MapSchema) },
+      { $ref: getSchemaPath(ObjectSchema) },
+    ],
+  })
+  schema?: Schema;
+  @ApiProperty()
+  bases?: string[];
+  @ApiProperty({ type: [Property] })
+  properties: Property[];
+  @ApiProperty({ type: [Relationship] })
+  relationships?: Relationship[];
+  @ApiProperty({ type: [Telemetry] })
+  telemetries?: Telemetry[];
+  @ApiProperty({ type: [Component] })
+  components?: Component[];
 }

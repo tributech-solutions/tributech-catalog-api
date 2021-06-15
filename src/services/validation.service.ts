@@ -8,7 +8,11 @@ import {
   DigitalTwinModel,
   Interface,
 } from '../models/models';
-import { ValidationError } from '../models/validation-error.model';
+import {
+  SchemaErrorObject,
+  SchemaValidationError,
+  ValidationError,
+} from '../models/validation-error.model';
 import {
   generateJSONSchema,
   getRelationshipJSONSchema,
@@ -34,7 +38,7 @@ export class ValidationService {
     return generateJSONSchema(model);
   }
 
-  validateInstance(instance: BaseDigitalTwin) {
+  validateInstance(instance: BaseDigitalTwin): SchemaValidationError {
     const dtmi = instance?.$metadata?.$model;
     if (!dtmi) throw new ValidationError('No model metadata!');
     const schema: PartialSchema<Interface> = this.getJSONSchema(dtmi);
@@ -45,11 +49,14 @@ export class ValidationService {
     if (valid) {
       return { success: true, errors: [] };
     } else {
-      return { success: false, errors: validate?.errors };
+      return {
+        success: false,
+        errors: validate?.errors as SchemaErrorObject[],
+      };
     }
   }
 
-  validateSubgraph(graph: DigitalTwinModel) {
+  validateSubgraph(graph: DigitalTwinModel): SchemaValidationError {
     const twins = graph?.digitalTwins || [];
     const relationships = graph?.relationships || [];
 
@@ -84,7 +91,7 @@ export class ValidationService {
   private validateRelationship(
     relationship: BasicRelationship,
     validTwinIds: string[]
-  ) {
+  ): SchemaValidationError {
     const schema: PartialSchema<BasicRelationship> =
       getRelationshipJSONSchema(validTwinIds);
     const ajv = new Ajv();
@@ -94,7 +101,10 @@ export class ValidationService {
     if (valid) {
       return { success: true, errors: [] };
     } else {
-      return { success: false, errors: validate?.errors };
+      return {
+        success: false,
+        errors: validate?.errors as SchemaErrorObject[],
+      };
     }
   }
 }

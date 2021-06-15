@@ -4,8 +4,16 @@ import {
   Logger,
   NotFoundException,
   Param,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiExtraModels,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
+import { PagedResult } from '../models/db-model';
 import { ExpandedInterface, Interface, Relationship } from '../models/models';
 import {
   InterfaceWithChildren,
@@ -24,36 +32,80 @@ export class ModelGraphController {
   ) {}
 
   @Get('/expanded')
-  getExpandedModels(): ExpandedInterface[] {
+  @ApiOkResponse({
+    description: 'Returns all stored models in their expanded representation.',
+    schema: {
+      allOf: [
+        { $ref: getSchemaPath(PagedResult) },
+        {
+          properties: {
+            data: {
+              type: 'array',
+              items: { $ref: getSchemaPath(ExpandedInterface) },
+            },
+          },
+        },
+      ],
+    },
+  })
+  @ApiExtraModels(ExpandedInterface)
+  @ApiQuery({ name: 'page', type: 'number' })
+  @ApiQuery({ name: 'size', type: 'number' })
+  getExpandedModels(
+    @Query('page') page = 0,
+    @Query('size') size
+  ): PagedResult<ExpandedInterface> {
     this.logger.log(`getExpandedModels`);
-    return this.modelGraphService.getAllExpanded();
+    return this.modelGraphService.getAllExpanded(page, size);
   }
 
   @Get('roots')
+  @ApiOkResponse({
+    description: 'Returns root models in their expanded representation.',
+    type: [ExpandedInterface],
+  })
   getRoots(): ExpandedInterface[] {
     this.logger.log(`getRoots`);
     return this.modelGraphService.getRoots();
   }
 
   @Get('/rootswithchildren')
+  @ApiOkResponse({
+    description:
+      'Returns root models with their children in their expanded representation.',
+    type: [InterfaceWithChildren],
+  })
   getRootsWithChildren(): InterfaceWithChildren[] {
     this.logger.log(`getRootsWithChildren`);
     return this.modelGraphService.getRootsWithChildren();
   }
 
   @Get('/:dtmi/expand')
+  @ApiOkResponse({
+    description: 'Returns a model in its expanded representation.',
+    type: [ExpandedInterface],
+  })
   getExpanded(@Param('dtmi') dtmi: string): ExpandedInterface {
     this.logger.log(`getExpanded ${dtmi}`);
     return this.modelGraphService.getExpanded(dtmi);
   }
 
   @Get('/:dtmi/expand/parents')
+  @ApiOkResponse({
+    description:
+      'Returns a model in its expanded representation with its parents.',
+    type: [ExpandedInterface],
+  })
   getExpandedWithParents(@Param('dtmi') dtmi: string): ExpandedInterface[] {
     this.logger.log(`getExpandedWithParents ${dtmi}`);
     return this.modelGraphService.getExpandedWithParents(dtmi);
   }
 
-  @Get('/:sourceDtmi/:targetDtmi')
+  @Get('/relationships/:sourceDtmi/:targetDtmi')
+  @ApiOkResponse({
+    description: 'Returns the possible relationships between two models.',
+    type: [Relationship],
+  })
   getRelationships(
     @Param('sourceDtmi') sourceDtmi: string,
     @Param('targetDtmi') targetDtmi: string
@@ -65,7 +117,12 @@ export class ModelGraphController {
       targetDtmi
     );
   }
+
   @Get('/:dtmi')
+  @ApiOkResponse({
+    description: 'Returns a model based on its dtmi',
+    type: Interface,
+  })
   getModel(@Param('dtmi') dtmi: string): Interface {
     this.logger.log(`getModel ${dtmi}`);
     const expandedModel = this.modelService.get(dtmi);
