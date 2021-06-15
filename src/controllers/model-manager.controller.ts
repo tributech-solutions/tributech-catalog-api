@@ -9,16 +9,16 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ModelService } from '../model/model.service';
 import { ModelEntity, PagedResult } from '../models/db-model';
 import { Interface } from '../models/models';
+import { ModelManagerService } from '../services/model-manager.service';
 
 @ApiTags('manage')
 @Controller('manage')
 export class ModelManagerController {
-  constructor(private readonly modelService: ModelService) {}
+  constructor(private readonly modelService: ModelManagerService) {}
 
-  @Get('/model/:dtmi')
+  @Get('/services/:dtmi')
   getEntity(@Param('dtmi') dtmi: string): ModelEntity {
     const modelEntity = this.modelService.get(dtmi);
     if (!modelEntity) throw new NotFoundException('Model not found');
@@ -33,18 +33,18 @@ export class ModelManagerController {
     return this.modelService.getAll(page, size);
   }
 
-  @Post('/model')
-  addEntity(@Body() model: Interface): ModelEntity {
-    return this.modelService.add(model);
+  @Post('/services')
+  addEntity(@Body() model: Interface) {
+    return this.modelService.addNew(model);
   }
 
   @Post('/models')
-  addEntities(@Body() models: Interface[]): ModelEntity[] {
-    return this.modelService.addMany(models);
+  addEntities(@Body() models: Interface[]) {
+    return this.modelService.addManyNew(models);
   }
 
-  @Put('/model/:dtmi/revoke')
-  removeEntity(@Param('dtmi') dtmi: string): void {
+  @Put('/services/:dtmi/revoke')
+  revokeEntity(@Param('dtmi') dtmi: string) {
     return this.modelService.revokeModel(dtmi);
   }
 }
