@@ -1,4 +1,5 @@
-import { Interface } from '../models/models';
+import { isArray } from 'lodash';
+import { Interface, InterfaceContent, Property } from '../models/models';
 import { ValidationError } from '../models/validation-error.model';
 
 export function isValidInterface(model: Interface): boolean {
@@ -28,4 +29,9 @@ export function isInterfaceType(model: Interface): boolean {
 
 export function isDTMLContext(context: string): boolean {
   return context === 'dtmi:dtdl:context;2';
+}
+
+export function isProperty(content: InterfaceContent): content is Property {
+  const type = content?.['@type'];
+  return !isArray(type) ? type === 'Property' : type?.includes('Property');
 }

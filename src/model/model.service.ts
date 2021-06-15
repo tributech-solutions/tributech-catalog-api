@@ -83,7 +83,7 @@ export class ModelService {
       id: m?.['@id'],
       active: true,
       createdTime: new Date().toISOString(),
-      modifiedTime: null,
+      modifiedTime: '',
       model: m,
     };
   }

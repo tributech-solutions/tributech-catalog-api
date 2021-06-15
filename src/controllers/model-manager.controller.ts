@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ModelService } from '../model/model.service';
 import { ModelEntity, PagedResult } from '../models/db-model';
@@ -11,7 +20,9 @@ export class ModelManagerController {
 
   @Get('/model/:dtmi')
   getEntity(@Param('dtmi') dtmi: string): ModelEntity {
-    return this.modelService.get(dtmi);
+    const modelEntity = this.modelService.get(dtmi);
+    if (!modelEntity) throw new NotFoundException('Model not found');
+    return modelEntity;
   }
 
   @Get('/models')

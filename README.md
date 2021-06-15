@@ -42,6 +42,23 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Docker
+
+### Build images
+```powershell
+docker-compose -f ./docker-compose.yml -f ./docker-compose.ci.build.yml build
+```
+
+### Run
+
+```powershell
+# start
+docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalog-api up -d
+# stop
+docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalog-api down
+```
+
+
 Validate SHACL
 https://www.npmjs.com/package/rdf-validate-shacl
 https://zazuko.com/get-started/developers/

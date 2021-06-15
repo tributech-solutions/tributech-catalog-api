@@ -45,7 +45,8 @@ export type Schema =
   | ArraySchema
   | EnumSchema
   | MapSchema
-  | ObjectSchema;
+  | ObjectSchema
+  | undefined;
 
 export type PrimitiveSchema =
   | 'date'
@@ -208,6 +209,14 @@ export class Component {
   displayName?: string;
 }
 
+export type InterfaceContent =
+  | Telemetry
+  | Property
+  | Command
+  | Relationship
+  | Component
+  | undefined;
+
 export class Interface {
   '@type': 'Interface';
   '@id': string;
@@ -215,7 +224,7 @@ export class Interface {
   comment?: string;
   description?: string;
   displayName?: string;
-  contents?: (Telemetry | Property | Command | Relationship | Component)[];
+  contents?: InterfaceContent[];
   extends?: string[] | Interface[] | string;
   schemas?: InterfaceSchema[];
 }
