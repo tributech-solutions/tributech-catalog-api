@@ -1,5 +1,6 @@
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { Injectable, Logger } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import { to } from 'await-to-js';
 import { JsonldGraph } from 'jsonld-graph';
 import { forEach, isArray, isString } from 'lodash';
@@ -14,6 +15,7 @@ import {
 } from '../utils/model.utils';
 
 export class InterfaceWithChildren extends Interface {
+  @ApiProperty({ type: [InterfaceWithChildren] })
   children: InterfaceWithChildren[];
 }
 
@@ -31,7 +33,7 @@ export class ModelGraphService {
   getExpanded(modelId: string): ExpandedInterface {
     this.logger.verbose(`Get expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
-    if (!model) throw new Error('services not found');
+    if (!model) throw new Error('model not found');
     return expandInterface(model);
   }
 
@@ -56,7 +58,7 @@ export class ModelGraphService {
     return vertices;
   }
 
-  getAllExpanded(): ExpandedInterface[] {
+  getAllExpanded(page = 0, size = 100) {
     this.logger.verbose(`Get all expanded models`);
 
     const models = this.modelGraph
@@ -65,7 +67,13 @@ export class ModelGraphService {
       .items();
     Logger.log(models?.length);
 
-    return models.map((model) => expandInterface(model));
+    const data = models.map((model) => expandInterface(model));
+
+    const startIdx = page * size;
+    return {
+      data: data?.slice(startIdx, startIdx + size),
+      totalCount: data?.length,
+    };
   }
 
   getRoots(): ExpandedInterface[] {

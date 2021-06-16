@@ -2,15 +2,19 @@ import { Vertex } from 'jsonld-graph';
 import { TwinContentType } from '../models/constants';
 import {
   Component,
+  ContextType,
   EnumSchema,
   ExpandedInterface,
   Interface,
+  InterfaceType,
   MapSchema,
+  ModelType,
   ObjectSchema,
   PrimitiveSchema,
   Property,
   Relationship,
   Schema,
+  SchemaType,
   Telemetry,
 } from '../models/models';
 
@@ -54,7 +58,7 @@ export function inferTarget(vertex: Vertex): string {
 
 export function getObjectSchema(vertex: Vertex): ObjectSchema {
   return {
-    '@type': 'Object',
+    '@type': SchemaType.Object,
     '@id': vertex?.id,
     comment: getModelComment(vertex),
     description: getModelDescription(vertex),
@@ -73,7 +77,7 @@ export function getObjectSchema(vertex: Vertex): ObjectSchema {
 
 export function getEnumSchema(vertex: Vertex): EnumSchema {
   return {
-    '@type': 'Enum',
+    '@type': SchemaType.Enum,
     '@id': vertex?.id,
     comment: getModelComment(vertex),
     description: getModelDescription(vertex),
@@ -93,7 +97,7 @@ export function getEnumSchema(vertex: Vertex): EnumSchema {
 
 export function getMapSchema(vertex: Vertex): MapSchema {
   return {
-    '@type': 'Map',
+    '@type': SchemaType.Map,
     '@id': vertex?.id,
     comment: getModelComment(vertex),
     description: getModelDescription(vertex),
@@ -153,7 +157,7 @@ export function getPropertyFromVertex(vertex: Vertex): Property | undefined {
   }
 
   return {
-    '@type': 'Property',
+    '@type': ModelType.Property,
     name: getPropertyName(vertex),
     displayName: getModelDisplayName(vertex),
     schema: inferSchema(vertex),
@@ -169,7 +173,7 @@ export function getTelemetryFromVertex(vertex: Vertex): Telemetry | undefined {
   }
 
   return {
-    '@type': 'Telemetry',
+    '@type': ModelType.Telemetry,
     name: getPropertyName(vertex),
     displayName: getModelDisplayName(vertex),
     schema: inferSchema(vertex),
@@ -194,7 +198,7 @@ export function getRelationshipFromVertex(
     ) as Property[];
 
   return {
-    '@type': 'Relationship',
+    '@type': ModelType.Relationship,
     name: getPropertyName(vertex),
     displayName: getModelDisplayName(vertex),
     target: inferTarget(vertex),
@@ -210,7 +214,7 @@ export function getComponentFromVertex(vertex: Vertex): Component | undefined {
   }
 
   return {
-    '@type': 'Component',
+    '@type': ModelType.Component,
     name: getPropertyName(vertex),
     displayName: getModelDisplayName(vertex),
     comment: getModelComment(vertex),
@@ -221,9 +225,9 @@ export function getComponentFromVertex(vertex: Vertex): Component | undefined {
 
 export function getInterfaceFromVertex(v: Vertex): Interface {
   return {
-    '@type': 'Interface',
+    '@type': InterfaceType.Interface,
     '@id': v.id,
-    '@context': 'dtmi:dtdl:context;2',
+    '@context': ContextType.DTDL2,
     displayName: getModelDisplayName(v),
     comment: getModelComment(v),
     description: getModelDescription(v),
@@ -238,8 +242,8 @@ export function expandInterface(v: Vertex): ExpandedInterface {
   if (!v) throw new Error('Empty Vertex!');
   return {
     '@id': v.id,
-    '@type': 'Interface',
-    '@context': 'dtmi:dtdl:context;2',
+    '@type': InterfaceType.Interface,
+    '@context': ContextType.DTDL2,
     displayName: getModelDisplayName(v),
     description: getModelDescription(v),
     comment: getModelComment(v),

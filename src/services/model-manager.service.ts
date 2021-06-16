@@ -52,7 +52,7 @@ export class ModelManagerService {
     if (existing) {
       throw new ConflictException(
         `There is already a model for ${model?.['@id']} stored!`,
-        'Create a new services or raise the version number instead.'
+        'Create a new model or raise the version number instead.'
       );
     }
 

@@ -19,7 +19,7 @@ export class StorageService {
     const fileName = this.encodeDTMI(content?.id);
 
     const [error, success] = await to(
-      fs?.writeJson(`/storage/${fileName}.json`, content)
+      fs?.writeJson(`./storage/${fileName}.json`, content)
     );
     if (error || !success) return Promise.reject(error);
 
@@ -45,7 +45,7 @@ export class StorageService {
   }
 
   private async loadFile(fileName: string): Promise<ModelEntity | Interface> {
-    const [error, file] = await to(fs?.readJson(`/storage/${fileName}`));
+    const [error, file] = await to(fs?.readJson(`./storage/${fileName}`));
     if (error || !file) return Promise.reject(error);
 
     return file as ModelEntity;
