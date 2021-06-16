@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiExtraModels,
+  ApiOAuth2,
   ApiOkResponse,
   ApiQuery,
   ApiTags,
@@ -22,6 +23,7 @@ import {
 import { ModelManagerService } from '../services/model-manager.service';
 
 @ApiTags('models')
+@ApiOAuth2(['catalog-api'])
 @Controller('graph')
 export class ModelGraphController {
   private readonly logger = new Logger(ModelGraphController.name);

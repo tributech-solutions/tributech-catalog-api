@@ -24,6 +24,7 @@
   "dependencies": {
     "@nestjs-addons/in-memory-db": "^3.0.3",
     "@nestjs/common": "^7.6.15",
+    "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
     "@nestjs/swagger": "^4.8.0",
@@ -31,10 +32,13 @@
     "await-to-js": "^3.0.0",
     "fs-extra": "^10.0.0",
     "jsonld-graph": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.0.3",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
+    "strip-json-comments": "^3.1.1",
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
@@ -42,7 +46,9 @@
     "@nestjs/schematics": "^7.3.0",
     "@nestjs/testing": "^7.6.15",
     "@types/express": "^4.17.11",
+    "@types/fs-extra": "^9.0.11",
     "@types/jest": "^26.0.22",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/lodash": "^4.14.170",
     "@types/node": "^14.14.36",
     "@types/supertest": "^2.0.10",

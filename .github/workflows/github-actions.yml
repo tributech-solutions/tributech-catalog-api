@@ -2,7 +2,7 @@ name: Tributech Catalog CI
 
 on:
   push:
-    branches: [ main, release/* ]
+    branches: [ main, release/*, develop ]
   pull_request:
     branches: [ main ]
 
@@ -27,13 +27,15 @@ jobs:
         id: prep
         run: |
           DOCKER_IMAGE=tributech.azurecr.io/catalog-api
-          VERSION=latest
+          VERSION=alpha
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
-          elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
           elif [[ $GITHUB_REF == refs/pull/* ]]; then
             VERSION=pr-${{ github.event.number }}
+          elif [[ $GITHUB_REF == refs/heads/develop ]]; then
+            VERSION=beta
+          elif [[ $GITHUB_REF == refs/heads/main ]]; then
+            VERSION=beta
           fi
           TAGS="${DOCKER_IMAGE}:${VERSION}"
           if [ "${{ github.event_name }}" = "push" ]; then
