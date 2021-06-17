@@ -56,14 +56,6 @@ describe('ModelGraphController', () => {
     );
   });
 
-  it('should call through to get the expanded model', () => {
-    modelGraphController.getExpandedWithParents('dtmi:io:tributech:test;1');
-    expect(modelGraphService.getExpandedWithParents).toHaveBeenCalledTimes(1);
-    expect(modelGraphService.getExpandedWithParents).toHaveBeenCalledWith(
-      'dtmi:io:tributech:test;1'
-    );
-  });
-
   it('should call through to get the relationships between two models', () => {
     modelGraphController.getRelationships(
       'dtmi:io:tributech:test;1',

@@ -92,17 +92,6 @@ export class ModelGraphController {
     return this.modelGraphService.getExpanded(dtmi);
   }
 
-  @Get('/:dtmi/expand/parents')
-  @ApiOkResponse({
-    description:
-      'Returns a model in its expanded representation with its parents.',
-    type: [ExpandedInterface],
-  })
-  getExpandedWithParents(@Param('dtmi') dtmi: string): ExpandedInterface[] {
-    this.logger.log(`getExpandedWithParents ${dtmi}`);
-    return this.modelGraphService.getExpandedWithParents(dtmi);
-  }
-
   @Get('/relationships/:sourceDtmi/:targetDtmi')
   @ApiOkResponse({
     description: 'Returns the possible relationships between two models.',
