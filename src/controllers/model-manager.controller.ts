@@ -12,6 +12,7 @@ import {
   ApiAcceptedResponse,
   ApiBody,
   ApiCreatedResponse,
+  ApiOAuth2,
   ApiOkResponse,
   ApiQuery,
   ApiTags,
@@ -22,6 +23,7 @@ import { Interface } from '../models/models';
 import { ModelManagerService } from '../services/model-manager.service';
 
 @ApiTags('manage')
+@ApiOAuth2(['catalog-api'])
 @Controller('manage')
 export class ModelManagerController {
   constructor(private readonly modelService: ModelManagerService) {}

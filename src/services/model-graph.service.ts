@@ -65,7 +65,6 @@ export class ModelGraphService {
       .getVertices()
       .filter((x) => x.isType('dtmi:dtdl:class:Interface;2'))
       .items();
-    Logger.log(models?.length);
 
     const data = models.map((model) => expandInterface(model));
 

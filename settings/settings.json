@@ -1,0 +1,11 @@
+{
+  "Port": 3000,
+  "ApiAuthOptions": {
+    "Authority": "<<identity_provider>>",
+    "JwksCerts": "<<identity_provider>>/protocol/openid-connect/certs",
+    "TokenUrl": "<<identity_provider>>/protocol/openid-connect/token",
+    "Audience": "catalog-api",
+    "ClientId": "catalog-api",
+    "Scopes": ["profile", "email", "catalog-api", "node-id"] // required scopes
+  }
+}

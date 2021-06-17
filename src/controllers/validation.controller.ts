@@ -1,11 +1,17 @@
 import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOAuth2,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { PartialSchema } from '../models/json-schema.model';
 import { BaseDigitalTwin, DigitalTwinModel, Interface } from '../models/models';
 import { SchemaValidationError } from '../models/validation-error.model';
 import { ValidationService } from '../services/validation.service';
 
 @ApiTags('validation')
+@ApiOAuth2(['catalog-api'])
 @Controller('validate')
 export class ValidationController {
   private readonly logger = new Logger(ValidationController.name);

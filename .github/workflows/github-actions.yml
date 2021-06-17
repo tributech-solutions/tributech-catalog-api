@@ -1,10 +1,18 @@
 name: Tributech Catalog CI
 
 on:
+  # Trigger the workflows on push or pull request,
+  # but only for the release and develop branches
+  # do not trigger for master (use git tag instead, see
+  # https://tributech.atlassian.net/wiki/spaces/TM/pages/99614725/Branches+Build-Pipelines+Tags#Issue-with-merge%2Fbuild-for-master-branch)
+
   push:
-    branches: [ main, release/* ]
+    branches: [ release, develop, feature/*, hotfix/* ]
+    tags:
+      - '*'
   pull_request:
-    branches: [ main ]
+    branches: [ release, develop, feature/*, hotfix/* ]
+
 
 jobs:
   build:
@@ -27,18 +35,18 @@ jobs:
         id: prep
         run: |
           DOCKER_IMAGE=tributech.azurecr.io/catalog-api
-          VERSION=latest
+          TAGS=""
+          VERSION=alpha
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
-          elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
-          elif [[ $GITHUB_REF == refs/pull/* ]]; then
-            VERSION=pr-${{ github.event.number }}
+            TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:beta,${DOCKER_IMAGE}:stable,${DOCKER_IMAGE}:latest"
+          elif [[ $GITHUB_REF == refs/heads/develop ]]; then
+            TAGS="$TAGS,${DOCKER_IMAGE}:beta"
+          elif [[ $GITHUB_REF == refs/heads/release/* ]]; then
+            VERSION=${GITHUB_REF#refs/release/}
+            TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:beta"
           fi
-          TAGS="${DOCKER_IMAGE}:${VERSION}"
-          if [ "${{ github.event_name }}" = "push" ]; then
-            TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
-          fi
+          TAGS="$TAGS,${DOCKER_IMAGE}:${GITHUB_SHA::8},${DOCKER_IMAGE}:alpha"
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
