@@ -51,6 +51,12 @@ export function installProtoMethods<T>(
       typeof mock[key] === 'undefined'
     ) {
       mock[key] = createSpyFn(key);
+    } else if (
+      typeof descriptor.value === 'function' &&
+      key !== 'constructor' &&
+      typeof mock[key] !== 'undefined'
+    ) {
+      mock[key] = jest.fn().mockImplementation(mock[key]);
     } else if (descriptor.get && !mock.hasOwnProperty(key)) {
       Object.defineProperty(mock, key, {
         set: (value) => (mock[`_${key}`] = value),
