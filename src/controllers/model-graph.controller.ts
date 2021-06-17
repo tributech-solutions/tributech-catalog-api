@@ -55,7 +55,7 @@ export class ModelGraphController {
   @ApiQuery({ name: 'size', type: 'number' })
   getExpandedModels(
     @Query('page') page = 0,
-    @Query('size') size
+    @Query('size') size = 100
   ): PagedResult<ExpandedInterface> {
     this.logger.log(`getExpandedModels`);
     return this.modelGraphService.getAllExpanded(page, size);
