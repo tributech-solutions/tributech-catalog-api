@@ -5,13 +5,13 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import to from 'await-to-js';
 import { cloneDeep } from 'lodash';
 import { ModelEntity, PagedResult } from '../models/db-model';
 import { Interface } from '../models/models';
 import { ValidationError } from '../models/validation-error.model';
 import { isValidInterface } from '../utils/dtml.utils';
-import { ModelGraphService } from './model-graph.service';
 import { StorageService } from './storage.service';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class ModelManagerService {
 
   constructor(
     private modelStore: InMemoryDBService<ModelEntity>,
-    private modelGraphService: ModelGraphService,
+    private eventEmitter: EventEmitter2,
     private storageService: StorageService
   ) {}
 
@@ -61,10 +61,7 @@ export class ModelManagerService {
     if (error) return Promise.reject(error);
 
     if (loadIntoGraph) {
-      const [errorLoad, successLoad] = await to(
-        this.modelGraphService.loadModelsIntoGraph([model])
-      );
-      if (errorLoad) return Promise.reject(errorLoad);
+      this.eventEmitter.emit('model.created', [model]);
     }
 
     return this.modelStore.create(entity);
@@ -77,10 +74,7 @@ export class ModelManagerService {
     if (error) return Promise.reject(error);
 
     if (loadIntoGraph) {
-      const [errorLoad, success] = await to(
-        this.modelGraphService.loadModelsIntoGraph(models)
-      );
-      if (errorLoad) return Promise.reject(error);
+      this.eventEmitter.emit('model.created', models);
     }
     return entities || [];
   }

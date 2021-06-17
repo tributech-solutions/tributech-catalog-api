@@ -2,6 +2,7 @@ import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AuthenticationGuard } from './auth/auth.guard';
 import { AuthenticationModule } from './auth/auth.module';
 import jsonConfig from './config/load-config';
@@ -21,6 +22,9 @@ import { ValidationService } from './services/validation.service';
       load: [jsonConfig],
     }),
     InMemoryDBModule.forRoot({}),
+    EventEmitterModule.forRoot({
+      ignoreErrors: true,
+    }),
     AuthenticationModule,
   ],
   controllers: [

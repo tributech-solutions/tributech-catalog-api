@@ -1,5 +1,6 @@
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { Injectable, Logger } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
 import { to } from 'await-to-js';
 import { JsonldGraph } from 'jsonld-graph';
@@ -139,6 +140,7 @@ export class ModelGraphService {
     }
   }
 
+  @OnEvent('model.created', { async: true })
   async loadModelsIntoGraph(models: Interface[]) {
     this.logger.log(`Loading ${models?.length} models into graph...`);
     const [error, success] = await to(this.modelGraph.parse(models));
