@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import to from 'await-to-js';
 import { cloneDeep } from 'lodash';
-import { ValidationError } from 'src/models/validation-error.model';
 import { ModelEntity, PagedResult } from '../models/db-model';
 import { Interface } from '../models/models';
+import { ValidationError } from '../models/validation-error.model';
 import { isValidInterface } from '../utils/dtml.utils';
 import { ModelGraphService } from './model-graph.service';
 import { StorageService } from './storage.service';
