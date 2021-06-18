@@ -3,3 +3,5 @@ version: '3.7'
 services:
   catalog-api:
     image: ${DOCKER_REGISTRY:-tributech.azurecr.io/}catalog-api:${TAG:-latest}
+    volumes:
+      - ./settings/settings.json:/app/settings/settings.json
