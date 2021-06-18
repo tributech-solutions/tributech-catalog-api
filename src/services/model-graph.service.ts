@@ -33,7 +33,7 @@ export class ModelGraphService {
   getExpanded(modelId: string): ExpandedInterface {
     this.logger.verbose(`Get expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
-    if (!model) throw new Error('model not found');
+    if (!model) throw new Error('Model not found');
     return expandInterface(model);
   }
 
