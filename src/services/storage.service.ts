@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import to from 'await-to-js';
 import * as fs from 'fs-extra';
 import { map } from 'lodash';
+import { join } from 'path';
 import { ModelEntity } from '../models/db-model';
 import { Interface } from '../models/models';
 import { ModelGraphService } from './model-graph.service';
@@ -19,7 +20,7 @@ export class StorageService {
     const fileName = this.encodeDTMI(content?.id);
 
     const [error, success] = await to(
-      fs?.writeJson(`./storage/${fileName}.json`, content)
+      fs?.writeJson(join(process.cwd(), `/storage/${fileName}.json`), content)
     );
     if (error || !success) return Promise.reject(error);
 
@@ -28,7 +29,13 @@ export class StorageService {
 
   async initStorage(): Promise<boolean> {
     this.logger.log('Initialize started...');
-    const [error, filenames] = await to(fs.readdir('./storage'));
+    this.logger.log(
+      `Searching for files in ${join(process.cwd(), '/storage')}`
+    );
+
+    const [error, filenames] = await to(
+      fs.readdir(join(process.cwd(), '/storage'))
+    );
     if (error) return Promise.reject(error);
     const models = await Promise.all(
       map(filenames as any[], (name) => this.loadFile(name))
@@ -45,7 +52,9 @@ export class StorageService {
   }
 
   private async loadFile(fileName: string): Promise<ModelEntity | Interface> {
-    const [error, file] = await to(fs?.readJson(`./storage/${fileName}`));
+    const [error, file] = await to(
+      fs?.readJson(join(process.cwd(), `/storage/${fileName}`))
+    );
     if (error || !file) return Promise.reject(error);
 
     return file as ModelEntity;

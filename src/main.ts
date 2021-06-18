@@ -1,17 +1,24 @@
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import jsonConfig from './config/load-config';
+import { SettingsModel } from './config/settings.model';
 import { StorageService } from './services/storage.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const seeder = app.get(StorageService);
-  const configService = app.get(ConfigService);
+  const config: SettingsModel = jsonConfig();
+  const port = config?.Port;
+
+  if (!config) {
+    throw new Error('No config file loaded!');
+  }
 
   await seeder?.initStorage();
 
-  const config = new DocumentBuilder()
+  const authConfig = config.ApiAuthOptions;
+  const swaggerConfig = new DocumentBuilder()
     .setTitle('Tributech catalog')
     .setDescription(
       '<p>API to access and manage the known vocabulary for this node.<br /><br />' +
@@ -27,29 +34,19 @@ async function bootstrap() {
       name: 'Bearer',
       flows: {
         clientCredentials: {
-          tokenUrl: process.env.AUTH_TOKEN_URL,
-          scopes:
-            process.env.AUTH_SCOPES?.split(' ').reduce(
-              (obj, scope) => (obj[scope] = scope),
-              {}
-            ) || {},
-        },
-        authorizationCode: {
-          tokenUrl: process.env.AUTH_TOKEN_URL,
-          authorizationUrl: process.env.AUTH_URL,
-          scopes:
-            process.env.AUTH_SCOPES?.split(' ').reduce(
-              (obj, scope) => (obj[scope] = scope),
-              {}
-            ) || {},
+          tokenUrl: authConfig?.TokenUrl,
+          scopes: Object.assign(
+            {},
+            ...authConfig?.Scopes.map((x) => ({ [x]: x }))
+          ),
         },
       },
     })
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(configService.get<number>('Port', 3000));
+  await app.listen(port);
 }
 bootstrap();
