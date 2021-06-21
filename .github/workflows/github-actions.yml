@@ -7,7 +7,7 @@ on:
   # https://tributech.atlassian.net/wiki/spaces/TM/pages/99614725/Branches+Build-Pipelines+Tags#Issue-with-merge%2Fbuild-for-master-branch)
 
   push:
-    branches: [ release, develop, feature/*, hotfix/* ]
+    branches: [ release, develop, hotfix/* ]
     tags:
       - '*'
   pull_request:
@@ -15,7 +15,7 @@ on:
 
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,6 +26,7 @@ jobs:
       - run: yarn --frozen-lockfile
       - run: yarn run format-check
       - run: yarn run lint
+      - run: yarn run test:cov
       - run: yarn run build
   images:
     runs-on: ubuntu-latest

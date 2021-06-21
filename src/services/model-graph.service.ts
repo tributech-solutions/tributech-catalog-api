@@ -1,5 +1,6 @@
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { Injectable, Logger } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
 import { to } from 'await-to-js';
 import { JsonldGraph } from 'jsonld-graph';
@@ -9,7 +10,6 @@ import { context } from '../models/json-ld-context';
 import { ExpandedInterface, Interface, Relationship } from '../models/models';
 import {
   expandInterface,
-  getChildrenVertices,
   hasNoIncomingRelationships,
   REL_TARGET_ANY,
 } from '../utils/model.utils';
@@ -33,29 +33,8 @@ export class ModelGraphService {
   getExpanded(modelId: string): ExpandedInterface {
     this.logger.verbose(`Get expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
-    if (!model) throw new Error('model not found');
+    if (!model) throw new Error('Model not found');
     return expandInterface(model);
-  }
-
-  getExpandedWithParents(modelId: string): ExpandedInterface[] {
-    this.logger.verbose(`Get expanded model with parents for ${modelId}`);
-
-    const vertices: ExpandedInterface[] = [];
-    const vertex = this.modelGraph.getVertex(modelId);
-
-    if (!vertex) return [];
-
-    vertices.push(expandInterface(vertex));
-
-    if (!vertex?.hasIncoming('dtmi:dtdl:property:extends;2')) {
-      return vertices;
-    }
-
-    vertices.push(
-      ...getChildrenVertices(vertex).map((v) => expandInterface(v))
-    );
-
-    return vertices;
   }
 
   getAllExpanded(page = 0, size = 100) {
@@ -161,6 +140,7 @@ export class ModelGraphService {
     }
   }
 
+  @OnEvent('model.created', { async: true })
   async loadModelsIntoGraph(models: Interface[]) {
     this.logger.log(`Loading ${models?.length} models into graph...`);
     const [error, success] = await to(this.modelGraph.parse(models));

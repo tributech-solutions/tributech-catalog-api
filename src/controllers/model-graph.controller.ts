@@ -55,7 +55,7 @@ export class ModelGraphController {
   @ApiQuery({ name: 'size', type: 'number' })
   getExpandedModels(
     @Query('page') page = 0,
-    @Query('size') size
+    @Query('size') size = 100
   ): PagedResult<ExpandedInterface> {
     this.logger.log(`getExpandedModels`);
     return this.modelGraphService.getAllExpanded(page, size);
@@ -90,17 +90,6 @@ export class ModelGraphController {
   getExpanded(@Param('dtmi') dtmi: string): ExpandedInterface {
     this.logger.log(`getExpanded ${dtmi}`);
     return this.modelGraphService.getExpanded(dtmi);
-  }
-
-  @Get('/:dtmi/expand/parents')
-  @ApiOkResponse({
-    description:
-      'Returns a model in its expanded representation with its parents.',
-    type: [ExpandedInterface],
-  })
-  getExpandedWithParents(@Param('dtmi') dtmi: string): ExpandedInterface[] {
-    this.logger.log(`getExpandedWithParents ${dtmi}`);
-    return this.modelGraphService.getExpandedWithParents(dtmi);
   }
 
   @Get('/relationships/:sourceDtmi/:targetDtmi')

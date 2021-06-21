@@ -1,4 +1,4 @@
-import { filter, forEach } from 'lodash';
+import { forEach } from 'lodash';
 import { JSONSchemaType, PartialSchema } from '../models/json-schema.model';
 import {
   ArraySchema,
@@ -8,12 +8,10 @@ import {
   ExpandedInterface,
   Field,
   Interface,
-  InterfaceContent,
   ObjectSchema,
   Property,
   Schema,
 } from '../models/models';
-import { isProperty } from './dtml.utils';
 
 /**
  * Basic generation for relationship validation
@@ -69,14 +67,10 @@ export function generateJSONSchema(
 
   properties['$dtId'] = {
     type: 'string',
-    // pattern:
-    //   '/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i',
   };
 
   properties['$etag'] = {
     type: 'string',
-    // pattern:
-    //   '/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i',
   };
 
   properties['$metadata'] = {
@@ -97,8 +91,6 @@ export function generateJSONSchema(
   });
 
   const schema: PartialSchema<Interface> = {
-    // $schema: 'https://json-schema.org/draft/2019-09/schema',
-    // $id: 'https://tributech.io/schemas/string',
     type: 'object',
     properties,
     required: ['$dtId', '$etag', '$metadata'],
@@ -106,14 +98,6 @@ export function generateJSONSchema(
   };
 
   return schema;
-}
-
-export function getProperties(
-  contents: InterfaceContent[] | undefined
-): Property[] {
-  return filter(contents, (content: InterfaceContent) =>
-    isProperty(content)
-  ) as any[] as Property[];
 }
 
 function processSchema(schema: Schema) {
