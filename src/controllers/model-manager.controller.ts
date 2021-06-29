@@ -12,6 +12,7 @@ import {
   ApiAcceptedResponse,
   ApiBody,
   ApiCreatedResponse,
+  ApiExtraModels,
   ApiOAuth2,
   ApiOkResponse,
   ApiQuery,
@@ -40,6 +41,7 @@ export class ModelManagerController {
   }
 
   @Get('/models')
+  @ApiExtraModels(ModelEntity, PagedResult)
   @ApiOkResponse({
     description: 'Returns all stored model entities.',
     schema: {
