@@ -23,15 +23,12 @@ async function bootstrap() {
     .setDescription(
       '<p>API to access and manage the known vocabulary for this node.<br /><br />' +
         '<a href="https://tributech.io" title="Website">Website</a><br />' +
-        '<a href="https://github.com/tributech-solutions/tributech-dsk-api-clients" title ="API Clients on GitHub">API Clients on GitHub</a><br />' +
+        '<a href="https://github.com/tributech-solutions/tributech-catalog-api-client" title ="API Client on GitHub">API Client on GitHub</a><br />' +
         '<a href="https://tributech.atlassian.net/servicedesk/customer/portals" title ="Customer Support Portal">Customer Support Portal</a><br /></p>'
     )
     .setVersion('1.0')
     .addOAuth2({
       type: 'oauth2',
-      in: 'Authorization',
-      scheme: 'Bearer',
-      name: 'Bearer',
       flows: {
         clientCredentials: {
           tokenUrl: authConfig?.TokenUrl,

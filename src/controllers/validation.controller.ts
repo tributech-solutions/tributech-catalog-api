@@ -5,8 +5,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { PartialSchema } from '../models/json-schema.model';
-import { BaseDigitalTwin, DigitalTwinModel, Interface } from '../models/models';
+import { JSONSchema4 } from '../models/json_v4_schema.model';
+import { BaseDigitalTwin, DigitalTwinModel } from '../models/models';
 import { SchemaValidationError } from '../models/validation-error.model';
 import { ValidationService } from '../services/validation.service';
 
@@ -21,10 +21,11 @@ export class ValidationController {
   @Get('/schema/:dtmi')
   @ApiOkResponse({
     description: 'Returns a JSON schema for the requested model',
+    type: JSONSchema4,
   })
-  getSchema(@Param('dtmi') dtmi: string): PartialSchema<Interface> {
+  getSchema(@Param('dtmi') dtmi: string): JSONSchema4 {
     this.logger.log(`getSchema ${dtmi}`);
-    return this.validationService.getJSONSchema(dtmi);
+    return this.validationService.getJSONSchema(dtmi) as JSONSchema4;
   }
 
   @Post()
