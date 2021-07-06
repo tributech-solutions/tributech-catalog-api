@@ -29,9 +29,6 @@ async function bootstrap() {
     .setVersion('1.0')
     .addOAuth2({
       type: 'oauth2',
-      in: 'Authorization',
-      scheme: 'Bearer',
-      name: 'Bearer',
       flows: {
         clientCredentials: {
           tokenUrl: authConfig?.TokenUrl,
