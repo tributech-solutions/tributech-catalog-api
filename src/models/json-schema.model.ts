@@ -17,8 +17,10 @@ export type PartialSchema<T> = StrictNullChecksWrapper<
   UncheckedPartialSchema<T>
 >;
 
-type JSONType<T extends string, IsPartial extends boolean> =
-  IsPartial extends true ? T | undefined : T;
+type JSONType<
+  T extends string,
+  IsPartial extends boolean
+> = IsPartial extends true ? T | undefined : T;
 
 interface NumberKeywords {
   minimum?: number;

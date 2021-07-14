@@ -43,11 +43,6 @@ describe('ModelGraphController', () => {
     expect(modelGraphService.getRoots).toHaveBeenCalledTimes(1);
   });
 
-  it('should call through to get all root models with children', () => {
-    modelGraphController.getRootsWithChildren();
-    expect(modelGraphService.getRootsWithChildren).toHaveBeenCalledTimes(1);
-  });
-
   it('should call through to get the expanded model', () => {
     modelGraphController.getExpanded('dtmi:io:tributech:test;1');
     expect(modelGraphService.getExpanded).toHaveBeenCalledTimes(1);
