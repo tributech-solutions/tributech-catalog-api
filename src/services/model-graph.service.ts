@@ -4,7 +4,6 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
 import { to } from 'await-to-js';
 import { JsonldGraph } from 'jsonld-graph';
-import { forEach, isArray, isString } from 'lodash';
 import { ModelEntity } from '../models/db-model';
 import { context } from '../models/json-ld-context';
 import { ExpandedInterface, Interface, Relationship } from '../models/models';
@@ -64,34 +63,6 @@ export class ModelGraphService {
 
     const roots = models.filter((x) => hasNoIncomingRelationships(x));
     return roots.map((m) => expandInterface(m));
-  }
-
-  getRootsWithChildren(): InterfaceWithChildren[] {
-    this.logger.verbose(`Get all root models with children`);
-
-    const hashMap: InterfaceHashTree = {};
-    const models = this.modelStore.getAll().map((m) => m?.model);
-
-    forEach(models, (m: InterfaceWithChildren) => {
-      hashMap[m?.['@id']] = { ...m, children: [] };
-    });
-
-    const dataTree: InterfaceWithChildren[] = [];
-
-    forEach(hashMap, (model) => {
-      if (!model?.extends) {
-        dataTree.push(model);
-      } else if (isString(model?.extends)) {
-        hashMap[model?.extends].children.push(model);
-      } else if (isArray(model?.extends)) {
-        forEach(model?.extends, (m) => {
-          // TODO: If nested Interface we need to handle it differently
-          hashMap[m as string].children.push(model);
-        });
-      }
-    });
-
-    return dataTree;
   }
 
   getInvolvedRelationships(

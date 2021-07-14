@@ -12,24 +12,27 @@ import {
   ApiAcceptedResponse,
   ApiBody,
   ApiCreatedResponse,
-  ApiExtraModels,
   ApiOAuth2,
   ApiOkResponse,
+  ApiOperation,
   ApiQuery,
   ApiTags,
-  getSchemaPath,
 } from '@nestjs/swagger';
-import { ModelEntity, PagedResult } from '../models/db-model';
+import { ModelEntity, ModelEntityPagedResult } from '../models/db-model';
 import { Interface } from '../models/models';
 import { ModelManagerService } from '../services/model-manager.service';
 
-@ApiTags('manage')
+@ApiTags('manage-models')
 @ApiOAuth2(['catalog-api'])
 @Controller('manage')
 export class ModelManagerController {
   constructor(private readonly modelService: ModelManagerService) {}
 
-  @Get('/services/:dtmi')
+  @Get('/entity/:dtmi')
+  @ApiOperation({
+    operationId: 'getEntity',
+    summary: 'Get the stored model entity.',
+  })
   @ApiOkResponse({
     description: 'Returns the requested model entity based on its dtmi.',
     type: ModelEntity,
@@ -40,34 +43,29 @@ export class ModelManagerController {
     return modelEntity;
   }
 
-  @Get('/models')
-  @ApiExtraModels(ModelEntity, PagedResult)
+  @Get('/entities')
+  @ApiOperation({
+    operationId: 'getAllEntities',
+    summary: 'Get all stored model entities.',
+  })
   @ApiOkResponse({
     description: 'Returns all stored model entities.',
-    schema: {
-      allOf: [
-        { $ref: getSchemaPath(PagedResult) },
-        {
-          properties: {
-            data: {
-              type: 'array',
-              items: { $ref: getSchemaPath(ModelEntity) },
-            },
-          },
-        },
-      ],
-    },
+    type: ModelEntityPagedResult,
   })
   @ApiQuery({ name: 'page', type: 'number' })
   @ApiQuery({ name: 'size', type: 'number' })
   getAllEntities(
     @Query('page') page = 0,
     @Query('size') size = 100
-  ): PagedResult<ModelEntity> {
+  ): ModelEntityPagedResult {
     return this.modelService.getAll(page, size);
   }
 
   @Post('/model')
+  @ApiOperation({
+    operationId: 'addNewModel',
+    summary: 'Add a new model to the catalog api.',
+  })
   @ApiCreatedResponse({
     description: 'The model has been successfully added.',
     type: ModelEntity,
@@ -77,6 +75,10 @@ export class ModelManagerController {
   }
 
   @Post('/models')
+  @ApiOperation({
+    operationId: 'addNewModels',
+    summary: 'Add multiple new models to the catalog api.',
+  })
   @ApiCreatedResponse({
     description: 'The record has been successfully created.',
     type: [ModelEntity],
@@ -86,7 +88,11 @@ export class ModelManagerController {
     return this.modelService.addManyNew(models);
   }
 
-  @Put('/services/:dtmi/revoke')
+  @Put('/model/:dtmi/revoke')
+  @ApiOperation({
+    operationId: 'revokeModel',
+    summary: 'Revoke a model.',
+  })
   @ApiAcceptedResponse({
     description: 'The model has been successfully added.',
     type: ModelEntity,
