@@ -1,4 +1,9 @@
-import { ApiExtraModels, ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import {
+  ApiExtraModels,
+  ApiProperty,
+  ApiPropertyOptional,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { SemanticTypes } from './semantic-types';
 
 export enum InterfaceType {
@@ -67,18 +72,18 @@ export class DigitalTwinModel {
 }
 
 export class BaseModel {
-  @ApiProperty({ nullable: false, required: true })
+  @ApiPropertyOptional({ nullable: false, required: true })
   '@id'?: string;
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional({ required: false })
   comment?: string;
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional({ required: false })
   description?: string;
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional({ required: false })
   displayName?: string;
 }
 
 export class ModelContent extends BaseModel {
-  @ApiProperty({ nullable: false, required: true })
+  @ApiPropertyOptional({ nullable: false, required: true })
   '@type'?: ModelType | [ModelType, SemanticTypes];
 }
 
@@ -237,7 +242,7 @@ export class Telemetry extends ModelContent {
     ],
   })
   schema: Schema;
-  @ApiProperty()
+  @ApiPropertyOptional()
   unit?: string;
 }
 
@@ -268,9 +273,9 @@ export class Property extends BaseModel {
     ],
   })
   schema: Schema;
-  @ApiProperty()
+  @ApiPropertyOptional()
   unit?: string;
-  @ApiProperty()
+  @ApiPropertyOptional()
   writable?: boolean;
 }
 
@@ -279,11 +284,11 @@ export class Command extends BaseModel {
   '@type': ModelType.Command;
   @ApiProperty()
   name: string;
-  @ApiProperty()
+  @ApiPropertyOptional()
   commandType?: any;
-  @ApiProperty()
+  @ApiPropertyOptional()
   request?: any;
-  @ApiProperty()
+  @ApiPropertyOptional()
   response?: any;
 }
 
@@ -292,13 +297,13 @@ export class Relationship extends BaseModel {
   '@type': ModelType.Relationship;
   @ApiProperty()
   name: string;
-  @ApiProperty()
+  @ApiPropertyOptional()
   maxMultiplicity?: number;
-  @ApiProperty()
+  @ApiPropertyOptional()
   minMultiplicity?: number;
-  @ApiProperty({ type: [Property] })
+  @ApiPropertyOptional({ type: [Property], nullable: true })
   properties?: Property[];
-  @ApiProperty({ type: 'string' })
+  @ApiPropertyOptional({ type: 'string' })
   target?: string | Interface;
 }
 
@@ -334,7 +339,7 @@ export class Interface extends BaseModel {
   '@context': ContextType.DTDL2;
   @ApiProperty()
   '@id': string;
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: 'array',
     items: {
       anyOf: [
@@ -344,13 +349,15 @@ export class Interface extends BaseModel {
         { $ref: getSchemaPath(Command) },
       ],
     },
+    nullable: true,
   })
   contents?: InterfaceContent[];
-  @ApiProperty({
+  @ApiPropertyOptional({
     oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+    nullable: true,
   })
   extends?: string[] | Interface[] | string;
-  @ApiProperty({ type: [InterfaceSchema] })
+  @ApiPropertyOptional({ type: [InterfaceSchema], nullable: true })
   schemas?: InterfaceSchema[];
 }
 
@@ -360,7 +367,7 @@ export class ExpandedInterface extends BaseModel {
   '@type': InterfaceType.Interface;
   @ApiProperty({ type: 'string', enum: ContextType })
   '@context': ContextType.DTDL2;
-  @ApiProperty({
+  @ApiPropertyOptional({
     oneOf: [
       { type: 'string' },
       { $ref: getSchemaPath(ArraySchema) },
@@ -368,16 +375,21 @@ export class ExpandedInterface extends BaseModel {
       { $ref: getSchemaPath(MapSchema) },
       { $ref: getSchemaPath(ObjectSchema) },
     ],
+    nullable: true,
   })
-  schema?: Schema;
-  @ApiProperty({ type: 'array', items: { type: 'string' } })
+  schemas?: Schema;
+  @ApiPropertyOptional({
+    type: 'array',
+    items: { type: 'string' },
+    nullable: true,
+  })
   bases?: string[];
-  @ApiProperty({ type: [Property] })
-  properties: Property[];
-  @ApiProperty({ type: [Relationship] })
+  @ApiPropertyOptional({ type: [Property] })
+  properties?: Property[];
+  @ApiPropertyOptional({ type: [Relationship] })
   relationships?: Relationship[];
-  @ApiProperty({ type: [Telemetry] })
+  @ApiPropertyOptional({ type: [Telemetry] })
   telemetries?: Telemetry[];
-  @ApiProperty({ type: [Component] })
+  @ApiPropertyOptional({ type: [Component] })
   components?: Component[];
 }
