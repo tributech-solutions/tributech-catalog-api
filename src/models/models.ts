@@ -346,7 +346,9 @@ export class Interface extends BaseModel {
     },
   })
   contents?: InterfaceContent[];
-  @ApiProperty({ type: [String] })
+  @ApiProperty({
+    oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+  })
   extends?: string[] | Interface[] | string;
   @ApiProperty({ type: [InterfaceSchema] })
   schemas?: InterfaceSchema[];
@@ -368,7 +370,7 @@ export class ExpandedInterface extends BaseModel {
     ],
   })
   schema?: Schema;
-  @ApiProperty()
+  @ApiProperty({ type: 'array', items: { type: 'string' } })
   bases?: string[];
   @ApiProperty({ type: [Property] })
   properties: Property[];
