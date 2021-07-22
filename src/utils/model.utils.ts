@@ -1,53 +1,29 @@
 import { Vertex } from 'jsonld-graph';
 import { TwinContentType } from '../models/constants';
 import {
+  BaseModelWithId,
+  Command,
   Component,
   ContextType,
-  EnumSchema,
   ExpandedInterface,
   Interface,
-  InterfaceType,
-  MapSchema,
-  ModelType,
-  ObjectSchema,
-  PrimitiveSchema,
   Property,
   Relationship,
-  Schema,
-  SchemaType,
   Telemetry,
 } from '../models/models';
+import { inferSchema } from './schema.utils';
+import {
+  getComment,
+  getDescription,
+  getDisplayName,
+  getName,
+  getPropertyByName,
+  getTypes,
+  getUnit,
+  getWritable,
+} from './vertex.utils';
 
 export const REL_TARGET_ANY = '*';
-
-export function getModelDisplayName(vertex: Vertex): string {
-  if (!vertex) return '';
-  return vertex.getAttributeValue('dtmi:dtdl:property:displayName;2');
-}
-
-export function getModelDescription(vertex: Vertex): string {
-  if (!vertex) return '';
-
-  return vertex.getAttributeValue('dtmi:dtdl:property:description;2');
-}
-
-export function getModelComment(vertex: Vertex): string {
-  if (!vertex) return '';
-
-  return vertex.getAttributeValue('dtmi:dtdl:property:comment;2');
-}
-
-export function getPropertyName(vertex: Vertex): string {
-  if (!vertex) return '';
-
-  return vertex.getAttributeValue('dtmi:dtdl:property:name;2');
-}
-
-export function getPropertyWritable(vertex: Vertex): boolean {
-  if (!vertex) return true;
-
-  return vertex.getAttributeValue('dtmi:dtdl:property:writable;2');
-}
 
 export function inferTarget(vertex: Vertex): string {
   if (!vertex) return REL_TARGET_ANY;
@@ -56,99 +32,35 @@ export function inferTarget(vertex: Vertex): string {
   return targetEdge ? targetEdge.to.id : REL_TARGET_ANY;
 }
 
-export function getObjectSchema(vertex: Vertex): ObjectSchema {
-  return {
-    '@type': SchemaType.Object,
-    '@id': vertex?.id,
-    comment: getModelComment(vertex),
-    description: getModelDescription(vertex),
-    displayName: getModelDisplayName(vertex),
-    fields: [
-      ...vertex
-        .getOutgoing('dtmi:dtdl:property:fields;2')
-        .map((edge) => ({
-          name: getPropertyName(edge.to) as string,
-          schema: inferSchema(edge.to) as Schema,
-        }))
-        .filter((edge) => !!edge.schema),
-    ],
-  };
-}
-
-export function getEnumSchema(vertex: Vertex): EnumSchema {
-  return {
-    '@type': SchemaType.Enum,
-    '@id': vertex?.id,
-    comment: getModelComment(vertex),
-    description: getModelDescription(vertex),
-    displayName: getModelDisplayName(vertex),
-    enumValues: [
-      ...vertex.getOutgoing('dtmi:dtdl:property:enumValues;2').map((edge) => ({
-        name: getPropertyName(edge.to),
-        enumValue: edge.to.getAttributeValue('dtmi:dtdl:property:enumValue;2'),
-      })),
-    ],
-    valueSchema: vertex
-      .getOutgoing('dtmi:dtdl:property:valueSchema;2')
-      .map((edge) => edge.to.iri)
-      .first(),
-  };
-}
-
-export function getMapSchema(vertex: Vertex): MapSchema {
-  return {
-    '@type': SchemaType.Map,
-    '@id': vertex?.id,
-    comment: getModelComment(vertex),
-    description: getModelDescription(vertex),
-    displayName: getModelDisplayName(vertex),
-    mapKey: vertex
-      .getOutgoing('dtmi:dtdl:property:mapKey;2')
-      .map((edge) => ({
-        name: getPropertyName(edge.to),
-        schema: edge.to.id as string,
-      }))
-      .first(),
-    mapValue: vertex
-      .getOutgoing('dtmi:dtdl:property:mapValue;2')
-      .map((edge) => ({
-        name: getPropertyName(edge.to),
-        schema: inferSchema(edge.to) as Schema,
-      }))
-      .first(),
-  };
-}
-
-export function inferSchema(vertex: Vertex): Schema | undefined {
-  const schemaEdge = vertex.getOutgoing('dtmi:dtdl:property:schema;2').first();
-  if (!schemaEdge) return undefined;
-
-  if (schemaEdge.to.isType('dtmi:dtdl:class:Object;2')) {
-    return getObjectSchema(schemaEdge?.to);
-  }
-
-  if (schemaEdge.to.isType('dtmi:dtdl:class:Enum;2')) {
-    return getEnumSchema(schemaEdge?.to);
-  }
-
-  if (schemaEdge.to.isType('dtmi:dtdl:class:Map;2')) {
-    return getMapSchema(schemaEdge?.to);
-  }
-  return schemaEdge.to.id as PrimitiveSchema;
-}
-
-export function inferComponentSchema(
+export function getBaseModelPropertiesFromVertex(
   vertex: Vertex
-): Interface | string | undefined {
-  const schemaEdge = vertex.getOutgoing('dtmi:dtdl:property:schema;2').first();
+): BaseModelWithId {
+  const base = {} as any;
 
-  if (!schemaEdge) return undefined;
+  if (!vertex) throw new Error('vertex is null!');
 
-  if (schemaEdge.to.isType('dtmi:dtdl:class:Interface;2')) {
-    return getInterfaceFromVertex(schemaEdge?.to);
+  if (getTypes(vertex).length > 0) {
+    base['@type'] = getTypes(vertex);
   }
 
-  return schemaEdge.to.id;
+  // ignore anonymous node ids
+  if (vertex?.id && !vertex.id.includes('_:')) {
+    base['@id'] = vertex?.id;
+  }
+
+  if (getDisplayName(vertex)) {
+    base.displayName = getDisplayName(vertex);
+  }
+  if (getComment(vertex)) {
+    base.comment = getComment(vertex);
+  }
+  if (getName(vertex)) {
+    base.name = getName(vertex);
+  }
+  if (getDescription(vertex)) {
+    base.description = getDescription(vertex);
+  }
+  return base;
 }
 
 export function getPropertyFromVertex(vertex: Vertex): Property | undefined {
@@ -156,15 +68,17 @@ export function getPropertyFromVertex(vertex: Vertex): Property | undefined {
     return undefined;
   }
 
-  return {
-    '@type': ModelType.Property,
-    name: getPropertyName(vertex),
-    displayName: getModelDisplayName(vertex),
+  const property: Property = {
+    ...getBaseModelPropertiesFromVertex(vertex),
     schema: inferSchema(vertex),
-    writable: getPropertyWritable(vertex),
-    comment: getModelComment(vertex),
-    description: getModelDescription(vertex),
+    writable: getWritable(vertex),
   };
+
+  if (property && property?.['@type'] && property?.['@type']?.length > 1) {
+    property.unit = getUnit(vertex);
+  }
+
+  return property;
 }
 
 export function getTelemetryFromVertex(vertex: Vertex): Telemetry | undefined {
@@ -172,14 +86,16 @@ export function getTelemetryFromVertex(vertex: Vertex): Telemetry | undefined {
     return undefined;
   }
 
-  return {
-    '@type': ModelType.Telemetry,
-    name: getPropertyName(vertex),
-    displayName: getModelDisplayName(vertex),
+  const telemetry: Telemetry = {
+    ...getBaseModelPropertiesFromVertex(vertex),
     schema: inferSchema(vertex),
-    comment: getModelComment(vertex),
-    description: getModelDescription(vertex),
   };
+
+  if (telemetry && telemetry?.['@type'] && telemetry?.['@type']?.length > 1) {
+    telemetry.unit = getUnit(vertex);
+  }
+
+  return telemetry;
 }
 
 export function getRelationshipFromVertex(
@@ -189,22 +105,32 @@ export function getRelationshipFromVertex(
     return undefined;
   }
 
-  const outgoing = vertex.getOutgoing('dtmi:dtdl:property:properties;2');
-  const properties = outgoing
+  const properties: Property[] = vertex
+    .getOutgoing('dtmi:dtdl:property:properties;2')
     .items()
     .reduce(
-      (prev, v) => getContentFromVertex(v.to, TwinContentType.Property),
+      (prev, v) =>
+        getContentFromVertex(v.to, TwinContentType.Property) as Property[],
       [] as Property[]
-    ) as Property[];
+    );
 
   return {
-    '@type': ModelType.Relationship,
-    name: getPropertyName(vertex),
-    displayName: getModelDisplayName(vertex),
+    ...getBaseModelPropertiesFromVertex(vertex),
     target: inferTarget(vertex),
-    comment: getModelComment(vertex),
-    description: getModelDescription(vertex),
+    maxMultiplicity: getPropertyByName<number>(vertex, 'maxMultiplicity', 1),
+    minMultiplicity: getPropertyByName<number>(vertex, 'minMultiplicity', 0),
+    writable: getWritable(vertex),
     properties,
+  };
+}
+
+export function getCommandFromVertex(vertex: Vertex): Command | undefined {
+  if (!vertex || !vertex?.isType(TwinContentType.Command)) {
+    return undefined;
+  }
+
+  return {
+    ...getBaseModelPropertiesFromVertex(vertex),
   };
 }
 
@@ -214,23 +140,15 @@ export function getComponentFromVertex(vertex: Vertex): Component | undefined {
   }
 
   return {
-    '@type': ModelType.Component,
-    name: getPropertyName(vertex),
-    displayName: getModelDisplayName(vertex),
-    comment: getModelComment(vertex),
-    description: getModelDescription(vertex),
+    ...getBaseModelPropertiesFromVertex(vertex),
     schema: getInterfaceFromVertex(vertex),
   };
 }
 
 export function getInterfaceFromVertex(v: Vertex): Interface {
   return {
-    '@type': InterfaceType.Interface,
-    '@id': v.id,
+    ...getBaseModelPropertiesFromVertex(v),
     '@context': ContextType.DTDL2,
-    displayName: getModelDisplayName(v),
-    comment: getModelComment(v),
-    description: getModelDescription(v),
     contents: v
       .getOutgoing('dtmi:dtdl:property:contents;2')
       .items()
@@ -241,12 +159,8 @@ export function getInterfaceFromVertex(v: Vertex): Interface {
 export function expandInterface(v: Vertex): ExpandedInterface {
   if (!v) throw new Error('Empty Vertex!');
   return {
-    '@id': v.id,
-    '@type': InterfaceType.Interface,
+    ...getBaseModelPropertiesFromVertex(v),
     '@context': ContextType.DTDL2,
-    displayName: getModelDisplayName(v),
-    description: getModelDescription(v),
-    comment: getModelComment(v),
     properties: getContentFromVertex(v, TwinContentType.Property) as Property[],
     relationships: getContentFromVertex(
       v,
@@ -260,6 +174,7 @@ export function expandInterface(v: Vertex): ExpandedInterface {
       v,
       TwinContentType.Component
     ) as Component[],
+    commands: getContentFromVertex(v, TwinContentType.Command) as Command[],
     bases: getBasesFromVertex(v),
   };
 }
@@ -314,6 +229,10 @@ export function mapToTwinType(vertex: Vertex) {
 
   if (vertex?.isType('dtmi:dtdl:class:Component;2')) {
     return getComponentFromVertex(vertex);
+  }
+
+  if (vertex?.isType('dtmi:dtdl:class:Command;2')) {
+    return getCommandFromVertex(vertex);
   }
 
   throw new Error('Unknown Twin Type!');

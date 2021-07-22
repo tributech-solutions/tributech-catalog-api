@@ -9,6 +9,7 @@ export enum TwinContentType {
   Telemetry = 'dtmi:dtdl:class:Telemetry;2',
   Relationship = 'dtmi:dtdl:class:Relationship;2',
   Component = 'dtmi:dtdl:class:Component;2',
+  Command = 'dtmi:dtdl:class:Command;2',
 }
 
 export enum ComplexSchemaType {

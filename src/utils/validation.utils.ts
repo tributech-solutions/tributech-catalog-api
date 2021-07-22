@@ -86,6 +86,7 @@ export function generateJSONSchema(
   };
 
   forEach(model?.properties, (property: Property) => {
+    if (!property?.name) return;
     properties[property?.name] = {
       ...processSchema(property?.schema),
     };
@@ -140,6 +141,7 @@ function processComplexPropertyEntry(schema: Schema) {
       const properties: JSONSchemaType<Interface>['properties'] = {};
 
       forEach(data?.fields, (field: Field) => {
+        if (!field?.name) return;
         properties[field?.name] = {
           ...processSchema(field?.schema),
         };

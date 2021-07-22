@@ -16,6 +16,7 @@ import {
 } from '@nestjs/swagger';
 import { ExpandedInterfacePagedResult } from '../models/db-model';
 import { ExpandedInterface, Interface, Relationship } from '../models/models';
+import { ParsedInterface } from '../models/parsed-models';
 import { ModelGraphService } from '../services/model-graph.service';
 import { ModelManagerService } from '../services/model-manager.service';
 
@@ -112,6 +113,35 @@ export class ModelGraphController {
   getExpanded(@Param('dtmi') dtmi: string): ExpandedInterface {
     this.logger.log(`getExpanded ${dtmi}`);
     return this.modelGraphService.getExpanded(dtmi);
+  }
+
+  @Get('/:dtmi/simplified')
+  @ApiOperation({
+    operationId: 'getSimplified',
+    summary: 'Get the requested model in simplified form.',
+  })
+  @ApiOkResponse({
+    description: 'Returns a model in its simplified representation.',
+    type: ParsedInterface,
+  })
+  getSimplified(@Param('dtmi') dtmi: string): ParsedInterface {
+    this.logger.log(`getSimplified ${dtmi}`);
+    return this.modelGraphService.getSimplified(dtmi);
+  }
+
+  @Get('/:dtmi/full-expand')
+  @ApiOperation({
+    operationId: 'getFullyExpanded',
+    summary:
+      'Get the requested model with related models inlined (JSON-LD representation).',
+  })
+  @ApiOkResponse({
+    description: 'Returns a model in its expanded representation.',
+    type: ExpandedInterface,
+  })
+  getParsed(@Param('dtmi') dtmi: string) {
+    this.logger.log(`getParsed ${dtmi}`);
+    return this.modelGraphService.fullExpand(dtmi);
   }
 
   @Get('/relationships/:sourceDtmi/:targetDtmi')

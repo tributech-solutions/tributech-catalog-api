@@ -7,6 +7,7 @@ import { JsonldGraph, Vertex } from 'jsonld-graph';
 import { ModelEntity } from '../models/db-model';
 import { context } from '../models/json-ld-context';
 import { ExpandedInterface, Interface, Relationship } from '../models/models';
+import { ParsedInterface } from '../models/parsed-models';
 import {
   expandInterface,
   getChildrenVertices,
@@ -37,6 +38,20 @@ export class ModelGraphService {
     return expandInterface(model);
   }
 
+  getSimplified(modelId: string): ParsedInterface {
+    this.logger.verbose(`Get expanded model for ${modelId}`);
+    const model = this.modelGraph.getVertex(modelId);
+    if (!model) throw new NotFoundException('Model not found');
+    return expandInterface(model) as ParsedInterface;
+  }
+
+  async fullExpand(modelId: string) {
+    this.logger.verbose(`Get fully expanded model for ${modelId}`);
+    const model = this.modelGraph.getVertex(modelId);
+    if (!model) throw new NotFoundException('Model not found');
+    return await model.toJson(context['@context'], { stripContext: false });
+  }
+
   getAllExpanded(page = 0, size = 100) {
     this.logger.verbose(`Get all expanded models`);
 
@@ -60,10 +75,10 @@ export class ModelGraphService {
     const models = this.modelGraph
       .getVertices()
       .filter((x) => x.isType('dtmi:dtdl:class:Interface;2'))
+      .filter((x) => hasNoIncomingRelationships(x))
       .items();
 
-    const roots = models.filter((x) => hasNoIncomingRelationships(x));
-    return roots.map((m) => expandInterface(m));
+    return models.map((m) => expandInterface(m));
   }
 
   getChildren(modelId: string, depth = 1): ExpandedInterface[] {

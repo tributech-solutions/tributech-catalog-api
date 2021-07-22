@@ -143,43 +143,43 @@ describe('ModelGraphService', () => {
     );
     expect(expandedModel).toEqual({
       '@id': 'dtmi:io:tributech:device:edge;1',
-      '@type': InterfaceType.Interface,
+      '@type': [InterfaceType.Interface],
       '@context': ContextType.DTDL2,
       displayName: 'Edge',
       description: 'Demo Description',
       comment: 'Demo Comment',
       properties: [
         jasmine.objectContaining({
-          '@type': 'Property',
+          '@type': ['Property'],
           name: 'DeviceId',
-          schema: 'dtmi:dtdl:instance:Schema:string;2',
+          schema: 'string',
           writable: false,
           displayName: 'Device Id',
           description: 'Represents the unique ID of the Tributech-device.',
           comment: 'Device ID needs to be a UUID.',
         }),
         jasmine.objectContaining({
-          '@type': 'Property',
+          '@type': ['Property'],
           name: 'Name',
-          schema: 'dtmi:dtdl:instance:Schema:string;2',
+          schema: 'string',
           writable: true,
           displayName: 'Name',
           description: 'Represents the name of the Tributech-device.',
           comment: 'DemoComment',
         }),
         jasmine.objectContaining({
-          '@type': 'Property',
+          '@type': ['Property'],
           name: 'MaxMerkleTreeDepth',
-          schema: 'dtmi:dtdl:instance:Schema:integer;2',
+          schema: 'integer',
           writable: true,
           displayName: 'Max merkle tree depth',
           description: 'The Max merkle tree depth',
           comment: 'DemoComment',
         }),
         jasmine.objectContaining({
-          '@type': 'Property',
+          '@type': ['Property'],
           name: 'MaxMerkleTreeAge',
-          schema: 'dtmi:dtdl:instance:Schema:integer;2',
+          schema: 'integer',
           writable: true,
           displayName: 'Max merkle tree age',
           description: 'The Max merkle tree age',
@@ -187,7 +187,7 @@ describe('ModelGraphService', () => {
       ],
       relationships: [
         jasmine.objectContaining({
-          '@type': 'Relationship',
+          '@type': ['Relationship'],
           name: 'Sinks',
           target: 'dtmi:io:tributech:sink:base;1',
           displayName: 'Sinks',
@@ -198,6 +198,7 @@ describe('ModelGraphService', () => {
       ],
       telemetries: [],
       components: [],
+      commands: [],
       bases: ['dtmi:io:tributech:device:base;1'],
     });
   });
@@ -219,7 +220,7 @@ describe('ModelGraphService', () => {
     expect(relationships.length).toEqual(1);
     expect(relationships).toEqual([
       jasmine.objectContaining({
-        '@type': 'Relationship',
+        '@type': ['Relationship'],
         name: 'Sinks',
         target: 'dtmi:io:tributech:sink:base;1',
         displayName: 'Sinks',

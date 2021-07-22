@@ -26,12 +26,12 @@ describe('ModelManagerService', () => {
     modifiedTime: '',
     model: {
       '@id': 'dtmi:io:tributech:test;1',
-      '@type': InterfaceType.Interface,
+      '@type': [InterfaceType.Interface],
       '@context': ContextType.DTDL2,
       displayName: 'Test',
       contents: [
         {
-          '@type': ModelType.Property,
+          '@type': [ModelType.Property],
           name: 'Name',
           schema: 'string',
         },
@@ -41,12 +41,12 @@ describe('ModelManagerService', () => {
 
   const newModel: Interface = {
     '@id': 'dtmi:io:tributech:test1;1',
-    '@type': InterfaceType.Interface,
+    '@type': [InterfaceType.Interface],
     '@context': ContextType.DTDL2,
     displayName: 'Test1',
     contents: [
       {
-        '@type': ModelType.Property,
+        '@type': [ModelType.Property],
         name: 'Name',
         schema: 'string',
       },
@@ -55,12 +55,12 @@ describe('ModelManagerService', () => {
 
   const newModel1: Interface = {
     '@id': 'dtmi:io:tributech:test2;1',
-    '@type': InterfaceType.Interface,
+    '@type': [InterfaceType.Interface],
     '@context': ContextType.DTDL2,
     displayName: 'Test2',
     contents: [
       {
-        '@type': ModelType.Property,
+        '@type': [ModelType.Property],
         name: 'Name',
         schema: 'string',
       },

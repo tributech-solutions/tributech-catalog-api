@@ -31,7 +31,7 @@ export function isValidDTMI(dtmi: string): boolean {
 }
 
 export function isInterfaceType(model: Interface): boolean {
-  return model?.['@type'] === 'Interface';
+  return model?.['@type']?.includes(ModelType.Interface) ?? false;
 }
 
 export function isDTMLContext(context: string): boolean {
