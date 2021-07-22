@@ -155,19 +155,6 @@ export class JSONSchema4 {
   @ApiProperty()
   required?: false | string[];
 
-  /**
-   * This attribute defines a schema for all properties that are not
-   * explicitly defined in an object type definition. If specified, the
-   * value MUST be a schema or a boolean. If false is provided, no
-   * additional properties are allowed beyond the properties defined in
-   * the schema. The default value is an empty schema which allows any
-   * value for additional properties.
-   *
-   * @see https://tools.ietf.org/html/draft-zyp-json-schema-03#section-5.4
-   */
-  @ApiProperty()
-  additionalProperties?: boolean | JSONSchema4;
-
   @ApiProperty()
   definitions?: {
     [k: string]: JSONSchema4;

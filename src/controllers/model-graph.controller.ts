@@ -62,6 +62,20 @@ export class ModelGraphController {
     return this.modelGraphService.getRoots();
   }
 
+  @Get('/:dtmi/bases')
+  @ApiOperation({
+    operationId: 'getBases',
+    summary: 'Get the bases of the requested model',
+  })
+  @ApiOkResponse({
+    description: 'Returns the bases of a model',
+    type: [String],
+  })
+  getBases(@Param('dtmi') dtmi: string): string[] {
+    this.logger.log(`getBases ${dtmi}`);
+    return this.modelGraphService.getExpanded(dtmi)?.bases || [];
+  }
+
   @Get('/:dtmi/expand')
   @ApiOperation({
     operationId: 'getExpanded',
