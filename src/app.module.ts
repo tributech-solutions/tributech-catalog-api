@@ -39,8 +39,9 @@ import { ValidationService } from './services/validation.service';
     StorageService,
     {
       provide: APP_GUARD,
-      useClass: AuthenticationGuard,
+      useExisting: AuthenticationGuard, //replaced useClass for https://docs.nestjs.com/fundamentals/testing#overriding-globally-registered-enhancers
     },
+    AuthenticationGuard,
   ],
 })
 export class AppModule {}
