@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Logger,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   ApiOAuth2,
   ApiOkResponse,
@@ -29,6 +37,7 @@ export class ValidationController {
   }
 
   @Post()
+  @HttpCode(200)
   @ApiOperation({ summary: 'Validate twin instance' })
   @ApiOkResponse({
     description: 'Returns validation result for instance.',
@@ -39,6 +48,7 @@ export class ValidationController {
   }
 
   @Post('/graph')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Validate twin graph' })
   @ApiOkResponse({
     description: 'Returns validation result for twin graph.',
