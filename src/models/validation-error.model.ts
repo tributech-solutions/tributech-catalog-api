@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class ValidationError extends Error {
   constructor(message: string, private description?: string) {
@@ -25,15 +25,15 @@ export class SchemaErrorObject<
   @ApiProperty()
   params: P;
   // Added to validation errors of "propertyNames" keyword schema
-  @ApiProperty()
+  @ApiPropertyOptional()
   propertyName?: string;
   // Excluded if option `messages` set to false.
   @ApiProperty()
   message?: string;
   // These are added with the `verbose` option.
-  @ApiProperty()
+  @ApiPropertyOptional()
   schema?: S;
-  @ApiProperty()
+  @ApiPropertyOptional()
   data?: unknown;
 }
 
