@@ -43,6 +43,7 @@ export class AuthenticationService {
     this.authEnvironment = this.configService.get<
       SettingsModel['ApiAuthOptions']
     >('ApiAuthOptions', {} as any);
+
     this.jwksClient = new JwksClient({
       jwksUri: this.authEnvironment.JwksCerts,
       timeout: 10000,
@@ -50,7 +51,10 @@ export class AuthenticationService {
   }
 
   async authenticate(accessToken: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<{
+      id: string;
+      roles: string[];
+    }>((resolve, reject) => {
       jwt.verify(
         accessToken,
         async (header, callback) => {
@@ -65,7 +69,8 @@ export class AuthenticationService {
         },
         (err, decoded: TokenData) => {
           if (err) {
-            throw new AuthenticationError(err.message);
+            reject(new AuthenticationError(err.message));
+            return;
           }
           const presentScopes = decoded?.scope.split(' ');
           const requiredScopes = this.authEnvironment.Scopes;
@@ -73,7 +78,10 @@ export class AuthenticationService {
           const missingScopes = without(requiredScopes, ...presentScopes);
           if (missingScopes.length !== 0) {
             const missingScopesStr = missingScopes.join(' ');
-            throw new AuthenticationError(`Missing scopes ` + missingScopesStr);
+            reject(
+              new AuthenticationError(`Missing scopes ` + missingScopesStr)
+            );
+            return;
           }
 
           resolve({

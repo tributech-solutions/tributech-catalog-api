@@ -4,8 +4,6 @@ services:
   catalog-api:
     environment:
       - NODE_ENV=production
-      #- IdentityServerOptions__AuthorizationUrl=https://<<AuthProviderUrl>>/connect/authorize
-      #- IdentityServerOptions__TokenUrl=https://<<AuthProviderUrl>>/connect/token
     restart: unless-stopped
     ports:
       - "3000:3000"

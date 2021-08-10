@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
+import to from 'await-to-js';
 import { Request } from 'express';
 import { AuthenticationService } from './auth.service';
 
@@ -33,12 +34,15 @@ export class AuthenticationGuard implements CanActivate {
 
     const token = parts[1];
 
-    try {
-      // Store the user on the request object if we want to retrieve it from the controllers
-      request['user'] = await this.authenticationService.authenticate(token);
-      return true;
-    } catch (e) {
-      throw new HttpException(e.message, HttpStatus.UNAUTHORIZED);
+    const [error, success] = await to(
+      this.authenticationService.authenticate(token)
+    );
+
+    if (error) {
+      throw new HttpException(error?.message, HttpStatus.UNAUTHORIZED);
     }
+    // Store the user on the request object if we want to retrieve it from the controllers
+    request['user'] = success;
+    return true;
   }
 }

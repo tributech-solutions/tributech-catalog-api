@@ -11,7 +11,7 @@ COPY yarn.lock ./
 
 COPY . ./
 
-# ensure NODE_ENV is not set to develop as
+# ensure NODE_ENV is not set to production as
 # otherwise we do not install devDependencies
 RUN yarn install --frozen-lockfile
 
@@ -23,7 +23,10 @@ EXPOSE 3000
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-COPY package.json ./
-COPY --from=build /app/dist ./dist
+COPY --from=build /app/package.json ./
+COPY --from=build /app/yarn.lock ./
+COPY --from=build /app/dist ./
 
-CMD ["node", "dist/src/main.js"]
+RUN yarn install --frozen-lockfile
+
+CMD ["node", "main.js"]

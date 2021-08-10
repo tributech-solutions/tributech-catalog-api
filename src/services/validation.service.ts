@@ -18,16 +18,12 @@ import {
   getRelationshipJSONSchema,
 } from '../utils/validation.utils';
 import { ModelGraphService } from './model-graph.service';
-import { ModelManagerService } from './model-manager.service';
 
 @Injectable()
 export class ValidationService {
   private readonly logger = new Logger(ValidationService.name);
 
-  constructor(
-    private modelService: ModelManagerService,
-    private modelGraphService: ModelGraphService
-  ) {}
+  constructor(private modelGraphService: ModelGraphService) {}
 
   getJSONSchema(dtmi: string): PartialSchema<Interface> {
     this.logger.verbose(`Return model entity for ${dtmi}.`);

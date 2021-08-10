@@ -25,9 +25,16 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
+# if running with Ubuntu using WSL2 under Windows you might have to set different IP binding
+$ HOST=0.0.0.0 npm run start
+
 # production mode
 $ npm run start:prod
 ```
+
+By default the swagger-ui is reachable via http://localhost:3000/api/
+and the Open-API spec at http://localhost:3000/api-json/.
+
 
 ## Test
 
