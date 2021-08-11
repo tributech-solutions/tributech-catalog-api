@@ -12,6 +12,7 @@ import {
   Property,
   Schema,
 } from '../models/models';
+import { DTMI_REGEX } from './dtml.utils';
 
 /**
  * Basic generation for relationship validation
@@ -78,7 +79,7 @@ export function generateJSONSchema(
     properties: {
       $model: {
         type: 'string',
-        pattern: '^dtmi:[a-z:]*;[1-99]',
+        pattern: DTMI_REGEX,
       },
     },
     required: ['$model'],

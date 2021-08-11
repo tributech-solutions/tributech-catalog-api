@@ -4,6 +4,7 @@ import {
   ApiPropertyOptional,
   getSchemaPath,
 } from '@nestjs/swagger';
+import { DTMI_REGEX } from '../utils/dtml.utils';
 import { SemanticTypes } from './semantic-types';
 
 export enum InterfaceType {
@@ -33,7 +34,7 @@ export class DigitalTwinMetadata {
   @ApiProperty({
     required: true,
     nullable: false,
-    pattern: '^dtmi:[a-z:]*;[1-99]$',
+    pattern: DTMI_REGEX,
   })
   $model?: string;
 }
