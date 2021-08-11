@@ -7,6 +7,7 @@ import {
   InterfaceType,
   ModelType,
 } from '../models/models';
+import { DTMI_REGEX } from '../utils/dtml.utils';
 import { mockProvider } from '../utils/testing.utils';
 import { ModelGraphService } from './model-graph.service';
 import { ValidationService } from './validation.service';
@@ -29,7 +30,7 @@ describe('ValidationService', () => {
   };
 
   const caseModel: ExpandedInterface = {
-    '@id': 'dtmi:io:tributech:case;1',
+    '@id': 'dtmi:io:tributech:test_case;1',
     '@type': InterfaceType.Interface,
     '@context': ContextType.DTDL2,
     displayName: 'Test',
@@ -80,7 +81,7 @@ describe('ValidationService', () => {
       properties: {
         $model: {
           type: 'string',
-          pattern: '^dtmi:[a-z:]*;[1-99]',
+          pattern: DTMI_REGEX,
         },
       },
       required: ['$model'],
@@ -133,7 +134,7 @@ describe('ValidationService', () => {
       $etag: 'etag',
       Name: 'Case',
       $metadata: {
-        $model: 'dtmi:io:tributech:case;1',
+        $model: 'dtmi:io:tributech:test_case;1',
       },
     };
 

@@ -7,6 +7,10 @@ import {
 } from '../models/models';
 import { ValidationError } from '../models/validation-error.model';
 
+// see https://github.com/Azure/digital-twin-model-identifier#validation-regular-expressions
+export const DTMI_REGEX =
+  '^dtmi:(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$';
+
 export function isValidInterface(model: Interface): boolean {
   if (!isValidDTMI(model?.['@id'])) {
     throw new ValidationError('Invalid DTMI');
@@ -22,9 +26,7 @@ export function isValidInterface(model: Interface): boolean {
 }
 
 export function isValidDTMI(dtmi: string): boolean {
-  const regex = new RegExp(
-    '^dtmi:(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$'
-  );
+  const regex = new RegExp(DTMI_REGEX);
   return regex.test(dtmi);
 }
 
