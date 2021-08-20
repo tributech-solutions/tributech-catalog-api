@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   Logger,
@@ -65,7 +66,7 @@ export class ModelGraphController {
   @Get('/:dtmi/bases')
   @ApiOperation({
     operationId: 'getBases',
-    summary: 'Get the bases of the requested model',
+    summary: 'Gets the bases of the requested model',
   })
   @ApiOkResponse({
     description: 'Returns the bases of a model',
@@ -74,6 +75,29 @@ export class ModelGraphController {
   getBases(@Param('dtmi') dtmi: string): string[] {
     this.logger.log(`getBases ${dtmi}`);
     return this.modelGraphService.getExpanded(dtmi)?.bases || [];
+  }
+
+  @Get('/:dtmi/children')
+  @ApiOperation({
+    operationId: 'getChildren',
+    summary:
+      'Gets the children of the requested model up to a optionally specified depth',
+  })
+  @ApiOkResponse({
+    description: 'Returns the children of a model',
+    type: [ExpandedInterface],
+  })
+  @ApiQuery({ name: 'depth', type: 'number', required: false })
+  getChildren(
+    @Param('dtmi') dtmi: string,
+    @Query('depth') depth = 1
+  ): ExpandedInterface[] {
+    this.logger.log(`getChildren ${dtmi}`);
+
+    if (depth === 0 || depth > 8) {
+      throw new BadRequestException('Depth needs to be > 0 and < 8!');
+    }
+    return this.modelGraphService.getChildren(dtmi, depth) || [];
   }
 
   @Get('/:dtmi/expand')
