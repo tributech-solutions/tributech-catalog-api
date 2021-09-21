@@ -64,20 +64,3 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalo
 # stop
 docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalog-api down
 ```
-
-
-Validate SHACL
-https://www.npmjs.com/package/rdf-validate-shacl
-https://zazuko.com/get-started/developers/
-https://github.com/schimatos/schimatos.org
-https://shacl.org/playground/
-https://github.com/mulesoft-labs/json-ld-schema
-
-Generate Typescript from schema
-https://github.com/google/schema-dts/tree/main
-
-OWL TO DTDL
-https://github.com/Azure-Samples/RdfToDtdlConverter/blob/main/Program.cs
-
-TS from SHACL
-https://github.com/jeswr/on2ts

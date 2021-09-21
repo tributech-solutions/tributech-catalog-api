@@ -4,7 +4,6 @@
   "description": "Tributech catalog service used for vocabulary organisation and exchange",
   "author": "Tributech Solutions GmbH",
   "private": true,
-  "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
