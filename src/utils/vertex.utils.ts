@@ -25,10 +25,13 @@ export function getUnit(vertex: Vertex): string {
   return getPropertyByName(vertex, 'unit', '');
 }
 
-export function getTypes(vertex: Vertex, simplifyTypename = true): string[] {
+export function getTypes(
+  vertex: Vertex,
+  simplifyTypename = true
+): string | string[] {
   const dtdlRegex = /dtmi:dtdl:class:([A-Za-z]*);[1-9][0-9]{0,8}/g;
   if (!vertex) return [];
-  return vertex
+  const types = vertex
     .getTypes()
     .map((_v) => _v.id)
     .items()
@@ -37,6 +40,7 @@ export function getTypes(vertex: Vertex, simplifyTypename = true): string[] {
       const match = dtdlRegex.exec(typeName);
       return match ? match[1] : typeName;
     });
+  return types.length === 1 ? types[0] : types;
 }
 
 export function getType(vertex: Vertex): ModelType | SchemaType {

@@ -25,7 +25,8 @@ export function isValidInterface(model: Interface): boolean {
   return true;
 }
 
-export function isValidDTMI(dtmi: string): boolean {
+export function isValidDTMI(dtmi: string | undefined): boolean {
+  if (!dtmi) return false;
   const regex = new RegExp(DTMI_REGEX);
   return regex.test(dtmi);
 }

@@ -64,9 +64,9 @@ export class StorageService {
     return dtmi.replaceAll(':', '_').replaceAll(';', '__');
   }
 
-  private createEntity(m: Interface): ModelEntity {
+  private createEntity(m: Required<Interface>): ModelEntity {
     return {
-      id: m?.['@id'],
+      id: m['@id'],
       active: true,
       createdTime: new Date().toISOString(),
       modifiedTime: '',

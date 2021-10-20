@@ -8,7 +8,7 @@ const DEV_CONFIG_FILENAME = 'settings/settings.dev.json';
 
 export default () => {
   const settingsWithComments = readFileSync(
-    join(process.cwd(), DEV_CONFIG_FILENAME),
+    join(process.cwd(), CONFIG_FILENAME),
     'utf8'
   );
 

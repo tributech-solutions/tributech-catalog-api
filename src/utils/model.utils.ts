@@ -147,8 +147,8 @@ export function getComponentFromVertex(vertex: Vertex): Component | undefined {
 
 export function getInterfaceFromVertex(v: Vertex): Interface {
   return {
-    ...getBaseModelPropertiesFromVertex(v),
     '@context': ContextType.DTDL2,
+    ...getBaseModelPropertiesFromVertex(v),
     contents: v
       .getOutgoing('dtmi:dtdl:property:contents;2')
       .items()
@@ -159,8 +159,8 @@ export function getInterfaceFromVertex(v: Vertex): Interface {
 export function expandInterface(v: Vertex): ExpandedInterface {
   if (!v) throw new Error('Empty Vertex!');
   return {
-    ...getBaseModelPropertiesFromVertex(v),
     '@context': ContextType.DTDL2,
+    ...getBaseModelPropertiesFromVertex(v),
     properties: getContentFromVertex(v, TwinContentType.Property) as Property[],
     relationships: getContentFromVertex(
       v,

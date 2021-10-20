@@ -143,14 +143,14 @@ describe('ModelGraphService', () => {
     );
     expect(expandedModel).toEqual({
       '@id': 'dtmi:io:tributech:device:edge;1',
-      '@type': [InterfaceType.Interface],
+      '@type': InterfaceType.Interface,
       '@context': ContextType.DTDL2,
       displayName: 'Edge',
       description: 'Demo Description',
       comment: 'Demo Comment',
       properties: [
         jasmine.objectContaining({
-          '@type': ['Property'],
+          '@type': 'Property',
           name: 'DeviceId',
           schema: 'string',
           writable: false,
@@ -159,7 +159,7 @@ describe('ModelGraphService', () => {
           comment: 'Device ID needs to be a UUID.',
         }),
         jasmine.objectContaining({
-          '@type': ['Property'],
+          '@type': 'Property',
           name: 'Name',
           schema: 'string',
           writable: true,
@@ -168,7 +168,7 @@ describe('ModelGraphService', () => {
           comment: 'DemoComment',
         }),
         jasmine.objectContaining({
-          '@type': ['Property'],
+          '@type': 'Property',
           name: 'MaxMerkleTreeDepth',
           schema: 'integer',
           writable: true,
@@ -177,7 +177,7 @@ describe('ModelGraphService', () => {
           comment: 'DemoComment',
         }),
         jasmine.objectContaining({
-          '@type': ['Property'],
+          '@type': 'Property',
           name: 'MaxMerkleTreeAge',
           schema: 'integer',
           writable: true,
@@ -187,7 +187,7 @@ describe('ModelGraphService', () => {
       ],
       relationships: [
         jasmine.objectContaining({
-          '@type': ['Relationship'],
+          '@type': 'Relationship',
           name: 'Sinks',
           target: 'dtmi:io:tributech:sink:base;1',
           displayName: 'Sinks',
@@ -220,7 +220,7 @@ describe('ModelGraphService', () => {
     expect(relationships.length).toEqual(1);
     expect(relationships).toEqual([
       jasmine.objectContaining({
-        '@type': ['Relationship'],
+        '@type': 'Relationship',
         name: 'Sinks',
         target: 'dtmi:io:tributech:sink:base;1',
         displayName: 'Sinks',
