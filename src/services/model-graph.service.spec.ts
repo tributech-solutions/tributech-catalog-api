@@ -63,6 +63,20 @@ describe('ModelGraphService', () => {
         comment: 'DemoComment',
       },
       {
+        '@type': 'Command',
+        name: 'reboot',
+        request: {
+          name: 'rebootTime',
+          displayName: 'Reboot Time',
+          description: 'Requested time to reboot the device.',
+          schema: 'dateTime',
+        },
+        response: {
+          name: 'scheduledTime',
+          schema: 'dateTime',
+        },
+      },
+      {
         '@type': 'Property',
         name: 'MaxMerkleTreeAge',
         schema: 'integer',
@@ -198,7 +212,22 @@ describe('ModelGraphService', () => {
       ],
       telemetries: [],
       components: [],
-      commands: [],
+      commands: [
+        jasmine.objectContaining({
+          '@type': 'Command',
+          name: 'reboot',
+          request: jasmine.objectContaining({
+            name: 'rebootTime',
+            displayName: 'Reboot Time',
+            description: 'Requested time to reboot the device.',
+            schema: 'dateTime',
+          }),
+          response: jasmine.objectContaining({
+            name: 'scheduledTime',
+            schema: 'dateTime',
+          }),
+        }),
+      ],
       bases: ['dtmi:io:tributech:device:base;1'],
     });
   });

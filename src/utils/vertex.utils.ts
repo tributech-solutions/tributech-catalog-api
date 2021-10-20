@@ -1,5 +1,7 @@
 import { Vertex } from 'jsonld-graph';
-import { ModelType, SchemaType } from '../models/models';
+import { CommandPayload, ModelType, SchemaType } from '../models/models';
+import { getBaseModelPropertiesFromVertex } from './model.utils';
+import { inferSchema } from './schema.utils';
 
 export function getDisplayName(vertex: Vertex): string {
   return getPropertyByName(vertex, 'displayName', '');
@@ -58,4 +60,47 @@ export function getPropertyByName<T>(
 ): T {
   if (!vertex) return defaultValue;
   return vertex.getAttributeValue<T>(`dtmi:dtdl:property:${propertyName};2`);
+}
+
+export function getComponentSchema(
+  vertex: Vertex,
+  defaultValue: string
+): string {
+  if (!vertex) return defaultValue;
+  const data = vertex
+    .getOutgoing('dtmi:dtdl:property:schema;2')
+    .items()
+    .map((edge) => edge?.to)
+    .pop() as Vertex;
+  return data?.id ?? '';
+}
+
+export function getCommandRequest(vertex: Vertex): CommandPayload {
+  const data = vertex
+    .getOutgoing('dtmi:dtdl:property:request;2')
+    .items()
+    .map((edge) => edge?.to)
+    .pop() as Vertex;
+
+  const payload = {
+    ...getBaseModelPropertiesFromVertex(data),
+    schema: inferSchema(data),
+  };
+
+  return payload;
+}
+
+export function getCommandResponse(vertex: Vertex): CommandPayload {
+  const data = vertex
+    .getOutgoing('dtmi:dtdl:property:response;2')
+    .items()
+    .map((edge) => edge?.to)
+    .pop() as Vertex;
+
+  const payload = {
+    ...getBaseModelPropertiesFromVertex(data),
+    schema: inferSchema(data),
+  };
+
+  return payload;
 }

@@ -13,7 +13,10 @@ import {
 } from '../models/models';
 import { inferSchema } from './schema.utils';
 import {
+  getCommandRequest,
+  getCommandResponse,
   getComment,
+  getComponentSchema,
   getDescription,
   getDisplayName,
   getName,
@@ -131,6 +134,8 @@ export function getCommandFromVertex(vertex: Vertex): Command | undefined {
 
   return {
     ...getBaseModelPropertiesFromVertex(vertex),
+    request: getCommandRequest(vertex),
+    response: getCommandResponse(vertex),
   };
 }
 
@@ -141,7 +146,7 @@ export function getComponentFromVertex(vertex: Vertex): Component | undefined {
 
   return {
     ...getBaseModelPropertiesFromVertex(vertex),
-    schema: getInterfaceFromVertex(vertex),
+    schema: getComponentSchema(vertex, ''),
   };
 }
 

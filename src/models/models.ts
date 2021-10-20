@@ -250,13 +250,24 @@ export class Property extends BaseModelWithId {
   writable?: boolean;
 }
 
+export class CommandPayload extends BaseModelWithId {
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { $ref: getSchemaPath(ArraySchema) },
+      { $ref: getSchemaPath(EnumSchema) },
+      { $ref: getSchemaPath(MapSchema) },
+      { $ref: getSchemaPath(ObjectSchema) },
+    ],
+  })
+  schema: Schema;
+}
+
 export class Command extends BaseModelWithId {
   @ApiPropertyOptional()
-  commandType?: any;
+  request?: CommandPayload;
   @ApiPropertyOptional()
-  request?: any;
-  @ApiPropertyOptional()
-  response?: any;
+  response?: CommandPayload;
 }
 
 export class Relationship extends BaseModelWithId {

@@ -43,13 +43,16 @@ export class ParsedTelemetry extends BaseModel {
   unit?: string;
 }
 
+export class CommandPayload extends BaseModel {
+  @ApiProperty()
+  schema: ParsedSchema;
+}
+
 export class ParsedCommand extends BaseModel {
   @ApiPropertyOptional()
-  commandType?: any;
+  request?: CommandPayload;
   @ApiPropertyOptional()
-  request?: any;
-  @ApiPropertyOptional()
-  response?: any;
+  response?: CommandPayload;
 }
 
 export class ParsedInterface extends BaseModel {
@@ -74,5 +77,5 @@ export class ParsedInterface extends BaseModel {
 
 export class ParsedComponent extends BaseModel {
   @ApiProperty()
-  schema: ParsedInterface;
+  schema: string;
 }
