@@ -139,9 +139,13 @@ export class ModelGraphController {
     description: 'Returns a model in its expanded representation.',
     type: ExpandedInterface,
   })
-  getParsed(@Param('dtmi') dtmi: string) {
+  @ApiQuery({ name: 'includeContext', type: 'boolean', required: false })
+  getParsed(
+    @Param('dtmi') dtmi: string,
+    @Query('includeContext') includeContext = false
+  ) {
     this.logger.log(`getParsed ${dtmi}`);
-    return this.modelGraphService.fullExpand(dtmi);
+    return this.modelGraphService.fullExpand(dtmi, includeContext);
   }
 
   @Get('/relationships/:sourceDtmi/:targetDtmi')

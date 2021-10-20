@@ -45,11 +45,13 @@ export class ModelGraphService {
     return expandInterface(model) as ParsedInterface;
   }
 
-  async fullExpand(modelId: string) {
+  async fullExpand(modelId: string, includeContext: boolean) {
     this.logger.verbose(`Get fully expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
     if (!model) throw new NotFoundException('Model not found');
-    return await model.toJson(context['@context'], { stripContext: false });
+    return await model.toJson(context['@context'], {
+      stripContext: !includeContext,
+    });
   }
 
   getAllExpanded(page = 0, size = 100) {
