@@ -1,6 +1,6 @@
 {
   "name": "tributech-catalog",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Tributech catalog service used for vocabulary organisation and exchange",
   "author": "Tributech Solutions GmbH",
   "private": true,
