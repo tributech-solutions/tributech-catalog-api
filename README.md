@@ -10,6 +10,14 @@ Responsibilities:
 - Get related models
 - Exchange/Sync models with other catalog nodes
 
+## Models
+
+Models can be added to the Catalog API via REST, a default set of models gets loaded by default. These models can be found in the following repositories:
+
+[Tributech Data-Asset Models](https://github.com/tributech-solutions/data-asset-twin)
+
+[Tributech GAIA-X Self Description Models](https://github.com/tributech-solutions/gaia-x-self-descriptions)
+
 ## Installation
 
 ```bash

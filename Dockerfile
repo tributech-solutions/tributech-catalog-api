@@ -1,8 +1,8 @@
-FROM node:14-alpine As base
+FROM node:16-alpine As base
 LABEL vendor="Tributech.io Solutions"
 WORKDIR /app
 
-FROM node:14-alpine As build
+FROM node:16-alpine As build
 
 WORKDIR /app
 
