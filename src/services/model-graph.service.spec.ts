@@ -63,6 +63,20 @@ describe('ModelGraphService', () => {
         comment: 'DemoComment',
       },
       {
+        '@type': 'Command',
+        name: 'reboot',
+        request: {
+          name: 'rebootTime',
+          displayName: 'Reboot Time',
+          description: 'Requested time to reboot the device.',
+          schema: 'dateTime',
+        },
+        response: {
+          name: 'scheduledTime',
+          schema: 'dateTime',
+        },
+      },
+      {
         '@type': 'Property',
         name: 'MaxMerkleTreeAge',
         schema: 'integer',
@@ -152,7 +166,7 @@ describe('ModelGraphService', () => {
         jasmine.objectContaining({
           '@type': 'Property',
           name: 'DeviceId',
-          schema: 'dtmi:dtdl:instance:Schema:string;2',
+          schema: 'string',
           writable: false,
           displayName: 'Device Id',
           description: 'Represents the unique ID of the Tributech-device.',
@@ -161,7 +175,7 @@ describe('ModelGraphService', () => {
         jasmine.objectContaining({
           '@type': 'Property',
           name: 'Name',
-          schema: 'dtmi:dtdl:instance:Schema:string;2',
+          schema: 'string',
           writable: true,
           displayName: 'Name',
           description: 'Represents the name of the Tributech-device.',
@@ -170,7 +184,7 @@ describe('ModelGraphService', () => {
         jasmine.objectContaining({
           '@type': 'Property',
           name: 'MaxMerkleTreeDepth',
-          schema: 'dtmi:dtdl:instance:Schema:integer;2',
+          schema: 'integer',
           writable: true,
           displayName: 'Max merkle tree depth',
           description: 'The Max merkle tree depth',
@@ -179,7 +193,7 @@ describe('ModelGraphService', () => {
         jasmine.objectContaining({
           '@type': 'Property',
           name: 'MaxMerkleTreeAge',
-          schema: 'dtmi:dtdl:instance:Schema:integer;2',
+          schema: 'integer',
           writable: true,
           displayName: 'Max merkle tree age',
           description: 'The Max merkle tree age',
@@ -198,6 +212,22 @@ describe('ModelGraphService', () => {
       ],
       telemetries: [],
       components: [],
+      commands: [
+        jasmine.objectContaining({
+          '@type': 'Command',
+          name: 'reboot',
+          request: jasmine.objectContaining({
+            name: 'rebootTime',
+            displayName: 'Reboot Time',
+            description: 'Requested time to reboot the device.',
+            schema: 'dateTime',
+          }),
+          response: jasmine.objectContaining({
+            name: 'scheduledTime',
+            schema: 'dateTime',
+          }),
+        }),
+      ],
       bases: ['dtmi:io:tributech:device:base;1'],
     });
   });

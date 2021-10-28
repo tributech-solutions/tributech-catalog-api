@@ -3,9 +3,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { TerminusModule } from '@nestjs/terminus';
 import { AuthenticationGuard } from './auth/auth.guard';
 import { AuthenticationModule } from './auth/auth.module';
 import jsonConfig from './config/load-config';
+import { ApplicationController } from './controllers/application.controller';
+import { HealthController } from './controllers/health.controller';
 import { ModelGraphController } from './controllers/model-graph.controller';
 import { ModelManagerController } from './controllers/model-manager.controller';
 import { ValidationController } from './controllers/validation.controller';
@@ -25,9 +28,12 @@ import { ValidationService } from './services/validation.service';
     EventEmitterModule.forRoot({
       ignoreErrors: true,
     }),
+    TerminusModule,
     AuthenticationModule,
   ],
   controllers: [
+    ApplicationController,
+    HealthController,
     ModelManagerController,
     ModelGraphController,
     ValidationController,

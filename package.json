@@ -28,6 +28,7 @@
     "@nestjs/event-emitter": "^1.0.0",
     "@nestjs/platform-express": "^8.0.2",
     "@nestjs/swagger": "^5.0.1",
+    "@nestjs/terminus": "^8.0.1",
     "ajv": "^8.6.1",
     "await-to-js": "^3.0.0",
     "fs-extra": "^10.0.0",

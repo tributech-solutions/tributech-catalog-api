@@ -16,6 +16,7 @@ export enum ContextType {
 }
 
 export enum ModelType {
+  Interface = 'Interface',
   Property = 'Property',
   Telemetry = 'Telemetry',
   Command = 'Command',
@@ -28,6 +29,7 @@ export enum SchemaType {
   Map = 'Map',
   Object = 'Object',
   Array = 'Array',
+  Primitive = 'Primitive',
 }
 
 export class DigitalTwinMetadata {
@@ -73,19 +75,34 @@ export class DigitalTwinModel {
 }
 
 export class BaseModel {
-  @ApiPropertyOptional({ nullable: false, required: true })
-  '@id'?: string;
+  @ApiPropertyOptional({
+    nullable: false,
+    required: true,
+    type: 'array',
+    items: {
+      type: 'string',
+      enum: [
+        ...Object.keys(SchemaType),
+        ...Object.keys(ModelType),
+        ...Object.keys(SemanticTypes),
+        ...Object.keys(InterfaceType),
+      ],
+    },
+  })
+  '@type'?: (ModelType | SemanticTypes | SchemaType | InterfaceType)[];
   @ApiPropertyOptional({ required: false })
   comment?: string;
   @ApiPropertyOptional({ required: false })
   description?: string;
   @ApiPropertyOptional({ required: false })
   displayName?: string;
+  @ApiPropertyOptional({ required: false })
+  name?: string;
 }
 
-export class ModelContent extends BaseModel {
-  @ApiPropertyOptional({ nullable: false, required: true })
-  '@type'?: ModelType | [ModelType, SemanticTypes];
+export class BaseModelWithId extends BaseModel {
+  @ApiPropertyOptional()
+  '@id'?: string;
 }
 
 export type Schema =
@@ -129,8 +146,6 @@ export type PrimitiveBooleanSchema =
   () => ObjectSchema
 )
 export class ArraySchema extends BaseModel {
-  @ApiProperty({ type: 'string', enum: [SchemaType.Array] })
-  '@type': SchemaType.Array;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -145,14 +160,10 @@ export class ArraySchema extends BaseModel {
 
 export class EnumValue extends BaseModel {
   @ApiProperty()
-  name: string;
-  @ApiProperty()
   enumValue: string | number;
 }
 
 export class EnumSchema extends BaseModel {
-  @ApiProperty({ type: 'string', enum: [SchemaType.Enum] })
-  '@type': SchemaType.Enum;
   @ApiProperty({ type: [EnumValue] })
   enumValues: EnumValue[];
   @ApiProperty()
@@ -161,15 +172,11 @@ export class EnumSchema extends BaseModel {
 
 export class MapKey extends BaseModel {
   @ApiProperty()
-  name: string;
-  @ApiProperty()
   schema: 'string' | string;
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, () => MapSchema, () => ObjectSchema)
 export class MapValue extends BaseModel {
-  @ApiProperty()
-  name: string;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -183,8 +190,6 @@ export class MapValue extends BaseModel {
 }
 
 export class MapSchema extends BaseModel {
-  @ApiProperty({ type: 'string', enum: [SchemaType.Map] })
-  '@type': SchemaType.Map;
   @ApiProperty()
   mapKey: MapKey;
   @ApiProperty()
@@ -193,8 +198,6 @@ export class MapSchema extends BaseModel {
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, () => ObjectSchema)
 export class Field extends BaseModel {
-  @ApiProperty()
-  name: string;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -208,30 +211,12 @@ export class Field extends BaseModel {
 }
 
 export class ObjectSchema extends BaseModel {
-  @ApiProperty({ type: 'string', enum: [SchemaType.Object] })
-  '@type': SchemaType.Object;
   @ApiProperty({ type: [Field] })
   fields: Field[];
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
-export class Telemetry extends ModelContent {
-  @ApiProperty({
-    oneOf: [
-      { type: 'string', enum: [ModelType.Telemetry] },
-      {
-        type: 'array',
-        items: {
-          type: 'string',
-          enum: [ModelType.Telemetry, ...Object.keys(SemanticTypes)],
-        },
-      },
-    ],
-  })
-  '@type': ModelType.Telemetry | [ModelType.Telemetry, SemanticTypes];
-  @ApiProperty()
-  name: string;
-
+export class Telemetry extends BaseModelWithId {
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -248,22 +233,7 @@ export class Telemetry extends ModelContent {
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
-export class Property extends BaseModel {
-  @ApiProperty({
-    oneOf: [
-      { type: 'string', enum: [ModelType.Property] },
-      {
-        type: 'array',
-        items: {
-          type: 'string',
-          enum: [ModelType.Property, ...Object.keys(SemanticTypes)],
-        },
-      },
-    ],
-  })
-  '@type': ModelType.Property | [ModelType.Property, SemanticTypes];
-  @ApiProperty()
-  name: string;
+export class Property extends BaseModelWithId {
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -280,24 +250,27 @@ export class Property extends BaseModel {
   writable?: boolean;
 }
 
-export class Command extends BaseModel {
-  @ApiProperty({ type: 'string', enum: [ModelType.Command] })
-  '@type': ModelType.Command;
-  @ApiProperty()
-  name: string;
-  @ApiPropertyOptional()
-  commandType?: any;
-  @ApiPropertyOptional()
-  request?: any;
-  @ApiPropertyOptional()
-  response?: any;
+export class CommandPayload extends BaseModelWithId {
+  @ApiProperty({
+    oneOf: [
+      { type: 'string' },
+      { $ref: getSchemaPath(ArraySchema) },
+      { $ref: getSchemaPath(EnumSchema) },
+      { $ref: getSchemaPath(MapSchema) },
+      { $ref: getSchemaPath(ObjectSchema) },
+    ],
+  })
+  schema: Schema;
 }
 
-export class Relationship extends BaseModel {
-  @ApiProperty({ type: 'string', enum: [ModelType.Relationship] })
-  '@type': ModelType.Relationship;
-  @ApiProperty()
-  name: string;
+export class Command extends BaseModelWithId {
+  @ApiPropertyOptional()
+  request?: CommandPayload;
+  @ApiPropertyOptional()
+  response?: CommandPayload;
+}
+
+export class Relationship extends BaseModelWithId {
   @ApiPropertyOptional()
   maxMultiplicity?: number;
   @ApiPropertyOptional()
@@ -306,13 +279,11 @@ export class Relationship extends BaseModel {
   properties?: Property[];
   @ApiPropertyOptional({ type: 'string' })
   target?: string | Interface;
+  @ApiPropertyOptional()
+  writable?: boolean;
 }
 
-export class Component extends BaseModel {
-  @ApiProperty({ type: 'string', enum: [ModelType.Component] })
-  '@type': ModelType.Component;
-  @ApiProperty()
-  name: string;
+export class Component extends BaseModelWithId {
   @ApiProperty({ type: () => Interface })
   schema: string | Interface;
 }
@@ -325,21 +296,12 @@ export type InterfaceContent =
   | Component
   | undefined;
 
-export class InterfaceSchema extends BaseModel {
-  @ApiProperty({ type: 'string', enum: SchemaType })
-  '@type': SchemaType;
-  @ApiProperty()
-  '@id': string;
-}
+export class InterfaceSchema extends BaseModelWithId {}
 
-@ApiExtraModels(Property, Relationship, Component, Command)
-export class Interface extends BaseModel {
-  @ApiProperty({ type: 'string', enum: InterfaceType })
-  '@type': InterfaceType.Interface;
+@ApiExtraModels(Property, Relationship, Component, Command, Telemetry)
+export class Interface extends BaseModelWithId {
   @ApiProperty({ type: 'string', enum: ContextType })
   '@context': ContextType.DTDL2;
-  @ApiProperty()
-  '@id': string;
   @ApiPropertyOptional({
     type: 'array',
     items: {
@@ -347,6 +309,7 @@ export class Interface extends BaseModel {
         { $ref: getSchemaPath(Property) },
         { $ref: getSchemaPath(Relationship) },
         { $ref: getSchemaPath(Component) },
+        { $ref: getSchemaPath(Telemetry) },
         { $ref: getSchemaPath(Command) },
       ],
     },
@@ -362,23 +325,9 @@ export class Interface extends BaseModel {
   schemas?: InterfaceSchema[];
 }
 
-@ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
-export class ExpandedInterface extends BaseModel {
-  @ApiProperty({ type: 'string', enum: InterfaceType })
-  '@type': InterfaceType.Interface;
+export class ExpandedInterface extends BaseModelWithId {
   @ApiProperty({ type: 'string', enum: ContextType })
   '@context': ContextType.DTDL2;
-  @ApiPropertyOptional({
-    oneOf: [
-      { type: 'string' },
-      { $ref: getSchemaPath(ArraySchema) },
-      { $ref: getSchemaPath(EnumSchema) },
-      { $ref: getSchemaPath(MapSchema) },
-      { $ref: getSchemaPath(ObjectSchema) },
-    ],
-    nullable: true,
-  })
-  schemas?: Schema;
   @ApiPropertyOptional({
     type: 'array',
     items: { type: 'string' },
@@ -393,4 +342,6 @@ export class ExpandedInterface extends BaseModel {
   telemetries?: Telemetry[];
   @ApiPropertyOptional({ type: [Component] })
   components?: Component[];
+  @ApiPropertyOptional({ type: [Command] })
+  commands?: Command[];
 }

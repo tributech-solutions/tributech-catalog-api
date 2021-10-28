@@ -24,7 +24,8 @@ export class ModelManagerService {
     private storageService: StorageService
   ) {}
 
-  get(dtmi: string, includeRevoked?: boolean) {
+  get(dtmi: string | undefined, includeRevoked?: boolean) {
+    if (!dtmi) return null;
     this.logger.verbose(`Return model entity for ${dtmi}.`);
     const model = this.modelStore.get(dtmi);
     return model?.active ? model : includeRevoked ? model : null;
@@ -42,7 +43,7 @@ export class ModelManagerService {
   }
 
   async addNew(model: Interface, loadIntoGraph = true) {
-    if (!isValidInterface(model)) {
+    if (!model || !isValidInterface(model)) {
       throw new ValidationError('Invalid Interface!');
     }
 
@@ -56,7 +57,7 @@ export class ModelManagerService {
       );
     }
 
-    const entity: ModelEntity = this.createEntity(model);
+    const entity: ModelEntity = this.createEntity(model as Required<Interface>);
     const [error, success] = await to(this.storageService.saveModel(entity));
     if (error) return Promise.reject(error);
 
@@ -99,7 +100,7 @@ export class ModelManagerService {
     return model;
   }
 
-  private createEntity(m: Interface): ModelEntity {
+  private createEntity(m: Required<Interface>): ModelEntity {
     return {
       id: m?.['@id'],
       active: true,

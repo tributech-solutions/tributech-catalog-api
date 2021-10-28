@@ -25,13 +25,14 @@ export function isValidInterface(model: Interface): boolean {
   return true;
 }
 
-export function isValidDTMI(dtmi: string): boolean {
+export function isValidDTMI(dtmi: string | undefined): boolean {
+  if (!dtmi) return false;
   const regex = new RegExp(DTMI_REGEX);
   return regex.test(dtmi);
 }
 
 export function isInterfaceType(model: Interface): boolean {
-  return model?.['@type'] === 'Interface';
+  return model?.['@type']?.includes(ModelType.Interface) ?? false;
 }
 
 export function isDTMLContext(context: string): boolean {

@@ -17,12 +17,12 @@ describe('ValidationService', () => {
 
   const testModel: ExpandedInterface = {
     '@id': 'dtmi:io:tributech:test;1',
-    '@type': InterfaceType.Interface,
+    '@type': [InterfaceType.Interface],
     '@context': ContextType.DTDL2,
     displayName: 'Test',
     properties: [
       {
-        '@type': ModelType.Property,
+        '@type': [ModelType.Property],
         name: 'Name',
         schema: 'string',
       },
@@ -31,19 +31,19 @@ describe('ValidationService', () => {
 
   const caseModel: ExpandedInterface = {
     '@id': 'dtmi:io:tributech:test_case;1',
-    '@type': InterfaceType.Interface,
+    '@type': [InterfaceType.Interface],
     '@context': ContextType.DTDL2,
     displayName: 'Test',
     properties: [
       {
-        '@type': ModelType.Property,
+        '@type': [ModelType.Property],
         name: 'Name',
         schema: 'string',
       },
     ],
     relationships: [
       {
-        '@type': ModelType.Relationship,
+        '@type': [ModelType.Relationship],
         name: 'Tests',
         target: 'dtmi:io:tributech:test;1',
       },
