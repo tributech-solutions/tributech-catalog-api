@@ -17,6 +17,7 @@
     "esModuleInterop": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "paths": {}
   }
 }

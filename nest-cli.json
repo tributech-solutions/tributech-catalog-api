@@ -1,10 +1,49 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/tributech-catalog/src",
   "compilerOptions": {
     "assets": [
-      { "include": "../storage/*.json", "outDir": "./dist/storage" },
-      { "include": "../settings/settings.json", "outDir": "./dist/settings" }
-    ]
-  }
+      {
+        "include": "../storage/*.json",
+        "outDir": "./dist/storage"
+      },
+      {
+        "include": "../settings/settings.json",
+        "outDir": "./dist/settings"
+      }
+    ],
+    "webpack": true,
+    "tsConfigPath": "apps/tributech-catalog/tsconfig.app.json"
+  },
+  "projects": {
+    "test": {
+      "type": "library",
+      "root": "libs/test",
+      "entryFile": "index",
+      "sourceRoot": "libs/test/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/test/tsconfig.lib.json"
+      }
+    },
+    "tributech-catalog": {
+      "type": "application",
+      "root": "apps/tributech-catalog",
+      "entryFile": "main",
+      "sourceRoot": "apps/tributech-catalog/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/tributech-catalog/tsconfig.app.json"
+      }
+    },
+    "app": {
+      "type": "application",
+      "root": "apps/app",
+      "entryFile": "main",
+      "sourceRoot": "apps/app/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/app/tsconfig.app.json"
+      }
+    }
+  },
+  "monorepo": true,
+  "root": "apps/tributech-catalog"
 }
