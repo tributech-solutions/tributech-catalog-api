@@ -4,7 +4,7 @@ import stripJsonComments from 'strip-json-comments';
 import { SettingsModel } from './settings.model';
 
 const CONFIG_FILENAME = 'settings/settings.json';
-const DEV_CONFIG_FILENAME = 'settings/settings.dev.json';
+// const DEV_CONFIG_FILENAME = 'settings/settings.dev.json';
 
 export default () => {
   const settingsWithComments = readFileSync(

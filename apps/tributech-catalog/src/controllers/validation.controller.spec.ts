@@ -31,7 +31,7 @@ describe('ValidationController', () => {
       controllers: [ValidationController],
       providers: [
         mockProvider(ValidationService, {
-          getJSONSchema: (dtmi: string): any => exampleSchema,
+          getJSONSchema: (dtmi: string) => exampleSchema,
           validateInstance: (
             instance: BaseDigitalTwin
           ): SchemaValidationError => ({

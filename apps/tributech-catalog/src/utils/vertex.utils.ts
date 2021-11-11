@@ -50,7 +50,7 @@ export function getType(vertex: Vertex): ModelType | SchemaType {
   return vertex
     .getTypes()
     .map((_v) => _v.id)
-    .first((i) => i.includes('Class')) as any;
+    .first((i) => i.includes('Class')) as ModelType | SchemaType;
 }
 
 export function getPropertyByName<T>(

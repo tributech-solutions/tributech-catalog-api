@@ -22,7 +22,7 @@ export class StorageService {
     const [error, success] = await to(
       fs?.writeJson(join(process.cwd(), `/storage/${fileName}.json`), content)
     );
-    if (error || !success) return Promise.reject(error);
+    if (error) return Promise.reject(error);
 
     return fileName;
   }
@@ -42,7 +42,7 @@ export class StorageService {
     );
     this.modelStore.createMany(
       map(models, (m: any) =>
-        !!m?.model ? (m as ModelEntity) : this.createEntity(m)
+        m?.model ? (m as ModelEntity) : this.createEntity(m)
       )
     );
     const [errorGraph, success] = await to(this.modelGraphService.initialize());

@@ -18,7 +18,7 @@ interface TokenData {
   acr: string;
   'allowed-origins': string[];
   realm_access: { roles: string[] };
-  resource_access: { 'realm-management': { roles: any[] } };
+  resource_access: { 'realm-management': { roles: string[] } };
   scope: string;
   'node-id': string;
   clientId: string;
@@ -42,7 +42,7 @@ export class AuthenticationService {
   ) {
     this.authEnvironment = this.configService.get<
       SettingsModel['ApiAuthOptions']
-    >('ApiAuthOptions', {} as any);
+    >('ApiAuthOptions', {} as SettingsModel['ApiAuthOptions']);
 
     this.jwksClient = new JwksClient({
       jwksUri: this.authEnvironment.JwksCerts,

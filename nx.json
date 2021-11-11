@@ -1,7 +1,7 @@
 {
   "npmScope": "tributech",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "cli": {
     "defaultCollection": "@nrwl/nest"
@@ -30,5 +30,5 @@
       }
     ]
   },
-  "defaultProject": "test"
+  "defaultProject": "tributech-catalog"
 }

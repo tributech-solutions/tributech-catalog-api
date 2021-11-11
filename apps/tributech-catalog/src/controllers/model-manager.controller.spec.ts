@@ -1,4 +1,5 @@
 import { Test } from '@nestjs/testing';
+import { Interface } from '../models/models';
 import { ModelManagerService } from '../services/model-manager.service';
 import { mockProvider } from '../utils/testing.utils';
 import { ModelManagerController } from './model-manager.controller';
@@ -55,7 +56,7 @@ describe('ModelManagerController', () => {
   it('should call modelService to add an entity', () => {
     modelManagerController.addEntity({
       '@id': 'dtmi:io:tributech.test',
-    } as any);
+    } as Interface);
     expect(modelManagerService.addNew).toHaveBeenCalledTimes(1);
     expect(modelManagerService.addNew).toHaveBeenCalledWith({
       '@id': 'dtmi:io:tributech.test',
@@ -66,7 +67,7 @@ describe('ModelManagerController', () => {
     modelManagerController.addEntities([
       {
         '@id': 'dtmi:io:tributech:test;1',
-      } as any,
+      } as Interface,
     ]);
     expect(modelManagerService.addManyNew).toHaveBeenCalledTimes(1);
     expect(modelManagerService.addManyNew).toHaveBeenCalledWith([
