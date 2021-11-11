@@ -1,4 +1,6 @@
 {
   "version": 2,
-  "projects": {}
+  "projects": {
+    "test": "apps/tributech-catalog"
+  }
 }

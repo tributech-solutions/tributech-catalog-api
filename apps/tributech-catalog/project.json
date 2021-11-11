@@ -1,0 +1,52 @@
+{
+  "root": "apps/tributech-catalog",
+  "sourceRoot": "apps/tributech-catalog/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/tributech-catalog",
+        "main": "apps/tributech-catalog/src/main.ts",
+        "tsConfig": "apps/tributech-catalog/tsconfig.app.json",
+        "assets": ["apps/tributech-catalog/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/tributech-catalog/src/environments/environment.ts",
+              "with": "apps/tributech-catalog/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "tributech-catalog:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/tributech-catalog/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/tributech-catalog"],
+      "options": {
+        "jestConfig": "apps/tributech-catalog/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -40,7 +40,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "strip-json-comments": "^3.1.1",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.2",
@@ -48,6 +49,11 @@
     "@nestjs/testing": "^8.0.2",
     "@nrwl/angular": "^13.1.3",
     "@nrwl/cli": "13.1.3",
+    "@nrwl/eslint-plugin-nx": "13.1.3",
+    "@nrwl/jest": "13.1.3",
+    "@nrwl/linter": "13.1.3",
+    "@nrwl/nest": "^13.1.3",
+    "@nrwl/node": "13.1.3",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/tao": "13.1.3",
     "@nrwl/workspace": "13.1.3",
@@ -76,27 +82,5 @@
     "ts-node": "^10.1.0",
     "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": ".",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node",
-    "roots": [
-      "<rootDir>/libs/",
-      "<rootDir>/apps/"
-    ],
-    "moduleNameMapper": {}
   }
 }

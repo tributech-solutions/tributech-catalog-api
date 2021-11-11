@@ -13,8 +13,10 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": "./tributech",
-    "paths": {}
+    "baseUrl": ".",
+    "paths": {},
+    "types": ["reflect-metadata", "jest"],
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
   "exclude": ["node_modules", "tmp"]
 }

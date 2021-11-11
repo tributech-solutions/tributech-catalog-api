@@ -57,6 +57,7 @@ export function installProtoMethods<T>(
       typeof mock[key] !== 'undefined'
     ) {
       mock[key] = jest.fn().mockImplementation(mock[key]);
+      // eslint-disable-next-line no-prototype-builtins
     } else if (descriptor.get && !mock.hasOwnProperty(key)) {
       Object.defineProperty(mock, key, {
         set: (value) => (mock[`_${key}`] = value),
