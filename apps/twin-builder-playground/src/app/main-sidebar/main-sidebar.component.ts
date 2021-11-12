@@ -1,14 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-// import {
-//   faChartNetwork,
-//   faFileAlt,
-//   faFileCode,
-//   faHardHat,
-//   faLock,
-//   faPencilRuler,
-// } from '@fortawesome/pro-light-svg-icons';
+import {
+  faChartLine,
+  faCopy,
+  faFileCode,
+  faHardHat,
+  faPencilRuler,
+} from '@fortawesome/free-solid-svg-icons';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   ConfigService,
@@ -17,7 +16,6 @@ import {
   MessageBrokerService,
   NavigationService,
 } from '@tributech/core';
-// import { ttTwin } from '@tributech/core';
 
 @UntilDestroy()
 @Component({
@@ -33,31 +31,31 @@ export class MainSidebarComponent {
     {
       name: 'Self-Descriptions',
       type: 'menuItem',
-      // icon: faHardHat,
+      icon: faHardHat,
       path: ['/self-descriptions'],
     },
     {
       name: 'Self-Descriptions Workspace',
       type: 'menuItem',
-      // icon: faPencilRuler,
+      icon: faPencilRuler,
       path: ['/model-workspace'],
     },
     {
       name: 'Self-Description Graph',
       type: 'menuItem',
-      // icon: faChartNetwork,
+      icon: faChartLine,
       path: ['/self-description-graph'],
     },
     {
       name: 'Workspace',
       type: 'menuItem',
-      // icon: faPencilRuler,
+      icon: faPencilRuler,
       path: ['/workspace'],
     },
     {
       name: 'Twins',
       type: 'menuItem',
-      // icon: ttTwin,
+      icon: faCopy,
       path: ['/twins'],
     },
     { separator: true },
@@ -66,24 +64,23 @@ export class MainSidebarComponent {
     {
       name: 'Catalog-API',
       type: 'externalLink',
-      // icon: faFileCode,
-      path: this.configService.endpoints.catalogApiUrl + '/api',
+      icon: faFileCode,
+      path: this.configService.endpoints.catalogApiUrl,
     },
     {
       name: 'Twin-API',
       type: 'externalLink',
-      // icon: faFileCode,
+      icon: faFileCode,
       path: this.configService.endpoints.twinApiUrl,
     },
     {
       name: 'Docs',
       type: 'externalLink',
-      // icon: faFileAlt,
+      icon: faFileCode,
       path: this.configService.endpoints.documentationUrl,
     },
   ];
 
-  // faLock = faLock;
   expanded = false;
 
   constructor(

@@ -3,6 +3,6 @@
 /dist
 /coverage
 /reports
-/ssl
+/apps/twin-builder-playground/ssl
 /tools/schemas
 /node_modules

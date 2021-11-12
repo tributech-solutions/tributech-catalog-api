@@ -8,6 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormlyModule } from '@ngx-formly/core';
 import { CatalogApiConfiguration } from '@tributech/catalog-api';
 import {
@@ -91,6 +92,7 @@ export function configureApis(
     InstanceOverviewModule,
     TwinJsonModalModule,
     SelfDescriptionBuilderModule,
+    FontAwesomeModule,
   ],
   providers: [
     { provide: OFFLINE_MODE, useValue: false },

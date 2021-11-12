@@ -12,6 +12,7 @@
     "gen-graphql": "graphql-codegen --config codegen.yml",
     "update-schemas": "ts-node ./tools/scripts/schema-download.ts",
     "serve-playground": "nx serve twin-builder-playground",
+    "serve-secure-playground": "nx serve twin-builder-playground --ssl true",
     "test": "npm run affected:test-all",
     "lint": "npm run affected:lint-all",
     "affected:apps": "nx affected:apps",

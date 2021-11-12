@@ -36,7 +36,7 @@ $main-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($main-theme);
 
-//@import "main";
+@import "main";
 $config: mat-typography-config();
 
 html,

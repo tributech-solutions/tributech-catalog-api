@@ -26,7 +26,7 @@
           "
           (click)="linkClicked(item)"
         >
-          <div class="sidenav__item-icon">
+          <div class="sidenav__item-icon" *ngIf="item?.icon">
             <fa-icon [icon]="item.icon"></fa-icon>
           </div>
           <ng-container *ngIf="expanded">

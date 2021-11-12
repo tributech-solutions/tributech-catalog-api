@@ -45,3 +45,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# certificates
+/apps/twin-builder-playground/ssl/cert.pem
+/apps/twin-builder-playground/ssl/key.pem
+

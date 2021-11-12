@@ -24,6 +24,11 @@ Models can be added to the Catalog API via REST, a default set of models gets lo
 $ npm install
 ```
 
+Generate SSL certificate
+```bash
+$ openssl req -x509 -newkey rsa:2048 -keyout apps/twin-builder-playground/ssl/key.pem -out apps/twin-builder-playground/ssl/cert.pem
+```
+
 ## Running the app
 
 ```bash
