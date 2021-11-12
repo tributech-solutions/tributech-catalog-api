@@ -1,6 +1,6 @@
 {
-  "root": "apps/twin-builder-playground",
-  "sourceRoot": "apps/twin-builder-playground/src",
+  "root": "apps/tributech-catalog-ui",
+  "sourceRoot": "apps/tributech-catalog-ui/src",
   "projectType": "application",
   "prefix": "tributech",
   "targets": {
@@ -15,21 +15,21 @@
           "date-fns",
           "date-fns/*"
         ],
-        "outputPath": "dist/apps/twin-builder-playground",
-        "index": "apps/twin-builder-playground/src/index.html",
-        "main": "apps/twin-builder-playground/src/main.ts",
-        "polyfills": "apps/twin-builder-playground/src/polyfills.ts",
-        "tsConfig": "apps/twin-builder-playground/tsconfig.app.json",
+        "outputPath": "dist/apps/tributech-catalog-ui",
+        "index": "apps/tributech-catalog-ui/src/index.html",
+        "main": "apps/tributech-catalog-ui/src/main.ts",
+        "polyfills": "apps/tributech-catalog-ui/src/polyfills.ts",
+        "tsConfig": "apps/tributech-catalog-ui/tsconfig.app.json",
         "assets": [
-          "apps/twin-builder-playground/src/favicon.ico",
-          "apps/twin-builder-playground/src/assets",
+          "apps/tributech-catalog-ui/src/favicon.ico",
+          "apps/tributech-catalog-ui/src/assets",
           {
             "glob": "**/*",
             "input": "assets/",
             "output": "assets/"
           }
         ],
-        "styles": ["apps/twin-builder-playground/src/styles.scss"],
+        "styles": ["apps/tributech-catalog-ui/src/styles.scss"],
         "scripts": ["node_modules/jsonld/dist/jsonld.min.js"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/theme"]
@@ -45,8 +45,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/twin-builder-playground/src/environments/environment.ts",
-              "with": "apps/twin-builder-playground/src/environments/environment.prod.ts"
+              "replace": "apps/tributech-catalog-ui/src/environments/environment.ts",
+              "with": "apps/tributech-catalog-ui/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
@@ -74,34 +74,34 @@
     "serve": {
       "builder": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "twin-builder-playground:build"
+        "browserTarget": "tributech-catalog-ui:build"
       },
       "configurations": {
         "production": {
-          "browserTarget": "twin-builder-playground:build:production"
+          "browserTarget": "tributech-catalog-ui:build:production"
         }
       }
     },
     "extract-i18n": {
       "builder": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "twin-builder-playground:build"
+        "browserTarget": "tributech-catalog-ui:build"
       }
     },
     "lint": {
       "builder": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "apps/twin-builder-playground/src/**/*.ts",
-          "apps/twin-builder-playground/src/**/*.html"
+          "apps/tributech-catalog-ui/src/**/*.ts",
+          "apps/tributech-catalog-ui/src/**/*.html"
         ]
       }
     },
     "test": {
       "builder": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/twin-builder-playground"],
+      "outputs": ["coverage/apps/tributech-catalog-ui"],
       "options": {
-        "jestConfig": "apps/twin-builder-playground/jest.config.js",
+        "jestConfig": "apps/tributech-catalog-ui/jest.config.js",
         "passWithNoTests": true
       }
     }

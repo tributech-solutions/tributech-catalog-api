@@ -47,6 +47,6 @@ testem.log
 Thumbs.db
 
 # certificates
-/apps/twin-builder-playground/ssl/cert.pem
-/apps/twin-builder-playground/ssl/key.pem
+/apps/tributech-catalog-ui/ssl/cert.pem
+/apps/tributech-catalog-ui/ssl/key.pem
 

@@ -1,7 +1,7 @@
 {
   "name": "tributech-catalog",
   "version": "1.11.0-alpha",
-  "description": "Tributech catalog service used for vocabulary organisation and exchange",
+  "description": "Tributech Catalog",
   "author": "Tributech Solutions GmbH",
   "private": true,
   "scripts": {
@@ -11,8 +11,8 @@
     "generate-connectors": "npx openapi-generator-cli generate && npm run gen-graphql",
     "gen-graphql": "graphql-codegen --config codegen.yml",
     "update-schemas": "ts-node ./tools/scripts/schema-download.ts",
-    "serve-playground": "nx serve twin-builder-playground",
-    "serve-secure-playground": "nx serve twin-builder-playground --ssl true",
+    "serve-ui": "nx serve tributech-catalog-ui",
+    "serve-ui-secure": "nx serve --ssl true tributech-catalog-ui",
     "test": "npm run affected:test-all",
     "lint": "npm run affected:lint-all",
     "affected:apps": "nx affected:apps",
