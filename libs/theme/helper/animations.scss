@@ -1,0 +1,6 @@
+@for $i from 1 through 20 {
+  $delay: $i * 100;
+  .delay--#{$delay} {
+    animation-delay: $delay * 1ms;
+  }
+}

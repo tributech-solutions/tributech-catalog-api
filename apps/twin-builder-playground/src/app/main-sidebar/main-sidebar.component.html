@@ -1,0 +1,49 @@
+<mat-sidenav-container class="content-container" [hasBackdrop]="false">
+  <mat-sidenav
+    mode="over"
+    class="sidenav"
+    opened="true"
+    [class.sidenav--expanded]="expanded"
+    (mouseenter)="expanded = true"
+    (mouseleave)="expanded = false"
+  >
+    <mat-nav-list>
+      <ng-container
+        *ngFor="
+          let item of items;
+          let i = index;
+          trackBy: 'name' | trackByProperty
+        "
+      >
+        <mat-divider class="divider" *ngIf="item.separator"></mat-divider>
+
+        <mat-list-item
+          class="sidenav__item"
+          *ngIf="!item.separator"
+          [routerLink]="item.type === 'externalLink' ? [] : item.path"
+          [routerLinkActive]="
+            item.type === 'externalLink' ? '' : 'sidenav__item--active'
+          "
+          (click)="linkClicked(item)"
+        >
+          <div class="sidenav__item-icon">
+            <fa-icon [icon]="item.icon"></fa-icon>
+          </div>
+          <ng-container *ngIf="expanded">
+            <span class="sidenav__item-name">{{ item.name }} </span>
+            <span *ngIf="item?.preview" class="preview-tag">PREVIEW</span>
+            <mat-icon
+              class="external-link-indicator"
+              *ngIf="item.type === 'externalLink'"
+              >open_in_new</mat-icon
+            >
+          </ng-container>
+        </mat-list-item>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <div class="main-content">
+    <ng-content></ng-content>
+  </div>
+</mat-sidenav-container>

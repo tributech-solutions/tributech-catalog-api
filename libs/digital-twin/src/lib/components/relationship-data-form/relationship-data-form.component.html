@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <formly-form
+    [form]="form"
+    [model]="model"
+    [fields]="fields"
+    [options]="options"
+  >
+  </formly-form>
+
+  <ng-container *ngIf="fields && relationship">
+    <button
+      mat-stroked-button
+      type="submit"
+      color="primary"
+      [disabled]="!form?.dirty || disableEditing"
+    >
+      Apply
+    </button>
+  </ng-container>
+</form>

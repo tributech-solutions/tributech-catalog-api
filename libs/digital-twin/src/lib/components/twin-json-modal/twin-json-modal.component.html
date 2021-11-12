@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Paste Twin Graph</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill" class="textarea">
+    <textarea matInput [(ngModel)]="twinString"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="abort()">Abort</button>
+  <button mat-button [mat-dialog-close]="twinString" cdkFocusInitial>
+    Import
+  </button>
+</div>

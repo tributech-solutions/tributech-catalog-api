@@ -1,0 +1,49 @@
+<ng-container *ngIf="model$ | async as model">
+  <tt-hero-header
+    [label]="model?.displayName"
+    [description]="model.description"
+  ></tt-hero-header>
+
+  <div class="dataset-header">
+    <tt-icon [icon]="faInfo" iconStyle="white"></tt-icon>
+    <span class="dataset-header__text">{{ model["@id"] }}</span>
+    <div class="dataset-header__actions">
+      <button
+        mat-button
+        class="primary-button"
+        (click)="createTwin(model['@id'])"
+      >
+        Create new instance
+      </button>
+    </div>
+  </div>
+
+  <div class="dataset-info">
+    <div class="dataset-info__column">
+      <div class="row mb-2">
+        <div class="col-5">Type</div>
+        <div class="col-7">{{ model["@type"] }}</div>
+      </div>
+      <div class="row mb-2" *ngIf="model?.bases?.length > 0">
+        <div class="col-5">Based on</div>
+        <div class="col-7">
+          <a [routerLink]="['/twins', model?.bases[0]]">{{
+            model?.bases[0]
+          }}</a>
+        </div>
+      </div>
+      <div class="row mb-2" *ngIf="model?.comment">
+        <div class="col-5">Comment</div>
+        <div class="col-7">
+          {{ model.comment }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <tt-twin-instance-table
+    class="instance-table"
+    [dtmi]="model['@id']"
+    (instanceClicked)="editTwin($event?.$dtId)"
+  ></tt-twin-instance-table>
+</ng-container>

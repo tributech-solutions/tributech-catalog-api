@@ -1,0 +1,110 @@
+{
+  "root": "apps/twin-builder-playground",
+  "sourceRoot": "apps/twin-builder-playground/src",
+  "projectType": "application",
+  "prefix": "tributech",
+  "targets": {
+    "build": {
+      "builder": "@angular-devkit/build-angular:browser",
+      "options": {
+        "allowedCommonJsDependencies": [
+          "zen-observable",
+          "lodash",
+          "node-forge",
+          "jsonld-graph",
+          "date-fns",
+          "date-fns/*"
+        ],
+        "outputPath": "dist/apps/twin-builder-playground",
+        "index": "apps/twin-builder-playground/src/index.html",
+        "main": "apps/twin-builder-playground/src/main.ts",
+        "polyfills": "apps/twin-builder-playground/src/polyfills.ts",
+        "tsConfig": "apps/twin-builder-playground/tsconfig.app.json",
+        "assets": [
+          "apps/twin-builder-playground/src/favicon.ico",
+          "apps/twin-builder-playground/src/assets",
+          {
+            "glob": "**/*",
+            "input": "assets/",
+            "output": "assets/"
+          }
+        ],
+        "styles": ["apps/twin-builder-playground/src/styles.scss"],
+        "scripts": ["node_modules/jsonld/dist/jsonld.min.js"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/theme"]
+        },
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/twin-builder-playground/src/environments/environment.ts",
+              "with": "apps/twin-builder-playground/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "builder": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "twin-builder-playground:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "twin-builder-playground:build:production"
+        }
+      }
+    },
+    "extract-i18n": {
+      "builder": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "twin-builder-playground:build"
+      }
+    },
+    "lint": {
+      "builder": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/twin-builder-playground/src/**/*.ts",
+          "apps/twin-builder-playground/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "builder": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/twin-builder-playground"],
+      "options": {
+        "jestConfig": "apps/twin-builder-playground/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

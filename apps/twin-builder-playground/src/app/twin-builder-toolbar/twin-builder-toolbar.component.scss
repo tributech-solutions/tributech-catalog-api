@@ -1,0 +1,17 @@
+@import "variables";
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo-container {
+  background-color: $blue;
+  align-self: flex-start;
+  width: $main-toolbar-height;
+  height: $main-toolbar-height;
+}

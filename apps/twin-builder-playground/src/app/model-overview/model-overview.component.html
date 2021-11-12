@@ -1,0 +1,26 @@
+<!--<tt-hero-header-->
+<!--  label="Self-Descriptions"-->
+<!--  description="Explore and manage all stored self-descriptions of your DSK Node. Self-description allow you to create a custom ontology for a specific use-case, product, company and more."-->
+<!--  [icon]="faHardHat"-->
+<!--&gt;</tt-hero-header>-->
+
+<tt-table
+  [columns]="columns"
+  [pagination]="pagination"
+  [rowData]="rowData$ | async"
+  [showFilter]="true"
+  [noDataHint]="noDataHint"
+  (rowClicked)="goToDetails($event?.model['@id'])"
+>
+</tt-table>
+
+<ng-template #activeCol let-row>
+  <mat-chip-list>
+    <mat-chip class="status status--active" *ngIf="row?.active"
+      >Active</mat-chip
+    >
+    <mat-chip class="status status--revoked" *ngIf="!row?.active"
+      >Revoked</mat-chip
+    >
+  </mat-chip-list>
+</ng-template>

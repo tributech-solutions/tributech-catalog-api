@@ -1,0 +1,21 @@
+<div class="error-header">
+  <!--  <tt-icon-->
+  <!--    class="error-icon"-->
+  <!--    [icon]="faAlert"-->
+  <!--    iconStyle="white"-->
+  <!--    iconState="error"-->
+  <!--  ></tt-icon>-->
+  <fa-icon [icon]="faAlert"></fa-icon>
+  <span class="error-title">{{ $any(error)?.title || 'Error' }}</span>
+</div>
+<div class="error-body">
+  <ng-container *ngFor="let category of $any(error)?.errors | keyvalue">
+    <span>{{ category.key }}</span>
+    <ul>
+      <li *ngFor="let error of category?.value">{{ error }}</li>
+    </ul>
+  </ng-container>
+  <p *ngIf="!$any(error)?.errors">
+    {{ error?.detail || error?.message || error }}
+  </p>
+</div>

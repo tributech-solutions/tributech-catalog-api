@@ -1,0 +1,14 @@
+<tt-hero-header
+  label="Twin-Instances"
+  description="Explore and manage your stored twins."
+></tt-hero-header>
+
+<tt-table
+  [columns]="columns"
+  [pagination]="pagination"
+  [rowData]="rowData$ | async"
+  [showFilter]="true"
+  [noDataHint]="noDataHint"
+  (rowClicked)="goToDetails($event['$dtId'])"
+>
+</tt-table>

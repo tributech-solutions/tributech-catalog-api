@@ -1,0 +1,16 @@
+@import "variables";
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
+  height: calc(100% - 64px);
+  max-height: calc(100% - 64px);
+}

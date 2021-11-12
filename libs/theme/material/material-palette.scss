@@ -1,0 +1,32 @@
+$mat-primary: (
+  50: $mid-blue,
+  100: $blue,
+  200: $dark-blue,
+  contrast: (
+    50: $white,
+    100: $white,
+    200: $white,
+  ),
+);
+
+$mat-accent: (
+  50: $grey-200,
+  100: $grey-300,
+  200: $grey-500,
+  contrast: (
+    50: $white,
+    100: $white,
+    200: $white,
+  ),
+);
+
+$mat-warn: (
+  50: $red-300,
+  100: $red-500,
+  200: $red-700,
+  contrast: (
+    50: $white,
+    100: $white,
+    200: $white,
+  ),
+);

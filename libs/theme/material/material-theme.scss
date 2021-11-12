@@ -1,0 +1,14 @@
+@import "~@angular/material/theming";
+
+@include mat-core();
+
+@import "./material-font.scss";
+@import "./material-palette.scss";
+
+$APP-primary: mat-palette($mat-primary, 100, 50, 200);
+$APP-accent: mat-palette($mat-accent, 100, 50, 200);
+$APP-warn: mat-palette($mat-warn, 100, 50, 200);
+
+$APP-theme: mat-light-theme($APP-primary, $APP-accent, $APP-warn);
+
+@include angular-material-theme($APP-theme);

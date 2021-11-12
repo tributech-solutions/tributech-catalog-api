@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="twin-form">
+  <formly-form
+    [form]="form"
+    [model]="model"
+    [fields]="fields"
+    [options]="options"
+    class="twin-form"
+  >
+  </formly-form>
+
+  <button
+    *ngIf="fields && twin"
+    mat-stroked-button
+    type="submit"
+    color="primary"
+    [disabled]="!form?.dirty || disableEditing"
+  >
+    Apply
+  </button>
+</form>

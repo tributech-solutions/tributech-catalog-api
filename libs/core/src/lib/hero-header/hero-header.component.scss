@@ -1,0 +1,32 @@
+@import "variables";
+
+:host {
+  display: flex;
+  margin: $grid-gutter-base * 5 0 $grid-gutter-base * 5 0;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.hero {
+  &-text {
+    flex: 1;
+  }
+  &-title {
+    color: $blue;
+    margin-bottom: 4 * $grid-gutter-base;
+    line-height: $fs-hero-2;
+    font-size: $fs-hero-2;
+  }
+  &-description {
+    line-height: $fs-h2;
+    font-size: $fs-body-1;
+  }
+
+  &-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 130px;
+    flex: 1;
+  }
+}

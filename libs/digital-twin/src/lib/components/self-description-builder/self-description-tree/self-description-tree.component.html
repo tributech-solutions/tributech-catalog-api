@@ -1,0 +1,138 @@
+<mat-toolbar class="twin-list-header">
+  <mat-toolbar-row>
+    <span>Self-Descriptions</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon>import_export</mat-icon>
+    </button>
+    <button mat-icon-button (click)="createNewInterface()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <form class="search-form">
+      <mat-form-field>
+        <span matPrefix> </span>
+        <input
+          type="text"
+          matInput
+          placeholder="Search"
+          name="search"
+          #filter
+          (keyup)="tree.treeModel.filterNodes(filter.value)"
+        />
+        <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+      </mat-form-field>
+    </form>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<tree-root
+  class="sd-tree"
+  #tree
+  [options]="options"
+  [nodes]="selfDescriptions$ | async"
+  (focus)="sdSelected.emit($event.node?.data)"
+>
+  <ng-template #treeNodeTemplate let-node>
+    <div class="sd-node" (contextmenu)="onContextMenu($event, node?.data)">
+      <div class="sd-label-container">
+        <span
+          class="sd-type"
+          [ngClass]="'sd-type-' + node?.data['@type']?.toLowerCase()"
+          >{{ node.data["@type"] }}</span
+        >
+        <span class="sd-identifier">{{ node.data["@id"] }}</span>
+      </div>
+    </div>
+  </ng-template>
+</tree-root>
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <span mat-menu-item [disabled]="true">{{ item["@id"] }}</span>
+    <button
+      mat-menu-item
+      [matMenuTriggerFor]="addContentMenu"
+      *ngIf="canAddContent()"
+    >
+      Add Content
+    </button>
+    <button
+      mat-menu-item
+      [matMenuTriggerFor]="addSchemaMenu"
+      *ngIf="canAddContent()"
+    >
+      Add Schema
+    </button>
+    <button mat-menu-item>Delete</button>
+    <button mat-menu-item [matMenuTriggerFor]="exportMenu" *ngIf="canExport()">
+      Export
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #addSchemaMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="createNewSchema(SelfDescriptionType.Enum)">
+      Enum
+    </button>
+    <button mat-menu-item (click)="createNewSchema(SelfDescriptionType.Array)">
+      Array
+    </button>
+    <button mat-menu-item (click)="createNewSchema(SelfDescriptionType.Object)">
+      Object
+    </button>
+    <button mat-menu-item (click)="createNewSchema(SelfDescriptionType.Map)">
+      Map
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #addContentMenu="matMenu">
+  <ng-template matMenuContent>
+    <button
+      mat-menu-item
+      (click)="createNewContent(SelfDescriptionType.Property)"
+    >
+      Property
+    </button>
+    <button
+      mat-menu-item
+      (click)="createNewContent(SelfDescriptionType.Relationship)"
+    >
+      Relationship
+    </button>
+    <button
+      mat-menu-item
+      (click)="createNewContent(SelfDescriptionType.Component)"
+    >
+      Component
+    </button>
+    <button
+      mat-menu-item
+      (click)="createNewContent(SelfDescriptionType.Telemetry)"
+    >
+      Telemetry
+    </button>
+    <button
+      mat-menu-item
+      (click)="createNewContent(SelfDescriptionType.Command)"
+    >
+      Command
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #exportMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="exportAsFile()">As File</button>
+    <button mat-menu-item (click)="exportToClipboard()">To Clipboard</button>
+  </ng-template>
+</mat-menu>

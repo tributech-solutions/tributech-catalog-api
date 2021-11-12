@@ -1,0 +1,63 @@
+@import "variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+.sd-tree {
+  padding: 0 $grid-gutter-base;
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sd-node {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sd-label-container {
+  display: block;
+}
+
+.sd-type {
+  background-color: gray;
+  padding: 2px;
+  font-size: 12px;
+  border: 1px solid gray;
+  border-radius: 2px;
+  &-interface {
+    background-color: #29b6f6;
+  }
+  &-property {
+    background-color: #43a047;
+    color: white;
+  }
+  &-relationship {
+    background-color: #fb8c00;
+  }
+  &-telemetry {
+    background-color: #607d8b;
+    color: white;
+  }
+  &-component {
+    background-color: #d32f2f;
+  }
+  &-enum,
+  &-map,
+  &-object,
+  &-array {
+    background-color: #6a1b9a;
+    color: white;
+  }
+}
+
+.sd-identifier {
+  margin-left: 4px;
+}

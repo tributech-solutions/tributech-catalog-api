@@ -1,0 +1,45 @@
+@import "libs/theme/variables";
+
+:host {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  max-height: 100%;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+.twin {
+  &-list {
+    background-color: white;
+    overflow: hidden;
+  }
+
+  &-graph {
+    width: 100%;
+  }
+
+  &-form {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &-detail {
+    overflow-y: auto;
+    position: relative;
+
+    &-close {
+      position: absolute;
+      right: $grid-gutter-base;
+      top: $grid-gutter-base;
+    }
+  }
+}

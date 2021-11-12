@@ -1,6 +1,11 @@
 {
   "version": 2,
   "projects": {
-    "tributech-catalog": "apps/tributech-catalog"
+    "tributech-catalog": "apps/tributech-catalog",
+    "twin-builder-playground": "apps/twin-builder-playground",
+    "connectors-catalog-api": "libs/connectors/catalog-api",
+    "connectors-twin-api": "libs/connectors/twin-api",
+    "digital-twin": "libs/digital-twin",
+    "core": "libs/core"
   }
 }

@@ -1,0 +1,7 @@
+{
+  "root": "libs/connectors/twin-api",
+  "sourceRoot": "libs/connectors/twin-api/src",
+  "projectType": "library",
+  "prefix": "tt",
+  "tags": []
+}

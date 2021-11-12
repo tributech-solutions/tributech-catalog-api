@@ -1,0 +1,19 @@
+@import "variables";
+
+:host {
+  display: block;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 0 15px;
+  margin-bottom: 4rem;
+}
+
+.status {
+  &--active {
+    background-color: $status-green;
+  }
+
+  &--revoked {
+    background-color: $status-red;
+  }
+}
