@@ -8,14 +8,15 @@ WORKDIR /app
 
 COPY package.json ./
 COPY yarn.lock ./
+COPY workspace.json ./
 
-COPY apps/tributech-catalog ./
+COPY apps/tributech-catalog ./apps/tributech-catalog
 
 # ensure NODE_ENV is not set to production as
 # otherwise we do not install devDependencies
 RUN yarn install --frozen-lockfile
 
-RUN yarn run build
+RUN yarn run build-api
 
 FROM base as final
 EXPOSE 3000
@@ -26,7 +27,5 @@ ENV NODE_ENV=${NODE_ENV}
 COPY --from=build /app/package.json ./
 COPY --from=build /app/yarn.lock ./
 COPY --from=build /app/dist ./
-
-RUN yarn install --frozen-lockfile
 
 CMD ["node", "main.js"]
