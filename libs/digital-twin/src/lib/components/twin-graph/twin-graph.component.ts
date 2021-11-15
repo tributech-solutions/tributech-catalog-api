@@ -10,14 +10,14 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ClusterNode, Edge, GraphComponent, Node } from '@swimlane/ngx-graph';
 import { DialogService } from '@tributech/core';
+import {
+  ExpandedInterface,
+  TwinInstance,
+  TwinRelationship,
+} from '@tributech/self-description';
 import { groupBy } from 'lodash';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import {
-  BaseDigitalTwin,
-  BasicRelationship,
-  ExpandedTwinModel,
-} from '../../models/data.model';
 import { ModelQuery } from '../../services/store/model.query';
 import { RelationshipQuery } from '../../services/store/relationship.query';
 import { TwinQuery } from '../../services/store/twin.query';
@@ -36,8 +36,8 @@ export enum GraphMode {
 export class TwinGraphComponent implements OnInit, OnDestroy {
   @Input() mode: GraphMode = GraphMode.TWINS;
   @Input() disableToggle: boolean;
-  @Output() twinSelected = new EventEmitter<BaseDigitalTwin>();
-  @Output() modelSelected = new EventEmitter<ExpandedTwinModel>();
+  @Output() twinSelected = new EventEmitter<TwinInstance>();
+  @Output() modelSelected = new EventEmitter<ExpandedInterface>();
 
   @ViewChild('twinGraph') twinGraph: GraphComponent;
 
@@ -108,9 +108,9 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  _twinSelected(twin: { twin: BaseDigitalTwin | ExpandedTwinModel }) {
+  _twinSelected(twin: { twin: TwinInstance | ExpandedInterface }) {
     if (this.mode === GraphMode.MODELS) {
-      this.modelSelected.emit(twin?.twin as ExpandedTwinModel);
+      this.modelSelected.emit(twin?.twin as ExpandedInterface);
       return;
     }
     this.twinSelected.emit(twin?.twin);
@@ -120,7 +120,7 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
     this.centerGraphSubject.next();
   }
 
-  private generateModelGraph(twins: ExpandedTwinModel[]): [Node[], Edge[]] {
+  private generateModelGraph(twins: ExpandedInterface[]): [Node[], Edge[]] {
     const nodes = twins.map((twin) => ({
       id: twin?.['@id'],
       label: twin?.displayName || twin?.['@id'],
@@ -158,7 +158,7 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
     return [nodes, [...relationships, ...inheritanceRels]];
   }
 
-  private mapToNodes(twins: BaseDigitalTwin[]): Node[] {
+  private mapToNodes(twins: TwinInstance[]): Node[] {
     return twins.map((twin) => ({
       id: twin?.$dtId,
       label: twin?.Name || twin?.$dtId,
@@ -167,7 +167,7 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
     }));
   }
 
-  private mapToEdges(relationships: BasicRelationship): Edge[] {
+  private mapToEdges(relationships: TwinRelationship): Edge[] {
     return relationships.map((rel) => ({
       id: rel?.$dtId,
       label: rel?.$relationshipName,
@@ -177,7 +177,7 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
     }));
   }
 
-  private mapToClusters(twins: BaseDigitalTwin[]): ClusterNode[] {
+  private mapToClusters(twins: TwinInstance[]): ClusterNode[] {
     const groups = groupBy(twins, (twin) => twin?.$metadata?.$model);
 
     return Object.entries(groups).map(([modelType, twinGroup]) => ({

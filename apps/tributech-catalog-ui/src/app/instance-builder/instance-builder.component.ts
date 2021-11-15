@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  BaseDigitalTwin,
-  BasicRelationship,
-  LoadService,
-} from '@tributech/digital-twin';
+import { LoadService } from '@tributech/digital-twin';
+import { TwinInstance, TwinRelationship } from '@tributech/self-description';
 
 @Component({
   selector: 'tributech-instance-builder',
@@ -11,8 +8,8 @@ import {
   styleUrls: ['./instance-builder.component.scss'],
 })
 export class InstanceBuilderComponent implements OnInit {
-  selectedTwin: BaseDigitalTwin;
-  selectedRelationships: BasicRelationship[];
+  selectedTwin: TwinInstance;
+  selectedRelationships: TwinRelationship[];
 
   constructor(private modelLoadService: LoadService) {}
 
@@ -20,12 +17,12 @@ export class InstanceBuilderComponent implements OnInit {
     this.modelLoadService.loadRemoteBaseModels();
   }
 
-  twinClicked(twin: BaseDigitalTwin) {
+  twinClicked(twin: TwinInstance) {
     this.selectedRelationships = null;
     this.selectedTwin = twin;
   }
 
-  relationshipSelected(relationships: BasicRelationship[]) {
+  relationshipSelected(relationships: TwinRelationship[]) {
     this.selectedTwin = null;
     this.selectedRelationships = relationships;
   }

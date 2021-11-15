@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { isArray } from '@datorama/akita';
 import { DialogService, uuidv4 } from '@tributech/core';
+import { createETag } from '@tributech/self-description';
 import {
   DigitalTwin,
   Relationship,
@@ -23,9 +24,7 @@ import { RelationshipService } from '../../services/store/relationship.service';
 import { SelfDescriptionService } from '../../services/store/self-description/self-description.service';
 import { TwinQuery } from '../../services/store/twin.query';
 import { TwinService } from '../../services/store/twin.service';
-import { createETag } from '../../utils/utils';
 import { OFFLINE_MODE } from './twin-builder.settings';
-import { TwinInstanceBuilderQuery } from './twin-instance-builder.query';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +55,6 @@ export class TwinBuilderService {
 
   constructor(
     private modelLoadService: LoadService,
-    private twinInstanceBuilderQuery: TwinInstanceBuilderQuery,
     private twinService: TwinService,
     private twinAPIService: TwinsService,
     private twinQuery: TwinQuery,

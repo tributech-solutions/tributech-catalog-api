@@ -6,12 +6,15 @@ import {
 } from '@angular/material/tree';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Relationship as RelationshipModel } from '@tributech/catalog-api';
+import {
+  createEmptyTwin,
+  ExpandedInterface,
+  RelationType,
+} from '@tributech/self-description';
 import { DigitalTwin } from '@tributech/twin-api';
 import { omit } from 'lodash';
 import { Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
-import { RelationType } from '../../models/constants';
-import { ExpandedTwinModel } from '../../models/data.model';
 import { ExportService } from '../../services/export.service';
 import { LoadService } from '../../services/load.service';
 import { ModelQuery } from '../../services/store/model.query';
@@ -24,7 +27,6 @@ import {
   TwinTreeNode,
 } from '../../services/store/twin.query';
 import { TwinService } from '../../services/store/twin.service';
-import { createEmptyTwin } from '../../utils/utils';
 import { TwinBuilderService } from '../twin-instance-builder/twin-builder.service';
 
 interface TwinFlatNode {
@@ -115,7 +117,7 @@ export class TwinTreeComponent implements OnInit {
     this.twinBuilderService.selectRelationships(rels);
   }
 
-  addTwin(model: ExpandedTwinModel) {
+  addTwin(model: ExpandedInterface) {
     const newTwin = createEmptyTwin(model?.['@id']);
     this.twinBuilderService.saveTwin(newTwin);
     this.twinBuilderService.selectTwin(newTwin);
@@ -141,7 +143,7 @@ export class TwinTreeComponent implements OnInit {
   addTwinViaRelationship(
     rel: RelationshipModel,
     source: DigitalTwin,
-    target: ExpandedTwinModel
+    target: ExpandedInterface
   ) {
     const newTwin = createEmptyTwin(target?.['@id']);
     this.twinBuilderService.addTwinViaRelation(source, rel?.name, newTwin);

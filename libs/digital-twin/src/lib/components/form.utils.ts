@@ -1,18 +1,18 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { uuidv4 } from '@tributech/core';
-import { filter } from 'lodash';
 import {
   EnumSchema,
-  ExpandedTwinModel,
+  ExpandedInterface,
   Field,
   MapSchema,
   ObjectSchema,
   Property,
-} from '../models/data.model';
+} from '@tributech/self-description';
+import { filter } from 'lodash';
 
 export function convertToFormConfig(
   properties: Property[],
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ): FormlyFieldConfig[] {
   if (!properties) return [];
 
@@ -27,7 +27,7 @@ export function convertToFormConfig(
 
 function processPropertyEntry(
   propertyData: Property,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ) {
   switch (propertyData?.schema) {
     case 'dtmi:dtdl:instance:Schema:duration;2':
@@ -54,7 +54,7 @@ function processPropertyEntry(
   }
 }
 
-function processFieldEntry(fieldData: Field, parent?: ExpandedTwinModel) {
+function processFieldEntry(fieldData: Field, parent?: ExpandedInterface) {
   switch (fieldData?.schema) {
     case 'dtmi:dtdl:instance:Schema:boolean;2':
     case 'boolean':
@@ -80,7 +80,7 @@ function processFieldEntry(fieldData: Field, parent?: ExpandedTwinModel) {
 
 function processComplexPropertyEntry(
   propertyData: Property,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ) {
   switch (propertyData?.schema?.['@type']) {
     case 'Object':
@@ -98,7 +98,7 @@ function processComplexPropertyEntry(
 
 function getDefaultForSpecialFields(
   propertyData: Property | Field,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ) {
   switch (propertyData?.name) {
     case 'ValueMetadataId':
@@ -112,7 +112,7 @@ function getDefaultForSpecialFields(
 
 function createStringInput(
   propertyData: Property | Field,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ): FormlyFieldConfig {
   return {
     type: 'input',
@@ -132,7 +132,7 @@ function createStringInput(
 
 function createBooleanInput(
   propertyData: Property | Field,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ): FormlyFieldConfig {
   return {
     type: 'checkbox',
@@ -151,7 +151,7 @@ function createBooleanInput(
 
 function createNumberInput(
   propertyData: Property | Field,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ): FormlyFieldConfig {
   return {
     type: 'input',
@@ -171,7 +171,7 @@ function createNumberInput(
 
 function createEnumFormField(
   propertyData: Property,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ): FormlyFieldConfig {
   const enumSchema: EnumSchema = propertyData?.schema as EnumSchema;
   const enumValues = enumSchema?.enumValues;
@@ -197,7 +197,7 @@ function createEnumFormField(
 
 function createObjectFormField(
   propertyData: Property,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ): FormlyFieldConfig {
   const objectSchema = propertyData?.schema as ObjectSchema;
 
@@ -221,7 +221,7 @@ function createObjectFormField(
 
 function createMapFormField(
   propertyData: Property,
-  parent?: ExpandedTwinModel
+  parent?: ExpandedInterface
 ): FormlyFieldConfig {
   const mapSchema = propertyData?.schema as MapSchema;
 

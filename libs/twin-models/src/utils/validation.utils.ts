@@ -1,11 +1,6 @@
-import { JSONSchemaType, PartialSchema } from 'ajv/dist/types/json-schema';
 import { forEach } from 'lodash';
-import {
-  ExpandedInterface,
-  Interface,
-  Property,
-  TwinRelationship,
-} from '../models/models';
+import { JSONSchema } from '../models/json-schema';
+import { ExpandedInterface, Property } from '../models/models';
 import {
   ArraySchema,
   EnumSchema,
@@ -20,10 +15,8 @@ import { DTMI_REGEX } from './dtml.utils';
  * Basic generation for relationship validation
  * For now we only check if targetId and sourceId are possible.
  */
-export function getRelationshipJSONSchema(
-  validTwinIds: string[]
-): PartialSchema<TwinRelationship> {
-  const properties: JSONSchemaType<Interface>['properties'] = {};
+export function getRelationshipJSONSchema(validTwinIds: string[]): JSONSchema {
+  const properties: JSONSchema['properties'] = {};
 
   properties['$relationshipId'] = {
     type: 'string',
@@ -47,7 +40,7 @@ export function getRelationshipJSONSchema(
     type: 'string',
   };
 
-  const schema: PartialSchema<Interface> = {
+  const schema: JSONSchema = {
     type: 'object',
     properties,
     required: [
@@ -63,10 +56,8 @@ export function getRelationshipJSONSchema(
   return schema;
 }
 
-export function generateJSONSchema(
-  model: ExpandedInterface
-): PartialSchema<Interface> {
-  const properties: JSONSchemaType<Interface>['properties'] = {};
+export function generateJSONSchema(model: ExpandedInterface): JSONSchema {
+  const properties: JSONSchema['properties'] = {};
 
   properties['$dtId'] = {
     type: 'string',
@@ -94,7 +85,7 @@ export function generateJSONSchema(
     };
   });
 
-  const schema: PartialSchema<Interface> = {
+  const schema: JSONSchema = {
     type: 'object',
     properties,
     required: ['$dtId', '$etag', '$metadata'],
@@ -140,7 +131,7 @@ function processComplexPropertyEntry(schema: Schema) {
     }
     case 'Object': {
       const data = schema as ObjectSchema;
-      const properties: JSONSchemaType<Interface>['properties'] = {};
+      const properties: JSONSchema['properties'] = {};
 
       forEach(data?.fields, (field: Field) => {
         if (!field?.name) return;

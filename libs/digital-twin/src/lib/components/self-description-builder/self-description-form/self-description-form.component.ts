@@ -10,8 +10,8 @@ import { FormGroup } from '@angular/forms';
 import { isArray } from '@datorama/akita';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { DialogService } from '@tributech/core';
+import { SelfDescription } from '@tributech/self-description';
 import { isEqual, isNil, omitBy } from 'lodash';
-import { SelfDescription } from '../../../models/data.model';
 import { SelfDescriptionFormService } from '../self-description-form.service';
 
 @Component({

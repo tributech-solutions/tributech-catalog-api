@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { SelfDescription, SelfDescriptionType } from '../../models/data.model';
+import {
+  SelfDescription,
+  SelfDescriptionType,
+} from '@tributech/self-description';
 import { SelfDescriptionQuery } from '../../services/store/self-description/self-description.query';
 import { DEFAULT_FIELDS_COMMAND } from './self-description-form/form-configs/command.model';
 import { DEFAULT_FIELDS } from './self-description-form/form-configs/common.model';

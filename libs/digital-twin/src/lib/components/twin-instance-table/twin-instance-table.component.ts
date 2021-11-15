@@ -5,11 +5,11 @@ import {
   TableNoDataHint,
   TablePaginationSettings,
 } from '@tributech/core';
+import { convertDTMIToNeo4jLabel } from '@tributech/self-description';
 import { DigitalTwin, QueryService, TwinsService } from '@tributech/twin-api';
 import { isString } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { convertDTMIToNeo4jLabel } from '../../utils/utils';
 
 @Component({
   selector: 'tt-twin-instance-table',

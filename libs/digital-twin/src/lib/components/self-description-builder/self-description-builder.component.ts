@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SelfDescription } from '../../models/data.model';
+import { SelfDescription } from '@tributech/self-description';
 import { SelfDescriptionService } from '../../services/store/self-description/self-description.service';
 import { CreateNewSelfDescriptionPayload } from './self-description-tree/self-description-tree.component';
 

@@ -9,6 +9,5 @@ export * from './utils/enum.utils';
 export * from './utils/model.utils';
 export * from './utils/schema.utils';
 export * from './utils/sd.utils';
-export * from './utils/testing.utils';
 export * from './utils/validation.utils';
 export * from './utils/vertex.utils';

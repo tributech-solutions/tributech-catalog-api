@@ -2,12 +2,12 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ITreeOptions, TreeNode } from '@circlon/angular-tree-component';
 import { UtilsService } from '@tributech/core';
-import { Observable } from 'rxjs';
 import {
   isInterfaceSD,
   SelfDescription,
   SelfDescriptionType,
-} from '../../../models/data.model';
+} from '@tributech/self-description';
+import { Observable } from 'rxjs';
 import { ExportService } from '../../../services/export.service';
 import { ensureIDPresent } from '../../../services/store/self-description/self-description.normalizer';
 import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';

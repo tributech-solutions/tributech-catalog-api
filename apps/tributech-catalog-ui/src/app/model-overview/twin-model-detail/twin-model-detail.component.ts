@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filterNilValue } from '@datorama/akita';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { DtdlModelsService, ExpandedInterface } from '@tributech/catalog-api';
-import { createEmptyTwin, TwinBuilderService } from '@tributech/digital-twin';
+import { TwinBuilderService } from '@tributech/digital-twin';
+import { createEmptyTwin } from '@tributech/self-description';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

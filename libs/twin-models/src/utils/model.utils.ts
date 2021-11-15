@@ -1,6 +1,10 @@
 import { Vertex } from 'jsonld-graph';
 import { Complete, SelfDescription } from '../models/common';
-import { ContextType, TwinContentType } from '../models/constants';
+import {
+  ContextType,
+  SelfDescriptionType,
+  TwinContentType,
+} from '../models/constants';
 import {
   Command,
   Component,
@@ -177,6 +181,7 @@ export function expandInterface(v: Vertex): ExpandedInterface {
   return {
     '@context': ContextType.DTDL2,
     ...getBaseModelPropertiesFromVertex(v),
+    '@type': SelfDescriptionType.Interface,
     properties: getContentFromVertex(v, TwinContentType.Property) as Property[],
     relationships: getContentFromVertex(
       v,

@@ -202,7 +202,10 @@ export class SelfDescriptionService {
 
   private processComponent = (value: Component, parentInterface: Interface) => {
     if (isObject(value?.schema)) {
-      const nestedInterface = ensureIDPresent(value?.schema, value?.['@id']);
+      const nestedInterface = ensureIDPresent(
+        value?.schema as any,
+        value?.['@id']
+      );
       this.normalizeInterface(nestedInterface as Interface);
       value.schema = nestedInterface?.['@id'] as any;
     }

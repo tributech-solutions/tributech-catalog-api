@@ -17,7 +17,6 @@ import { TwinQuery } from '../../services/store/twin.query';
 import { TwinService } from '../../services/store/twin.service';
 import { TwinBuilderService } from './twin-builder.service';
 import { OFFLINE_MODE } from './twin-builder.settings';
-import { TwinInstanceBuilderQuery } from './twin-instance-builder.query';
 
 describe('TwinBuilderService', () => {
   let spectator: SpectatorService<TwinBuilderService>;
@@ -29,7 +28,6 @@ describe('TwinBuilderService', () => {
         useValue: true,
       },
       mockProvider(LoadService),
-      mockProvider(TwinInstanceBuilderQuery),
       mockProvider(TwinService),
       mockProvider(TwinsService),
       mockProvider(TwinQuery),

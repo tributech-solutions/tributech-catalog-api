@@ -26,7 +26,6 @@ import { TwinGraphModule } from '../twin-graph/twin-graph.module';
 import { TwinTreeModule } from '../twin-tree/twin-tree.module';
 import { OFFLINE_MODE } from './twin-builder.settings';
 import { TwinInstanceBuilderComponent } from './twin-instance-builder.component';
-import { TwinInstanceBuilderQuery } from './twin-instance-builder.query';
 
 describe('TwinInstanceBuilderComponent', () => {
   let spectator: Spectator<TwinInstanceBuilderComponent>;
@@ -58,7 +57,6 @@ describe('TwinInstanceBuilderComponent', () => {
     ],
     mocks: [
       NavigationService,
-      TwinInstanceBuilderQuery,
       TwinService,
       TwinsService,
       TwinQuery,
