@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TwinDataModel } from '../models/data.model';
+import { TwinFileModel } from '@tributech/self-description';
 import { ModelQuery } from './store/model.query';
 import { RelationshipQuery } from './store/relationship.query';
 import { TwinQuery } from './store/twin.query';
@@ -20,7 +20,7 @@ export class ExportService {
   }
 
   save() {
-    const data = new TwinDataModel();
+    const data = new TwinFileModel();
 
     data.digitalTwinsGraph.digitalTwins = this.twinQuery.getAll();
     data.digitalTwinsGraph.relationships = this.relationshipQuery.getAll();

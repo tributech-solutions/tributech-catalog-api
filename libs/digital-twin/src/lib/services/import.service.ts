@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DigitalTwinModel, TwinModel } from '../models/data.model';
+import { Interface, TwinGraph } from '@tributech/self-description';
 import { ModelService } from './store/model.service';
 import { RelationshipService } from './store/relationship.service';
 import { TwinService } from './store/twin.service';
@@ -12,14 +12,14 @@ export class ImportService {
     private relationshipService: RelationshipService
   ) {}
 
-  importModels(models: TwinModel[]) {
+  importModels(models: Interface[]) {
     if (!models || models?.length === 0) {
       return;
     }
     this.modelService.addModels(models);
   }
 
-  importInstances(twin: DigitalTwinModel) {
+  importInstances(twin: TwinGraph) {
     if (!twin?.digitalTwins || twin?.digitalTwins.length === 0) {
       return;
     }

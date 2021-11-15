@@ -2,16 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ManageModelsService, ModelEntity } from '@tributech/catalog-api';
 import { DialogService, FileService, ReadType, uuidv4 } from '@tributech/core';
+import {
+  ensureIsTwinGraph,
+  Interface,
+  isValidModel,
+  mapToRelevantData,
+  TwinFileModel,
+  TwinGraph,
+} from '@tributech/self-description';
 import { to } from 'await-to-js';
 import { every as _every } from 'lodash';
 import { take } from 'rxjs/operators';
 import { TwinJsonModalComponent } from '../components/twin-json-modal/twin-json-modal.component';
-import { DigitalTwinModel, Interface, TwinModel } from '../models/data.model';
-import {
-  ensureIsValidTwinFile,
-  isValidModel,
-  mapToRelevantData,
-} from '../utils/utils';
 import { ImportService } from './import.service';
 
 @Injectable({ providedIn: 'root' })
@@ -99,7 +101,7 @@ export class LoadService {
     return this.importTwinFile(twin);
   }
 
-  async importModels(twinModels: TwinModel[]) {
+  async importModels(twinModels: Interface[]) {
     if (!_every(twinModels, (twin) => isValidModel(twin))) {
       return Promise.reject('Some models are invalid, aborting import.');
     }
@@ -119,10 +121,10 @@ export class LoadService {
     return this.importTwinFile(twin);
   }
 
-  async importTwinFile(twinData: DigitalTwinModel) {
+  async importTwinFile(twinData: TwinFileModel | TwinGraph) {
     const twin = mapToRelevantData(twinData);
 
-    if (!ensureIsValidTwinFile(twin)) {
+    if (!ensureIsTwinGraph(twin)) {
       return Promise.reject('Invalid twin file, aborting import...');
     }
 
@@ -139,8 +141,8 @@ export class LoadService {
     return this.parseTwinString(twinString as string);
   }
 
-  private parseTwinString(twinString: string): Promise<DigitalTwinModel> {
-    let twinFile: DigitalTwinModel;
+  private parseTwinString(twinString: string): Promise<TwinGraph> {
+    let twinFile: TwinGraph;
 
     try {
       twinFile = JSON.parse(twinString);
@@ -150,7 +152,7 @@ export class LoadService {
 
     const twin = mapToRelevantData(twinFile);
 
-    if (!ensureIsValidTwinFile(twin)) {
+    if (!ensureIsTwinGraph(twin)) {
       return Promise.reject('Uploaded file is not a valid twin file!');
     }
 

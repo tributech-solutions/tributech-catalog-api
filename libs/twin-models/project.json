@@ -1,0 +1,7 @@
+{
+  "root": "libs/twin-models",
+  "sourceRoot": "libs/twin-models/src",
+  "projectType": "library",
+  "prefix": "tt",
+  "tags": []
+}

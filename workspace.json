@@ -6,6 +6,7 @@
     "connectors-catalog-api": "libs/connectors/catalog-api",
     "connectors-twin-api": "libs/connectors/twin-api",
     "digital-twin": "libs/digital-twin",
+    "twin-models": "libs/twin-models",
     "core": "libs/core"
   }
 }
