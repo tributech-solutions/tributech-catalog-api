@@ -10,6 +10,8 @@
     "prebuild": "rimraf dist",
     "generate-connectors": "npx openapi-generator-cli generate",
     "update-schemas": "ts-node ./tools/scripts/schema-download.ts",
+    "start": "nx run-many --target=serve --projects=tributech-catalog,tributech-catalog-ui --parallel",
+    "serve-api": "nx serve tributech-catalog",
     "serve-ui": "nx serve tributech-catalog-ui",
     "serve-ui-secure": "nx serve --ssl true tributech-catalog-ui",
     "test": "npm run affected:test-all",

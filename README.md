@@ -1,14 +1,24 @@
 # Tributech Catalog
+The Tributech Catalog Monorepo is part of the [Tributech](https://tributech.io) open-source stack. It offers the possibility to create a custom vocabulary based on the [Digital Twin Definition Language](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md) that can be used to construct a domain specific knowledge graph. Models can be revoked or updated once added. 
 
-## Description
-The Tributech catalog gets used to store, exchange and manage vocabulary written in the [Digital Twin Definition Language](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md).
+The data model can than be used to create instances of the data that can be inserted into the [Twin-API](https://github.com/tributech-solutions/tributech-twin-api) that is also part of the open-source stack. To find out what can be queried from the Twin-API you can use the meta-queries offered by the Catalog-API that is part of this repository.
 
-Responsibilities:
-- Store models
-- Validate models
-- Retrieve models
-- Get related models
-- Exchange/Sync models with other catalog nodes
+<a href="https://raw.githubusercontent.com/tributech-solutions/tributech-catalog-api/develop/docs/assets/model-builder.png"><img src="https://raw.githubusercontent.com/tributech-solutions/tributech-catalog-api/develop/docs/assets/model-builder.png" width="550" alt="Tributech Catalog UI Screenshot"></a>
+
+
+## Projects
+
+* Tributech Catalog API
+  * Backend for the Catalog UI
+  * OpenAPI endpoints to manage DTDL models
+* Tributech Catalog UI
+  * Graphical Interface Webapp
+  * Create, view, edit and delete DTDL models
+  * Create, view, edit and delete instances
+
+### State of the projects
+Both projects of this repository are used in production to power the [Tributech DataSpace Kit](https://www.tributech.io/product/dataspace-kit).
+
 
 ## Models
 
@@ -20,11 +30,20 @@ Models can be added to the Catalog API via REST, a default set of models gets lo
 
 ## Installation
 
+Install dependencies
 ```bash
-$ npm install
+$ yarn install
 ```
 
-Generate SSL certificate
+Generate API-Connectors
+```bash
+$ npm run generate-connectors
+```
+
+Configure 
+
+### HTTPS
+Generate certificate to serve frontend via Self-Signed Certificate
 ```bash
 $ openssl req -x509 -newkey rsa:2048 -keyout apps/twin-builder-playground/ssl/key.pem -out apps/twin-builder-playground/ssl/cert.pem
 ```
@@ -32,11 +51,9 @@ $ openssl req -x509 -newkey rsa:2048 -keyout apps/twin-builder-playground/ssl/ke
 ## Running the app
 
 ```bash
-# development
+# development 
 $ npm run start
 
-# watch mode
-$ npm run start:dev
 
 # if running with Ubuntu using WSL2 under Windows you might have to set different IP binding
 $ HOST=0.0.0.0 npm run start

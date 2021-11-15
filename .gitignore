@@ -53,3 +53,4 @@ Thumbs.db
 # generated files
 /libs/connectors/catalog-api/src/**/*
 /libs/connectors/twin-api/src/**/*
+**/*/config.dev.json

@@ -1,16 +1,7 @@
 {
   "endpoints": {
-    "identityServerUrl": "https://auth.dev.dataspace-hub.com/auth/realms",
-    "keycloakApiUrl": "https://auth.dev.dataspace-hub.com/auth/admin/realms",
-    "documentationUrl": "https://docs.tributech.io",
-    "supportCenterUrl": "https://tributech.atlassian.net/servicedesk/customer/portals",
-    "catalogApiUrl": "https://catalog-api.dev-node-a.dataspace-node.com",
-    "twinApiUrl": "https://twin-api.dev-node-a.dataspace-node.com"
-  },
-  "realm": {
-    "name": "dev-node-a"
-  },
-  "authorizationConfig": {
-    "tributech_dsk_node_id": "6d94960d-3f24-4b6d-a56e-317dce752661"
+    "identityServerUrl": "Your Identity Server (OpenId Connect) Url",
+    "catalogApiUrl": "http://localhost:3000/api",
+    "twinApiUrl": "http://localhost:5000/"
   }
 }

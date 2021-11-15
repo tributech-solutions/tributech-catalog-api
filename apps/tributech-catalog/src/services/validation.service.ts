@@ -2,11 +2,10 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   generateJSONSchema,
   getRelationshipJSONSchema,
-  Interface,
 } from '@tributech/self-description';
 import Ajv, { ErrorObject } from 'ajv';
-import { PartialSchema } from 'ajv/dist/types/json-schema';
 import { every, forEach } from 'lodash';
+import { JSONSchema } from '../../../../libs/twin-models/src/models/json-schema';
 import { TwinGraph, TwinInstance, TwinRelationship } from '../models/models';
 import {
   SchemaErrorObject,
@@ -21,7 +20,7 @@ export class ValidationService {
 
   constructor(private modelGraphService: ModelGraphService) {}
 
-  getJSONSchema(dtmi: string): PartialSchema<Interface> {
+  getJSONSchema(dtmi: string): JSONSchema {
     this.logger.verbose(`Return model entity for ${dtmi}.`);
     const model = this.modelGraphService.getExpanded(dtmi);
     if (!model) {
@@ -33,7 +32,7 @@ export class ValidationService {
   validateInstance(instance: TwinInstance): SchemaValidationError {
     const dtmi = instance?.$metadata?.$model;
     if (!dtmi) throw new ValidationError('No model metadata!');
-    const schema: PartialSchema<Interface> = this.getJSONSchema(dtmi);
+    const schema: JSONSchema = this.getJSONSchema(dtmi);
     const ajv = new Ajv();
     const validate = ajv.compile(schema);
     const valid = validate(instance);
@@ -84,8 +83,7 @@ export class ValidationService {
     relationship: TwinRelationship,
     validTwinIds: string[]
   ): SchemaValidationError {
-    const schema: PartialSchema<TwinRelationship> =
-      getRelationshipJSONSchema(validTwinIds);
+    const schema: JSONSchema = getRelationshipJSONSchema(validTwinIds);
     const ajv = new Ajv();
     const validate = ajv.compile(schema);
     const valid = validate(relationship);
