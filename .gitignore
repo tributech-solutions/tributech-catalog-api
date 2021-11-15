@@ -50,3 +50,6 @@ Thumbs.db
 /apps/tributech-catalog-ui/ssl/cert.pem
 /apps/tributech-catalog-ui/ssl/key.pem
 
+# generated files
+/libs/connectors/catalog-api/src/**/*
+/libs/connectors/twin-api/src/**/*
