@@ -1,7 +1,13 @@
 {
   "endpoints": {
-    "identityServerUrl": "Your Identity Server (OpenId Connect) Url",
-    "catalogApiUrl": "http://localhost:3000/api",
-    "twinApiUrl": "http://localhost:5000/"
+    "identityServerUrl": "https://auth.dev.dataspace-hub.com/auth/realms",
+    "catalogApiUrl": "https://catalog-api.dev-node-a.dataspace-node.com",
+    "twinApiUrl": "https://twin-api.dev-node-a.dataspace-node.com"
+  },
+  "realm": {
+    "name": "dev-node-a"
+  },
+  "authorizationConfig": {
+    "tributech_dsk_node_id": "6d94960d-3f24-4b6d-a56e-317dce752661"
   }
 }

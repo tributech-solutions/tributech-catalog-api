@@ -17,12 +17,14 @@ The data model can than be used to create instances of the data that can be inse
   * Create, view, edit and delete instances
 
 ### State of the projects
-Both projects of this repository are used in production to power the [Tributech DataSpace Kit](https://www.tributech.io/product/dataspace-kit).
+Both projects of this repository are used in production to power the [Tributech DataSpace Kit](https://www.tributech.io/product/dataspace-kit). We will create a demo repository that allows a quick bootstrap of the open-source stack including authorization soon. At the moment some manual adaptions might be necessary to get the frontend/backend running without an identity provider.
 
 
-## Models
+### Example DTDL-Models
 
-Models can be added to the Catalog API via REST, a default set of models gets loaded by default. These models can be found in the following repositories:
+Models can be added to the Catalog API via REST, a default set of models gets loaded by default.
+
+These models can be found in the following repositories:
 
 [Tributech Data-Asset Models](https://github.com/tributech-solutions/data-asset-twin)
 
@@ -40,7 +42,15 @@ Generate API-Connectors
 $ npm run generate-connectors
 ```
 
-Configure 
+### Configuration UI
+* Adapt config.json in apps/tributech-catalog-ui/src/assets/config
+  * Currently, needs a Keycloak Identity Server with OpenID-Connect
+  * Insert URLs of Keycloak, make sure client-id and scope matches the config set in auth-config.base.ts in /apps/tributech-catalog-ui/src/app
+
+### Configuration API
+* Adapt settings.json in apps/tributech-catalog/src/settings
+  * Currently, needs a Keycloak Identity Server with OpenID-Connect
+
 
 ### HTTPS
 Generate certificate to serve frontend via Self-Signed Certificate
@@ -48,35 +58,21 @@ Generate certificate to serve frontend via Self-Signed Certificate
 $ openssl req -x509 -newkey rsa:2048 -keyout apps/twin-builder-playground/ssl/key.pem -out apps/twin-builder-playground/ssl/cert.pem
 ```
 
-## Running the app
+## Development
 
 ```bash
-# development 
+# start ui and api at the same time
 $ npm run start
-
-
-# if running with Ubuntu using WSL2 under Windows you might have to set different IP binding
-$ HOST=0.0.0.0 npm run start
-
-# production mode
-$ npm run start:prod
 ```
 
 By default the swagger-ui is reachable via http://localhost:3000/api/
 and the Open-API spec at http://localhost:3000/api-json/.
 
 
-## Test
+### Testing
 
 ```bash
-# unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Docker
