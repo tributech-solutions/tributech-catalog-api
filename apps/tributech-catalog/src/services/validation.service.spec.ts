@@ -1,14 +1,13 @@
 import { Test } from '@nestjs/testing';
 import {
-  BaseDigitalTwin,
-  BasicRelationship,
   ContextType,
+  DTMI_REGEX,
   ExpandedInterface,
-  InterfaceType,
-  ModelType,
-} from '../models/models';
-import { DTMI_REGEX } from '../utils/dtml.utils';
-import { mockProvider } from '../utils/testing.utils';
+  mockProvider,
+  SelfDescriptionType,
+  TwinInstance,
+  TwinRelationship,
+} from '@tributech/self-description';
 import { ModelGraphService } from './model-graph.service';
 import { ValidationService } from './validation.service';
 
@@ -17,12 +16,12 @@ describe('ValidationService', () => {
 
   const testModel: ExpandedInterface = {
     '@id': 'dtmi:io:tributech:test;1',
-    '@type': [InterfaceType.Interface],
+    '@type': SelfDescriptionType.Interface,
     '@context': ContextType.DTDL2,
     displayName: 'Test',
     properties: [
       {
-        '@type': [ModelType.Property],
+        '@type': SelfDescriptionType.Property,
         name: 'Name',
         schema: 'string',
       },
@@ -31,19 +30,19 @@ describe('ValidationService', () => {
 
   const caseModel: ExpandedInterface = {
     '@id': 'dtmi:io:tributech:test_case;1',
-    '@type': [InterfaceType.Interface],
+    '@type': SelfDescriptionType.Interface,
     '@context': ContextType.DTDL2,
     displayName: 'Test',
     properties: [
       {
-        '@type': [ModelType.Property],
+        '@type': SelfDescriptionType.Property,
         name: 'Name',
         schema: 'string',
       },
     ],
     relationships: [
       {
-        '@type': [ModelType.Relationship],
+        '@type': SelfDescriptionType.Relationship,
         name: 'Tests',
         target: 'dtmi:io:tributech:test;1',
       },
@@ -97,7 +96,7 @@ describe('ValidationService', () => {
   });
 
   it('should validate instance of model', () => {
-    const twin: BaseDigitalTwin = {
+    const twin: TwinInstance = {
       $dtId: 'dtId',
       $etag: 'etag',
       Name: 'Test',
@@ -111,7 +110,7 @@ describe('ValidationService', () => {
   });
 
   it('should validate subgraph with relationships', () => {
-    const test: BaseDigitalTwin = {
+    const test: TwinInstance = {
       $dtId: 'test',
       $etag: 'etag',
       Name: 'Test',
@@ -120,7 +119,7 @@ describe('ValidationService', () => {
       },
     };
 
-    const test1: BaseDigitalTwin = {
+    const test1: TwinInstance = {
       $dtId: 'test1',
       $etag: 'etag',
       Name: 'Test1',
@@ -129,7 +128,7 @@ describe('ValidationService', () => {
       },
     };
 
-    const case1: BaseDigitalTwin = {
+    const case1: TwinInstance = {
       $dtId: 'case',
       $etag: 'etag',
       Name: 'Case',
@@ -138,7 +137,7 @@ describe('ValidationService', () => {
       },
     };
 
-    const rel1: BasicRelationship = {
+    const rel1: TwinRelationship = {
       $etag: 'etag',
       $relationshipId: 'id1',
       $relationshipName: 'Tests',
@@ -146,7 +145,7 @@ describe('ValidationService', () => {
       $targetId: 'test',
     };
 
-    const rel2: BasicRelationship = {
+    const rel2: TwinRelationship = {
       $etag: 'etag',
       $relationshipId: 'id1',
       $relationshipName: 'Tests',

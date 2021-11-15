@@ -50,14 +50,6 @@ export function getTypes(
   return types.length === 1 ? types[0] : (types as any);
 }
 
-// export function getType(vertex: Vertex): SelfDescriptionType {
-//   if (!vertex) return SelfDescriptionType.Primitive;
-//   return vertex
-//     .getTypes()
-//     .map((_v) => _v.id)
-//     .first((i) => i.includes('Class')) as SelfDescriptionType;
-// }
-
 export function getPropertyByName<T>(
   vertex: Vertex,
   propertyName: string,

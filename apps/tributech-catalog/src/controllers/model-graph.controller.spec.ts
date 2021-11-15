@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
+import { mockProvider } from '@tributech/self-description';
 import { ModelGraphService } from '../services/model-graph.service';
 import { ModelManagerService } from '../services/model-manager.service';
-import { mockProvider } from '../utils/testing.utils';
 import { ModelGraphController } from './model-graph.controller';
 
 describe('ModelGraphController', () => {

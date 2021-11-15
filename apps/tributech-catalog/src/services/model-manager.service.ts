@@ -6,12 +6,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { Interface, isValidInterface } from '@tributech/self-description';
 import to from 'await-to-js';
 import { cloneDeep } from 'lodash';
 import { ModelEntity, PagedResult } from '../models/db-model';
-import { Interface } from '../models/models';
 import { ValidationError } from '../models/validation-error.model';
-import { isValidInterface } from '../utils/dtml.utils';
 import { StorageService } from './storage.service';
 
 @Injectable()

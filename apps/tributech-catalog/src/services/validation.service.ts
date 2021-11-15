@@ -1,22 +1,18 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import Ajv, { ErrorObject } from 'ajv';
-import { every, forEach } from 'lodash';
-import { PartialSchema } from '../models/json-schema.model';
 import {
-  BaseDigitalTwin,
-  BasicRelationship,
-  DigitalTwinModel,
+  generateJSONSchema,
+  getRelationshipJSONSchema,
   Interface,
-} from '../models/models';
+} from '@tributech/self-description';
+import Ajv, { ErrorObject } from 'ajv';
+import { PartialSchema } from 'ajv/dist/types/json-schema';
+import { every, forEach } from 'lodash';
+import { TwinGraph, TwinInstance, TwinRelationship } from '../models/models';
 import {
   SchemaErrorObject,
   SchemaValidationError,
   ValidationError,
 } from '../models/validation-error.model';
-import {
-  generateJSONSchema,
-  getRelationshipJSONSchema,
-} from '../utils/validation.utils';
 import { ModelGraphService } from './model-graph.service';
 
 @Injectable()
@@ -34,7 +30,7 @@ export class ValidationService {
     return generateJSONSchema(model);
   }
 
-  validateInstance(instance: BaseDigitalTwin): SchemaValidationError {
+  validateInstance(instance: TwinInstance): SchemaValidationError {
     const dtmi = instance?.$metadata?.$model;
     if (!dtmi) throw new ValidationError('No model metadata!');
     const schema: PartialSchema<Interface> = this.getJSONSchema(dtmi);
@@ -52,7 +48,7 @@ export class ValidationService {
     }
   }
 
-  validateSubgraph(graph: DigitalTwinModel): SchemaValidationError {
+  validateSubgraph(graph: TwinGraph): SchemaValidationError {
     const twins = graph?.digitalTwins || [];
     const relationships = graph?.relationships || [];
 
@@ -85,10 +81,10 @@ export class ValidationService {
   }
 
   private validateRelationship(
-    relationship: BasicRelationship,
+    relationship: TwinRelationship,
     validTwinIds: string[]
   ): SchemaValidationError {
-    const schema: PartialSchema<BasicRelationship> =
+    const schema: PartialSchema<TwinRelationship> =
       getRelationshipJSONSchema(validTwinIds);
     const ajv = new Ajv();
     const validate = ajv.compile(schema);

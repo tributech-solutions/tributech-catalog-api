@@ -14,6 +14,7 @@ import {
   TwinInstance,
   TwinRelationship,
 } from '../models/models';
+import { SemanticType } from '../models/semantic-type';
 import { uuidv4 } from './dtml.utils';
 import { toEnumIgnoreCase } from './enum.utils';
 
@@ -26,11 +27,10 @@ export function isInterfaceSD(sd: SelfDescription): sd is Interface {
 
 export function getDTDLType(
   type:
-    | string
     | SelfDescriptionType
-    | [SelfDescriptionType, string]
-    | [string, SelfDescriptionType]
-): SelfDescriptionType {
+    | [SelfDescriptionType, SemanticType]
+    | [SemanticType, SelfDescriptionType]
+): SelfDescriptionType | null | undefined {
   const validTypes = [
     SelfDescriptionType.Array,
     SelfDescriptionType.Enum,
@@ -43,7 +43,7 @@ export function getDTDLType(
     SelfDescriptionType.Telemetry,
   ];
 
-  if (!type) return null;
+  if (!type) throw new Error('No type found!');
 
   if (isArray(type) && type.every((t) => isString(t))) {
     return toEnumIgnoreCase(
@@ -64,7 +64,7 @@ export function isCommandSD(sd: SelfDescription): sd is Command {
 
 export function isSchemaSD(sd: SelfDescription): sd is InterfaceSchema {
   const types = sd?.['@type'];
-  return isSchemaType(types);
+  return isSchemaType(types as any);
 }
 
 export type ContentSD =
@@ -78,11 +78,14 @@ export function isContentSD(
   sd: SelfDescription
 ): sd is Property | Relationship | Command | Component | Telemetry {
   const types = sd?.['@type'];
-  return isContentType(types);
+  return isContentType(types as any);
 }
 
 export function isSchemaType(
-  type: string | string[] | SelfDescriptionType | SelfDescriptionType[]
+  type:
+    | SelfDescriptionType
+    | [SelfDescriptionType, SemanticType]
+    | [SemanticType, SelfDescriptionType]
 ): boolean {
   const validTypes = [
     SelfDescriptionType.Array.toString(),
@@ -100,7 +103,10 @@ export function isSchemaType(
 }
 
 export function isContentType(
-  type: string | string[] | SelfDescriptionType | SelfDescriptionType[]
+  type:
+    | SelfDescriptionType
+    | [SelfDescriptionType, SemanticType]
+    | [SemanticType, SelfDescriptionType]
 ): boolean {
   const validTypes = [
     SelfDescriptionType.Property.toString(),
@@ -110,7 +116,7 @@ export function isContentType(
     SelfDescriptionType.Telemetry.toString(),
   ];
 
-  if (!type) return false;
+  if (!type) throw Error('No type found!');
 
   if (isArray(type) && type.every((t) => isString(t))) {
     return type.some((t) => validTypes.includes(t.toString()));
@@ -129,7 +135,7 @@ export function getContentType(
     SelfDescriptionType.Telemetry.toString(),
   ];
 
-  if (!type) return null;
+  if (!type) throw new Error('No type present!');
 
   if (isArray(type) && type.every((t) => isString(t))) {
     return type.filter((t) => validTypes.includes(t.toString()))[0];
@@ -147,7 +153,7 @@ export function getSchemaType(
     SelfDescriptionType.Object.toString(),
   ];
 
-  if (!type) return null;
+  if (!type) throw new Error('No type present!');
 
   if (isArray(type) && type.every((t) => isString(t))) {
     return type.filter((t) => validTypes.includes(t.toString()))[0];

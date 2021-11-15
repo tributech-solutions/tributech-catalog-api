@@ -1,12 +1,13 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import { createSpyObject } from '@ngneat/spectator';
+// @ts-ignore
 import request from 'supertest';
 import { AppModule } from '../app.module';
 import { AuthenticationGuard } from '../auth/auth.guard';
-import { BaseDigitalTwin, BasicRelationship } from '../models/models';
+import { TwinInstance, TwinRelationship } from '../models/models';
 import { SchemaValidationError } from '../models/validation-error.model';
 import { ValidationService } from '../services/validation.service';
-import { createSpyObject } from '../utils/testing.utils';
 
 describe('ValidationController', () => {
   let app: INestApplication;
@@ -63,7 +64,7 @@ describe('ValidationController', () => {
   });
 
   it(`POST /validate/graph`, () => {
-    const exampleTwin: BaseDigitalTwin = {
+    const exampleTwin: TwinInstance = {
       $dtId: 'test',
       $etag: 'etag',
       $metadata: {
@@ -71,7 +72,7 @@ describe('ValidationController', () => {
       },
     };
 
-    const exampleTwin1: BaseDigitalTwin = {
+    const exampleTwin1: TwinInstance = {
       $dtId: 'test1',
       $etag: 'etag',
       $metadata: {
@@ -79,7 +80,7 @@ describe('ValidationController', () => {
       },
     };
 
-    const exampleRel: BasicRelationship = {
+    const exampleRel: TwinRelationship = {
       $etag: 'etag',
       $relationshipId: 'relId',
       $targetId: 'test',

@@ -1,6 +1,5 @@
-import { ContextType } from '../../../../apps/tributech-catalog/src/models/models';
 import { SelfDescription } from './common';
-import { SelfDescriptionType } from './constants';
+import { ContextType, SelfDescriptionType } from './constants';
 import { Schema } from './schema';
 import { SemanticType } from './semantic-type';
 
@@ -72,7 +71,6 @@ export interface Property extends SelfDescription {
 export interface Command extends SelfDescription {
   '@type': SelfDescriptionType.Command;
   name: string;
-  commandType?: string;
   request?: CommandPayload;
   response?: CommandPayload;
 }
@@ -89,6 +87,7 @@ export interface Relationship extends SelfDescription {
   minMultiplicity?: number;
   properties?: Property[];
   target?: string;
+  writable?: boolean;
 }
 
 export interface Component extends SelfDescription {
@@ -98,30 +97,23 @@ export interface Component extends SelfDescription {
 }
 
 export interface Interface extends SelfDescription {
-  '@context': 'dtmi:dtdl:context;2';
+  '@context': ContextType.DTDL2;
   '@type': SelfDescriptionType.Interface;
   extends?: string[];
-  contents?: SelfDescription[];
-  schemas?: SelfDescription[];
-}
-
-export interface NormalizedInterface extends SelfDescription {
-  '@context'?: 'dtmi:dtdl:context;2';
-  '@type': SelfDescriptionType.Interface;
-  extends?: string[];
-  contents?: string[];
-  schemas?: string[];
+  contents?: InterfaceContent[];
+  schemas?: InterfaceSchema[];
 }
 
 export interface ExpandedInterface extends SelfDescription {
   '@context': ContextType.DTDL2;
+  '@type': SelfDescriptionType.Interface;
   bases?: string[];
   properties?: Property[];
   relationships?: Relationship[];
   telemetries?: Telemetry[];
   components?: Component[];
   commands?: Command[];
-  schemas?: Schema[];
+  schemas?: InterfaceSchema[];
 }
 
 export interface InterfaceSchema extends SelfDescription {
@@ -137,5 +129,4 @@ export type InterfaceContent =
   | Property
   | Command
   | Relationship
-  | Component
-  | undefined;
+  | Component;

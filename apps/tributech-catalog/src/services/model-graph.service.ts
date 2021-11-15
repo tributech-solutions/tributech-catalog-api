@@ -2,18 +2,17 @@ import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
-import { to } from 'await-to-js';
-import { JsonldGraph, Vertex } from 'jsonld-graph';
-import { ModelEntity } from '../models/db-model';
-import { context } from '../models/json-ld-context';
-import { ExpandedInterface, Interface, Relationship } from '../models/models';
-import { ParsedInterface } from '../models/parsed-models';
 import {
+  context,
   expandInterface,
   getChildrenVertices,
   hasNoIncomingRelationships,
   REL_TARGET_ANY,
-} from '../utils/model.utils';
+} from '@tributech/self-description';
+import { to } from 'await-to-js';
+import { JsonldGraph, Vertex } from 'jsonld-graph';
+import { ModelEntity } from '../models/db-model';
+import { ExpandedInterface, Interface, Relationship } from '../models/models';
 
 export class InterfaceWithChildren extends Interface {
   @ApiProperty({ type: [InterfaceWithChildren] })
@@ -38,11 +37,11 @@ export class ModelGraphService {
     return expandInterface(model);
   }
 
-  getSimplified(modelId: string): ParsedInterface {
+  getSimplified(modelId: string): ExpandedInterface {
     this.logger.verbose(`Get expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
     if (!model) throw new NotFoundException('Model not found');
-    return expandInterface(model) as ParsedInterface;
+    return expandInterface(model) as ExpandedInterface;
   }
 
   async fullExpand(modelId: string, includeContext: boolean) {

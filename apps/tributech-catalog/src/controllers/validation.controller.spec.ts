@@ -1,12 +1,8 @@
 import { Test } from '@nestjs/testing';
-import {
-  BaseDigitalTwin,
-  BasicRelationship,
-  DigitalTwinModel,
-} from '../models/models';
+import { mockProvider } from '@tributech/self-description';
+import { TwinGraph, TwinInstance, TwinRelationship } from '../models/models';
 import { SchemaValidationError } from '../models/validation-error.model';
 import { ValidationService } from '../services/validation.service';
-import { mockProvider } from '../utils/testing.utils';
 import { ValidationController } from './validation.controller';
 
 describe('ValidationController', () => {
@@ -33,14 +29,12 @@ describe('ValidationController', () => {
         mockProvider(ValidationService, {
           getJSONSchema: (dtmi: string) => exampleSchema,
           validateInstance: (
-            instance: BaseDigitalTwin
+            instance: TwinInstance
           ): SchemaValidationError => ({
             success: true,
             errors: [],
           }),
-          validateSubgraph: (
-            graph: DigitalTwinModel
-          ): SchemaValidationError => ({
+          validateSubgraph: (graph: TwinGraph): SchemaValidationError => ({
             success: true,
             errors: [],
           }),
@@ -79,7 +73,7 @@ describe('ValidationController', () => {
   });
 
   it('should return validation result for graph', () => {
-    const exampleTwin: BaseDigitalTwin = {
+    const exampleTwin: TwinInstance = {
       $dtId: 'test',
       $etag: 'etag',
       $metadata: {
@@ -87,7 +81,7 @@ describe('ValidationController', () => {
       },
     };
 
-    const exampleTwin1: BaseDigitalTwin = {
+    const exampleTwin1: TwinInstance = {
       $dtId: 'test1',
       $etag: 'etag',
       $metadata: {
@@ -95,7 +89,7 @@ describe('ValidationController', () => {
       },
     };
 
-    const exampleRel: BasicRelationship = {
+    const exampleRel: TwinRelationship = {
       $etag: 'etag',
       $relationshipId: 'relId',
       $targetId: 'test',

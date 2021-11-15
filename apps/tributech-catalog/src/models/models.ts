@@ -4,35 +4,31 @@ import {
   ApiPropertyOptional,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { DTMI_REGEX } from '../utils/dtml.utils';
-import { SemanticTypes } from './semantic-types';
+import {
+  ArraySchema as IArraySchema,
+  Command as ICommand,
+  Component as IComponent,
+  ContextType,
+  DTMI_REGEX,
+  EnumSchema as IEnumSchema,
+  ExpandedInterface as IExpandedInterface,
+  Interface as IInterface,
+  InterfaceSchema as IInterfaceSchema,
+  MapSchema as IMapSchema,
+  ObjectSchema as IObjectSchema,
+  Property as IProperty,
+  Relationship as IRelationship,
+  Schema,
+  SelfDescription as ISelfDescription,
+  SelfDescriptionType,
+  SemanticType,
+  Telemetry as ITelemetry,
+  TwinInstance as ITwinInstance,
+  TwinMetadata as ITwinMetadata,
+  TwinRelationship as ITwinRelationship,
+} from '@tributech/self-description';
 
-export enum InterfaceType {
-  Interface = 'Interface',
-}
-
-export enum ContextType {
-  DTDL2 = 'dtmi:dtdl:context;2',
-}
-
-export enum ModelType {
-  Interface = 'Interface',
-  Property = 'Property',
-  Telemetry = 'Telemetry',
-  Command = 'Command',
-  Component = 'Component',
-  Relationship = 'Relationship',
-}
-
-export enum SchemaType {
-  Enum = 'Enum',
-  Map = 'Map',
-  Object = 'Object',
-  Array = 'Array',
-  Primitive = 'Primitive',
-}
-
-export class DigitalTwinMetadata {
+export class TwinMetadata implements ITwinMetadata {
   @ApiProperty({
     required: true,
     nullable: false,
@@ -41,20 +37,18 @@ export class DigitalTwinMetadata {
   $model?: string;
 }
 
-export class BaseDigitalTwin {
-  [key: string]: any;
-
+export class TwinInstance implements ITwinInstance {
   @ApiProperty()
   $dtId?: string;
   @ApiProperty()
   $etag?: string;
   @ApiProperty()
-  $metadata?: DigitalTwinMetadata;
+  $metadata?: TwinMetadata;
+
+  [key: string]: any;
 }
 
-export class BasicRelationship {
-  [key: string]: any;
-
+export class TwinRelationship implements ITwinRelationship {
   @ApiProperty()
   $relationshipId?: string;
   @ApiProperty()
@@ -65,79 +59,45 @@ export class BasicRelationship {
   $relationshipName?: string;
   @ApiProperty()
   $etag?: string;
+
+  [key: string]: any;
 }
 
-export class DigitalTwinModel {
-  @ApiProperty({ type: [BaseDigitalTwin] })
-  digitalTwins?: Array<BaseDigitalTwin>;
-  @ApiProperty({ type: [BasicRelationship] })
-  relationships?: Array<BasicRelationship>;
+export class TwinGraph {
+  @ApiProperty({ type: [TwinInstance] })
+  digitalTwins?: Array<TwinInstance>;
+  @ApiProperty({ type: [TwinRelationship] })
+  relationships?: Array<TwinRelationship>;
 }
 
-export class BaseModel {
+export class DataFileInfoModel {
+  @ApiProperty()
+  fileVersion: string;
+}
+
+export class SelfDescription implements ISelfDescription {
+  @ApiPropertyOptional()
+  '@id'?: string;
   @ApiPropertyOptional({
     nullable: false,
     required: true,
     type: 'array',
     items: {
       type: 'string',
-      enum: [
-        ...Object.keys(SchemaType),
-        ...Object.keys(ModelType),
-        ...Object.keys(SemanticTypes),
-        ...Object.keys(InterfaceType),
-      ],
+      enum: [...Object.keys(SelfDescriptionType), ...Object.keys(SemanticType)],
     },
   })
-  '@type'?: (ModelType | SemanticTypes | SchemaType | InterfaceType)[];
+  '@type'?:
+    | SelfDescriptionType
+    | [SelfDescriptionType, SemanticType]
+    | [SemanticType, SelfDescriptionType];
   @ApiPropertyOptional({ required: false })
   comment?: string;
   @ApiPropertyOptional({ required: false })
   description?: string;
   @ApiPropertyOptional({ required: false })
   displayName?: string;
-  @ApiPropertyOptional({ required: false })
-  name?: string;
 }
-
-export class BaseModelWithId extends BaseModel {
-  @ApiPropertyOptional()
-  '@id'?: string;
-}
-
-export type Schema =
-  | PrimitiveSchema
-  | ArraySchema
-  | EnumSchema
-  | MapSchema
-  | ObjectSchema
-  | undefined;
-
-export type PrimitiveSchema =
-  | 'date'
-  | 'dateTime'
-  | 'duration'
-  | PrimitiveBooleanSchema
-  | PrimitiveStringSchema
-  | PrimitiveNumberSchema;
-
-export type PrimitiveNumberSchema =
-  | 'dtmi:dtdl:instance:Schema:double;2'
-  | 'dtmi:dtdl:instance:Schema:integer;2'
-  | 'dtmi:dtdl:instance:Schema:long;2'
-  | 'dtmi:dtdl:instance:Schema:float;2'
-  | 'double'
-  | 'integer'
-  | 'long'
-  | 'float';
-
-export type PrimitiveStringSchema =
-  | 'string'
-  | 'dtmi:dtdl:instance:Schema:string;2';
-
-export type PrimitiveBooleanSchema =
-  | 'boolean'
-  | 'dtmi:dtdl:instance:Schema:boolean;2';
 
 @ApiExtraModels(
   () => ArraySchema,
@@ -145,7 +105,8 @@ export type PrimitiveBooleanSchema =
   () => MapSchema,
   () => ObjectSchema
 )
-export class ArraySchema extends BaseModel {
+export class ArraySchema extends SelfDescription implements IArraySchema {
+  '@type': SelfDescriptionType.Array;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -158,25 +119,32 @@ export class ArraySchema extends BaseModel {
   elementSchema: Schema;
 }
 
-export class EnumValue extends BaseModel {
+export class EnumValue extends SelfDescription {
+  @ApiProperty()
+  name: string;
   @ApiProperty()
   enumValue: string | number;
 }
 
-export class EnumSchema extends BaseModel {
+export class EnumSchema extends SelfDescription implements IEnumSchema {
+  '@type': SelfDescriptionType.Enum;
   @ApiProperty({ type: [EnumValue] })
   enumValues: EnumValue[];
   @ApiProperty()
   valueSchema: 'integer' | 'string' | string;
 }
 
-export class MapKey extends BaseModel {
+export class MapKey extends SelfDescription {
+  @ApiProperty()
+  name: string;
   @ApiProperty()
   schema: 'string' | string;
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, () => MapSchema, () => ObjectSchema)
-export class MapValue extends BaseModel {
+export class MapValue extends SelfDescription {
+  @ApiProperty()
+  name: string;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -189,7 +157,8 @@ export class MapValue extends BaseModel {
   schema: Schema;
 }
 
-export class MapSchema extends BaseModel {
+export class MapSchema extends SelfDescription implements IMapSchema {
+  '@type': SelfDescriptionType.Map;
   @ApiProperty()
   mapKey: MapKey;
   @ApiProperty()
@@ -197,7 +166,9 @@ export class MapSchema extends BaseModel {
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, () => ObjectSchema)
-export class Field extends BaseModel {
+export class Field extends SelfDescription {
+  @ApiProperty()
+  name: string;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -210,13 +181,18 @@ export class Field extends BaseModel {
   schema: Schema;
 }
 
-export class ObjectSchema extends BaseModel {
+export class ObjectSchema extends SelfDescription implements IObjectSchema {
+  '@type': SelfDescriptionType.Object;
   @ApiProperty({ type: [Field] })
   fields: Field[];
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
-export class Telemetry extends BaseModelWithId {
+export class Telemetry extends SelfDescription implements ITelemetry {
+  '@type':
+    | SelfDescriptionType.Telemetry
+    | [SemanticType, SelfDescriptionType.Telemetry]
+    | [SelfDescriptionType.Telemetry, SemanticType];
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -230,10 +206,18 @@ export class Telemetry extends BaseModelWithId {
   schema: Schema;
   @ApiPropertyOptional()
   unit?: string;
+  @ApiProperty()
+  name: string;
 }
 
 @ApiExtraModels(ArraySchema, EnumSchema, MapSchema, ObjectSchema)
-export class Property extends BaseModelWithId {
+export class Property extends SelfDescription implements IProperty {
+  '@type':
+    | SelfDescriptionType.Property
+    | [SemanticType, SelfDescriptionType.Property]
+    | [SelfDescriptionType.Property, SemanticType];
+  @ApiProperty()
+  name: string;
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -250,7 +234,7 @@ export class Property extends BaseModelWithId {
   writable?: boolean;
 }
 
-export class CommandPayload extends BaseModelWithId {
+export class CommandPayload extends SelfDescription {
   @ApiProperty({
     oneOf: [
       { type: 'string' },
@@ -261,16 +245,24 @@ export class CommandPayload extends BaseModelWithId {
     ],
   })
   schema: Schema;
+  @ApiProperty()
+  name: string;
 }
 
-export class Command extends BaseModelWithId {
+export class Command extends SelfDescription implements ICommand {
+  '@type': SelfDescriptionType.Command;
+  @ApiProperty()
+  name: string;
   @ApiPropertyOptional()
   request?: CommandPayload;
   @ApiPropertyOptional()
   response?: CommandPayload;
 }
 
-export class Relationship extends BaseModelWithId {
+export class Relationship extends SelfDescription implements IRelationship {
+  '@type': SelfDescriptionType.Relationship;
+  @ApiProperty()
+  name: string;
   @ApiPropertyOptional()
   maxMultiplicity?: number;
   @ApiPropertyOptional()
@@ -278,14 +270,17 @@ export class Relationship extends BaseModelWithId {
   @ApiPropertyOptional({ type: [Property], nullable: true })
   properties?: Property[];
   @ApiPropertyOptional({ type: 'string' })
-  target?: string | Interface;
+  target?: string;
   @ApiPropertyOptional()
   writable?: boolean;
 }
 
-export class Component extends BaseModelWithId {
+export class Component extends SelfDescription implements IComponent {
+  '@type': SelfDescriptionType.Component;
+  @ApiProperty()
+  name: string;
   @ApiProperty({ type: () => Interface })
-  schema: string | Interface;
+  schema: string;
 }
 
 export type InterfaceContent =
@@ -293,15 +288,24 @@ export type InterfaceContent =
   | Property
   | Command
   | Relationship
-  | Component
-  | undefined;
+  | Component;
 
-export class InterfaceSchema extends BaseModelWithId {}
+export class InterfaceSchema
+  extends SelfDescription
+  implements IInterfaceSchema
+{
+  '@type':
+    | SelfDescriptionType.Array
+    | SelfDescriptionType.Enum
+    | SelfDescriptionType.Map
+    | SelfDescriptionType.Object;
+}
 
 @ApiExtraModels(Property, Relationship, Component, Command, Telemetry)
-export class Interface extends BaseModelWithId {
+export class Interface extends SelfDescription implements IInterface {
   @ApiProperty({ type: 'string', enum: ContextType })
   '@context': ContextType.DTDL2;
+  '@type': SelfDescriptionType.Interface;
   @ApiPropertyOptional({
     type: 'array',
     items: {
@@ -320,14 +324,15 @@ export class Interface extends BaseModelWithId {
     oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     nullable: true,
   })
-  extends?: string[] | Interface[] | string;
+  extends: string[];
   @ApiPropertyOptional({ type: [InterfaceSchema], nullable: true })
-  schemas?: InterfaceSchema[];
+  schemas: InterfaceSchema[];
 }
 
-export class ExpandedInterface extends BaseModelWithId {
+export class ExpandedInterface implements IExpandedInterface {
   @ApiProperty({ type: 'string', enum: ContextType })
   '@context': ContextType.DTDL2;
+  '@type': SelfDescriptionType.Interface;
   @ApiPropertyOptional({
     type: 'array',
     items: { type: 'string' },
@@ -344,4 +349,20 @@ export class ExpandedInterface extends BaseModelWithId {
   components?: Component[];
   @ApiPropertyOptional({ type: [Command] })
   commands?: Command[];
+  @ApiPropertyOptional({ type: [InterfaceSchema] })
+  schemas?: InterfaceSchema[];
+}
+
+export class TwinFileModel {
+  @ApiProperty({ type: DataFileInfoModel })
+  digitalTwinsFileInfo: DataFileInfoModel;
+  @ApiProperty({ type: TwinGraph })
+  digitalTwinsGraph: TwinGraph;
+  @ApiProperty({ type: [Interface] })
+  digitalTwinsModels: Interface[];
+  constructor() {
+    this.digitalTwinsFileInfo = { fileVersion: '1.0.0' };
+    this.digitalTwinsGraph = { digitalTwins: [], relationships: [] };
+    this.digitalTwinsModels = [];
+  }
 }

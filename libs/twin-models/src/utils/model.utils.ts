@@ -98,6 +98,7 @@ export function getTelemetryFromVertex(vertex: Vertex): Telemetry | undefined {
   } as Telemetry;
 
   if (telemetry && telemetry?.['@type'] && telemetry?.['@type']?.length > 1) {
+    // set unit based on semantic type if not present?
     telemetry.unit = getUnit(vertex);
   }
 

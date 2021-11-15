@@ -2,15 +2,15 @@ import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Test } from '@nestjs/testing';
-import { ModelEntity } from '../models/db-model';
 import {
   ContextType,
   Interface,
   InterfaceType,
-  ModelType,
-} from '../models/models';
+  mockProvider,
+  SelfDescriptionType,
+} from '@tributech/self-description';
+import { ModelEntity } from '../models/db-model';
 import { ValidationError } from '../models/validation-error.model';
-import { mockProvider } from '../utils/testing.utils';
 import { ModelManagerService } from './model-manager.service';
 import { StorageService } from './storage.service';
 
@@ -26,27 +26,29 @@ describe('ModelManagerService', () => {
     modifiedTime: '',
     model: {
       '@id': 'dtmi:io:tributech:test;1',
-      '@type': [InterfaceType.Interface],
+      '@type': SelfDescriptionType.Interface,
       '@context': ContextType.DTDL2,
       displayName: 'Test',
+      extends: [],
       contents: [
         {
-          '@type': [ModelType.Property],
+          '@type': SelfDescriptionType.Property,
           name: 'Name',
           schema: 'string',
         },
       ],
+      schemas: [],
     },
   };
 
   const newModel: Interface = {
     '@id': 'dtmi:io:tributech:test1;1',
-    '@type': [InterfaceType.Interface],
+    '@type': SelfDescriptionType.Interface,
     '@context': ContextType.DTDL2,
     displayName: 'Test1',
     contents: [
       {
-        '@type': [ModelType.Property],
+        '@type': SelfDescriptionType.Property,
         name: 'Name',
         schema: 'string',
       },
@@ -55,12 +57,12 @@ describe('ModelManagerService', () => {
 
   const newModel1: Interface = {
     '@id': 'dtmi:io:tributech:test2;1',
-    '@type': [InterfaceType.Interface],
+    '@type': SelfDescriptionType.Interface,
     '@context': ContextType.DTDL2,
     displayName: 'Test2',
     contents: [
       {
-        '@type': [ModelType.Property],
+        '@type': SelfDescriptionType.Property,
         name: 'Name',
         schema: 'string',
       },

@@ -16,7 +16,6 @@ import {
 } from '@nestjs/swagger';
 import { ExpandedInterfacePagedResult } from '../models/db-model';
 import { ExpandedInterface, Interface, Relationship } from '../models/models';
-import { ParsedInterface } from '../models/parsed-models';
 import { ModelGraphService } from '../services/model-graph.service';
 import { ModelManagerService } from '../services/model-manager.service';
 
@@ -122,9 +121,9 @@ export class ModelGraphController {
   })
   @ApiOkResponse({
     description: 'Returns a model in its simplified representation.',
-    type: ParsedInterface,
+    type: ExpandedInterface,
   })
-  getSimplified(@Param('dtmi') dtmi: string): ParsedInterface {
+  getSimplified(@Param('dtmi') dtmi: string): ExpandedInterface {
     this.logger.log(`getSimplified ${dtmi}`);
     return this.modelGraphService.getSimplified(dtmi);
   }
