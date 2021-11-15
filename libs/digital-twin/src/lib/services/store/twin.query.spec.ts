@@ -1,6 +1,6 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
-import { BaseDigitalTwin } from '../../models/data.model';
+import { TwinInstance } from '@tributech/self-description';
 import { ModelQuery } from './model.query';
 import { RelationshipQuery } from './relationship.query';
 import { RelationshipService } from './relationship.service';
@@ -9,7 +9,7 @@ import { TwinQuery } from './twin.query';
 import { TwinService } from './twin.service';
 import { TwinStore } from './twin.store';
 
-const exampleTwin: BaseDigitalTwin = {
+const exampleTwin: TwinInstance = {
   $dtId: 'test01',
   $etag: 'etag-01',
   $metadata: {
@@ -17,7 +17,7 @@ const exampleTwin: BaseDigitalTwin = {
   },
 };
 
-const exampleTwin1: BaseDigitalTwin = {
+const exampleTwin1: TwinInstance = {
   $dtId: 'test02',
   $etag: 'etag-02',
   $metadata: {
@@ -78,7 +78,7 @@ describe('TwinQuery', () => {
   it('should get twins as tree', () => {
     const relQuery = spectator.inject(RelationshipQuery);
 
-    const parent: BaseDigitalTwin = {
+    const parent: TwinInstance = {
       $dtId: 'test01',
       $etag: 'etag-01',
       $metadata: {
@@ -86,7 +86,7 @@ describe('TwinQuery', () => {
       },
     };
 
-    const child: BaseDigitalTwin = {
+    const child: TwinInstance = {
       $dtId: 'test02',
       $etag: 'etag-02',
       $metadata: {
@@ -113,7 +113,7 @@ describe('TwinQuery', () => {
     const relQuery = spectator.inject(RelationshipQuery);
     const modelQuery = spectator.inject(ModelQuery);
 
-    const parent: BaseDigitalTwin = {
+    const parent: TwinInstance = {
       $dtId: 'test01',
       $etag: 'etag-01',
       $metadata: {
@@ -121,7 +121,7 @@ describe('TwinQuery', () => {
       },
     };
 
-    const child: BaseDigitalTwin = {
+    const child: TwinInstance = {
       $dtId: 'test02',
       $etag: 'etag-02',
       $metadata: {

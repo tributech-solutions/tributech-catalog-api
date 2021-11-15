@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { OrArray } from '@datorama/akita';
+import { Interface } from '@tributech/self-description';
 import { isArray as _isArray } from 'lodash';
-import { TwinModel } from '../../models/data.model';
 import { ModelStore } from './model.store';
 
 @Injectable({ providedIn: 'root' })
 export class ModelService {
   constructor(private modelStore: ModelStore) {}
 
-  addModels(models: OrArray<TwinModel>) {
+  addModels(models: OrArray<Interface>) {
     console.log(
       `Adding ${_isArray(models) ? models?.length : '1'} model(s)...`
     );

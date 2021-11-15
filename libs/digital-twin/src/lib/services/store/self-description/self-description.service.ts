@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { arrayAdd, isObject, isString, OrArray } from '@datorama/akita';
-import { cloneDeep, map } from 'lodash';
 import {
   ArraySchema,
   Command,
@@ -18,7 +17,8 @@ import {
   SelfDescription,
   SelfDescriptionType,
   Telemetry,
-} from '../../../models/data.model';
+} from '@tributech/self-description';
+import { cloneDeep, map } from 'lodash';
 import { ensureIDPresent } from './self-description.normalizer';
 import { SelfDescriptionQuery } from './self-description.query';
 import { SelfDescriptionStore } from './self-description.store';

@@ -6,15 +6,15 @@ import {
   isString,
   QueryEntity,
 } from '@datorama/akita';
-import { cloneDeep, map as _map } from 'lodash';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
   isContentSD,
   isInterfaceSD,
   isSchemaSD,
   SelfDescription,
-} from '../../../models/data.model';
+} from '@tributech/self-description';
+import { cloneDeep, map as _map } from 'lodash';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   SelfDescriptionState,
   SelfDescriptionStore,

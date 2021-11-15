@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { isArray, OrArray } from '@datorama/akita';
+import { createETag } from '@tributech/self-description';
 import { DigitalTwin } from '@tributech/twin-api';
-import { createETag } from '../../utils/utils';
 import { RelationshipService } from './relationship.service';
 import { RelationshipStore } from './relationship.store';
 import { TwinStore } from './twin.store';

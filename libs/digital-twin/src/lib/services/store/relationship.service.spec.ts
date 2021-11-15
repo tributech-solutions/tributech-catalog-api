@@ -1,18 +1,21 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { uuidv4 } from '@tributech/core';
-import { BasicRelationship } from '../../models/data.model';
-import { createEmptyRelationship, createETag } from '../../utils/utils';
+import {
+  createEmptyRelationship,
+  createETag,
+  TwinRelationship,
+} from '@tributech/self-description';
 import { RelationshipQuery } from './relationship.query';
 import { RelationshipService } from './relationship.service';
 import { RelationshipStore } from './relationship.store';
 
-const exampleRel: BasicRelationship = createEmptyRelationship(
+const exampleRel: TwinRelationship = createEmptyRelationship(
   'testRel',
   'parent01',
   'child01'
 );
 
-const exampleRel1: BasicRelationship = createEmptyRelationship(
+const exampleRel1: TwinRelationship = createEmptyRelationship(
   'testRel',
   'parent01',
   'child02'
@@ -49,7 +52,7 @@ describe('Relationship-Service|Store|Query', () => {
     const targetId = 'targetId';
     const sourceId = 'sourceId';
 
-    const _rel: BasicRelationship = {
+    const _rel: TwinRelationship = {
       $etag: createETag(),
       $relationshipId: uuidv4(),
       $relationshipName: relName,

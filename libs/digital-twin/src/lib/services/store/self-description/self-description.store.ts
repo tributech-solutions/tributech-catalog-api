@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
-import { SelfDescription } from '../../../models/data.model';
+import { SelfDescription } from '@tributech/self-description';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SelfDescriptionState

@@ -4,6 +4,7 @@ import { ContextType, TwinContentType } from '../models/constants';
 import {
   Command,
   Component,
+  ExpandedInterface,
   Interface,
   Property,
   Relationship,
@@ -170,28 +171,28 @@ export function getInterfaceFromVertex(v: Vertex): Interface {
   } as Interface;
 }
 
-// export function expandInterface(v: Vertex): ExpandedInterface {
-//   if (!v) throw new Error('Empty Vertex!');
-//   return {
-//     '@context': ContextType.DTDL2,
-//     ...getBaseModelPropertiesFromVertex(v),
-//     properties: getContentFromVertex(v, TwinContentType.Property) as Property[],
-//     relationships: getContentFromVertex(
-//       v,
-//       TwinContentType.Relationship
-//     ) as Relationship[],
-//     telemetries: getContentFromVertex(
-//       v,
-//       TwinContentType.Telemetry
-//     ) as Telemetry[],
-//     components: getContentFromVertex(
-//       v,
-//       TwinContentType.Component
-//     ) as Component[],
-//     commands: getContentFromVertex(v, TwinContentType.Command) as Command[],
-//     bases: getBasesFromVertex(v),
-//   };
-// }
+export function expandInterface(v: Vertex): ExpandedInterface {
+  if (!v) throw new Error('Empty Vertex!');
+  return {
+    '@context': ContextType.DTDL2,
+    ...getBaseModelPropertiesFromVertex(v),
+    properties: getContentFromVertex(v, TwinContentType.Property) as Property[],
+    relationships: getContentFromVertex(
+      v,
+      TwinContentType.Relationship
+    ) as Relationship[],
+    telemetries: getContentFromVertex(
+      v,
+      TwinContentType.Telemetry
+    ) as Telemetry[],
+    components: getContentFromVertex(
+      v,
+      TwinContentType.Component
+    ) as Component[],
+    commands: getContentFromVertex(v, TwinContentType.Command) as Command[],
+    bases: getBasesFromVertex(v),
+  };
+}
 
 export function getContentFromVertex(v: Vertex, type: TwinContentType) {
   let content: (

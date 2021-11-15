@@ -1,5 +1,5 @@
+import { getContentType, SelfDescription } from '@tributech/self-description';
 import ShortUniqueId from 'short-unique-id';
-import { getContentType, SelfDescription } from '../../../models/data.model';
 
 export function generateDTMI(
   value: SelfDescription,

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { EntityActions, QueryEntity } from '@datorama/akita';
-import { JsonldGraph } from 'jsonld-graph';
-import { ExpandedTwinModel, TwinModel } from '../../models/data.model';
-import { context } from '../../models/json-ld-context';
 import {
+  context,
+  ExpandedInterface,
   expandInterface,
   getChildrenVertices,
   hasNoIncomingRelationships,
+  Interface,
   REL_TARGET_ANY,
-} from '../../utils/model.utils';
+} from '@tributech/self-description';
+import { JsonldGraph } from 'jsonld-graph';
 import { ModelState, ModelStore } from './model.store';
 
 @Injectable({ providedIn: 'root' })
@@ -28,8 +29,8 @@ export class ModelQuery extends QueryEntity<ModelState> {
     return this.getAll();
   }
 
-  getTwinGraphModelWithParents(modelId: string): ExpandedTwinModel[] {
-    const vertices: ExpandedTwinModel[] = [];
+  getTwinGraphModelWithParents(modelId: string): ExpandedInterface[] {
+    const vertices: ExpandedInterface[] = [];
     const vertex = this.modelGraph.getVertex(modelId);
 
     if (!vertex) return [];
@@ -47,12 +48,12 @@ export class ModelQuery extends QueryEntity<ModelState> {
     return vertices;
   }
 
-  getTwinGraphModel(modelId: string): ExpandedTwinModel {
+  getTwinGraphModel(modelId: string): ExpandedInterface {
     const model = this.modelGraph.getVertex(modelId);
     return expandInterface(model);
   }
 
-  getTwinGraphModels(): ExpandedTwinModel[] {
+  getTwinGraphModels(): ExpandedInterface[] {
     const models = this.modelGraph
       .getVertices()
       .filter((x) => x.isType('dtmi:dtdl:class:Interface;2'))
@@ -61,7 +62,7 @@ export class ModelQuery extends QueryEntity<ModelState> {
     return models.map((model) => expandInterface(model));
   }
 
-  getRootModels(): ExpandedTwinModel[] {
+  getRootModels(): ExpandedInterface[] {
     const models = this.modelGraph
       .getVertices()
       .filter((x) => x.isType('dtmi:dtdl:class:Interface;2'))
@@ -72,7 +73,7 @@ export class ModelQuery extends QueryEntity<ModelState> {
     return roots.map((m) => expandInterface(m));
   }
 
-  getTwinGraphModelsForIds(modelIds: string[]): ExpandedTwinModel[] {
+  getTwinGraphModelsForIds(modelIds: string[]): ExpandedInterface[] {
     if (!modelIds) return [];
     return modelIds.map((id) => this.getTwinGraphModel(id));
   }
@@ -128,7 +129,7 @@ export class ModelQuery extends QueryEntity<ModelState> {
     }
   }
 
-  private loadModelsIntoGraph(models: TwinModel[]) {
+  private loadModelsIntoGraph(models: Interface[]) {
     return this.modelGraph.parse(models, { contexts: context['@context'] });
   }
 
