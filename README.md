@@ -16,8 +16,15 @@ The data model can than be used to create instances of the data that can be inse
   * Create, view, edit and delete DTDL models
   * Create, view, edit and delete instances
 
+
+Screenshots can be found under /docs/assets/.
+
+
 ### State of the projects
 Both projects of this repository are used in production to power the [Tributech DataSpace Kit](https://www.tributech.io/product/dataspace-kit). We will create a demo repository that allows a quick bootstrap of the open-source stack including authorization soon. At the moment some manual adaptions might be necessary to get the frontend/backend running without an identity provider.
+
+#### Catalog-UI
+The model builder is currently under develop and not feature complete, missing functionality mainly affects complex properties for now e.g. it is currently not possible to add/edit/remove enum values.
 
 
 ### Example DTDL-Models
