@@ -46,6 +46,18 @@
         "jestConfig": "apps/tributech-catalog/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": false,
+        "file": "apps/tributech-catalog/Dockerfile",
+        "tags": [
+          "tributech.azurecr.io/catalog-api:latest",
+          "tributech.azurecr.io/catalog-api:latest"
+        ],
+        "target": "final"
+      }
     }
   },
   "tags": []

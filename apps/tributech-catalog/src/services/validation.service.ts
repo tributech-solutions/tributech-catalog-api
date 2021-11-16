@@ -2,10 +2,10 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   generateJSONSchema,
   getRelationshipJSONSchema,
+  JSONSchema,
 } from '@tributech/self-description';
 import Ajv, { ErrorObject } from 'ajv';
 import { every, forEach } from 'lodash';
-import { JSONSchema } from '../../../../libs/twin-models/src/models/json-schema';
 import { TwinGraph, TwinInstance, TwinRelationship } from '../models/models';
 import {
   SchemaErrorObject,

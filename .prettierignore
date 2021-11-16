@@ -6,3 +6,5 @@
 /apps/tributech-catalog-ui/ssl
 /tools/schemas
 /node_modules
+/libs/connectors/catalog-api/src/**/*
+/libs/connectors/twin-api/src/**/*

@@ -1,16 +1,19 @@
 FROM node:16-alpine As base
 LABEL vendor="Tributech.io Solutions"
+RUN apk --no-cache add git
 WORKDIR /app
 
-FROM node:16-alpine As build
-
-WORKDIR /app
+FROM base As build
 
 COPY package.json ./
 COPY yarn.lock ./
 COPY workspace.json ./
+COPY nx.json ./
+COPY tsconfig.base.json ./
 
-COPY apps/tributech-catalog ./apps/tributech-catalog
+COPY apps/ ./apps/
+COPY libs/ ./libs/
+COPY tools/schemas ./tools/schemas
 
 # ensure NODE_ENV is not set to production as
 # otherwise we do not install devDependencies

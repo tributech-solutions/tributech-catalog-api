@@ -1,7 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { createSpyObject } from '@ngneat/spectator';
-// @ts-ignore
 import request from 'supertest';
 import { AppModule } from '../app.module';
 import { AuthenticationGuard } from '../auth/auth.guard';

@@ -24,8 +24,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { cloneDeep } from '@apollo/client/utilities';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ConfigService, getInPath } from '@tributech/core';
 import { map as _map, some } from 'lodash';
+import { ConfigService } from '../config/config.service';
+import { getInPath } from '../utils/get-by-path';
 import {
   ColumnSettings,
   TableNoDataHint,

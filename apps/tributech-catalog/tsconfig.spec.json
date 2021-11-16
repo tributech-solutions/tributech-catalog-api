@@ -5,7 +5,9 @@
     "module": "commonjs",
     "types": ["jest", "node"],
     "lib": ["es2021"],
-    "strictNullChecks": true
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

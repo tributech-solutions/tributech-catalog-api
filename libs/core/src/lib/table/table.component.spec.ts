@@ -9,19 +9,16 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ConfigService } from '@tributech/core';
-import { MockComponent, MockModule, MockProvider } from 'ng-mocks';
-import { DateFnsModule } from 'ngx-date-fns';
-import { FilterModule } from '../filter/filter.module';
+import { MockModule, MockProvider } from 'ng-mocks';
+import { ConfigService } from '../config/config.service';
 import { TrackByPropertyModule } from '../track-by-propery/track-by-property.module';
-import { DateCellComponent } from './cells/date-cell/date-cell.component';
 import { TableComponent } from './table.component';
 
 describe('TableComponent', () => {
   let spectator: Spectator<TableComponent>;
   const createComponent = createComponentFactory({
     component: TableComponent,
-    declarations: [MockComponent(DateCellComponent)],
+    declarations: [],
     imports: [
       NoopAnimationsModule,
       MockModule(MatTableModule),
@@ -30,11 +27,9 @@ describe('TableComponent', () => {
       MockModule(MatSortModule),
       MockModule(MatPaginatorModule),
       MockModule(TrackByPropertyModule),
-      MockModule(FilterModule),
       MockModule(MatButtonModule),
       MockModule(MatMenuModule),
       MockModule(FontAwesomeModule),
-      MockModule(DateFnsModule),
       MockModule(RouterModule),
     ],
     providers: [MockProvider(ConfigService)],

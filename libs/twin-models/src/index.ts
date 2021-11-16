@@ -1,6 +1,7 @@
 export * from './models/common';
 export * from './models/constants';
 export * from './models/json-ld-context';
+export * from './models/json-schema';
 export * from './models/models';
 export * from './models/schema';
 export * from './models/semantic-type';

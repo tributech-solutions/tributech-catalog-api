@@ -85,12 +85,6 @@
         }
       }
     },
-    "extract-i18n": {
-      "builder": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "browserTarget": "tributech-catalog-ui:build"
-      }
-    },
     "lint": {
       "builder": "@nrwl/linter:eslint",
       "options": {
@@ -106,6 +100,17 @@
       "options": {
         "jestConfig": "apps/tributech-catalog-ui/jest.config.js",
         "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "file": "apps/tributech-catalog-ui/Dockerfile",
+        "push": false,
+        "tags": [
+          "tributech.azurecr.io/catalog-ui:latest",
+          "tributech.azurecr.io/catalog-ui:alpha"
+        ]
       }
     }
   },
