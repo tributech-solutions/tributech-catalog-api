@@ -62,7 +62,7 @@ $ npm run generate-connectors
 ### HTTPS
 Generate certificate to serve frontend via Self-Signed Certificate
 ```bash
-$ openssl req -x509 -newkey rsa:2048 -keyout apps/twin-builder-playground/ssl/key.pem -out apps/twin-builder-playground/ssl/cert.pem
+$ openssl req -x509 -newkey rsa:2048 -keyout apps/tributech-catalog-ui/ssl/key.pem -out apps/tributech-catalog-ui/ssl/cert.pem
 ```
 
 ## Development
@@ -97,3 +97,7 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalo
 # stop
 docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalog-api down
 ```
+
+
+## Licence
+The Tributech Open-Source stack is [fair-code](https://faircode.io/) licensed under Apache 2.0 with Commons Clause.

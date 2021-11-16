@@ -20,7 +20,8 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<T>> {
     if (
       request.url.includes('dataspace-hub.com') ||
-      request.url.includes('dataspace-node.com')
+      request.url.includes('dataspace-node.com') ||
+      request.url.includes('localhost')
     ) {
       let requestToForward: HttpRequest<T>;
 

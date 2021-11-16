@@ -13,7 +13,9 @@
           "node-forge",
           "jsonld-graph",
           "date-fns",
-          "date-fns/*"
+          "date-fns/*",
+          "dagre",
+          "webcola"
         ],
         "outputPath": "dist/apps/tributech-catalog-ui",
         "index": "apps/tributech-catalog-ui/src/index.html",

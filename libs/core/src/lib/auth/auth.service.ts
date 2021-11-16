@@ -15,7 +15,6 @@ export enum UserRole {
   ADMIN = 'admin',
 }
 
-export type UserInfo = AccessTokenPayload;
 export interface AccessTokenPayload {
   sub: string;
   email: string;
@@ -170,9 +169,7 @@ export class AuthService implements OnDestroy {
     sessionStorage.removeItem('session_state');
 
     this.oauthService.stopAutomaticRefresh();
-    const redirectUri = window?.location?.origin?.includes('file:')
-      ? 'https://agent-companion.tributech.io/callback'
-      : window?.location?.origin;
+    const redirectUri = window?.location?.origin;
     // // eslint-disable-next-line max-len
     window.location.href =
       `${this.configService?.endpoints?.identityServerUrl}/` +

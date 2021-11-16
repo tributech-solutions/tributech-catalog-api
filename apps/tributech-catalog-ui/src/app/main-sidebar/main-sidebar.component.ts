@@ -7,15 +7,19 @@ import {
   faFileCode,
   faHardHat,
   faPencilRuler,
+  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import {
-  ConfigService,
-  MenuItem,
-  MessageBrokerMessage,
-  MessageBrokerService,
-  NavigationService,
-} from '@tributech/core';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { ConfigService } from '@tributech/core';
+
+export interface MenuItem {
+  name?: string;
+  type?: string;
+  icon?: IconDefinition;
+  path?: string | string[];
+  separator?: boolean;
+  preview?: boolean;
+}
 
 @UntilDestroy()
 @Component({
@@ -83,24 +87,7 @@ export class MainSidebarComponent {
 
   expanded = false;
 
-  constructor(
-    public router: Router,
-    public navigationService: NavigationService,
-    private messageBroker: MessageBrokerService,
-    private configService: ConfigService
-  ) {
-    this.messageBroker
-      .getBroker()
-      .pipe(untilDestroyed(this))
-      .subscribe((message: MessageBrokerMessage<string>) => {
-        if (
-          message.sender === 'mainToolbarComponent' &&
-          message.data === 'toggle'
-        ) {
-          this.drawerRight.toggle();
-        }
-      });
-  }
+  constructor(public router: Router, private configService: ConfigService) {}
 
   linkClicked(link: MenuItem) {
     if (link.type === 'externalLink') {
