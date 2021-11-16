@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 // Plus imports for other components in your app.
-@import "~@circlon/angular-tree-component/css/angular-tree-component.css";
+@import '~@circlon/angular-tree-component/css/angular-tree-component.css';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -36,7 +36,7 @@ $main-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($main-theme);
 
-@import "main";
+@import 'main';
 $config: mat-typography-config();
 
 html,

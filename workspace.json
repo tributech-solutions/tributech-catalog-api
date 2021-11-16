@@ -1,12 +1,12 @@
 {
   "version": 2,
   "projects": {
-    "tributech-catalog": "apps/tributech-catalog",
-    "tributech-catalog-ui": "apps/tributech-catalog-ui",
     "connectors-catalog-api": "libs/connectors/catalog-api",
     "connectors-twin-api": "libs/connectors/twin-api",
+    "core": "libs/core",
     "digital-twin": "libs/digital-twin",
-    "twin-models": "libs/twin-models",
-    "core": "libs/core"
+    "tributech-catalog": "apps/tributech-catalog",
+    "tributech-catalog-ui": "apps/tributech-catalog-ui",
+    "twin-models": "libs/twin-models"
   }
 }

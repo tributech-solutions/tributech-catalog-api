@@ -6,10 +6,10 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - '3000:3000'
   catalog-ui:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
     ports:
-      - "80:80"
+      - '80:80'

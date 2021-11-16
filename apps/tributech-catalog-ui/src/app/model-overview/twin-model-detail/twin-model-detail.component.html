@@ -6,7 +6,7 @@
 
   <div class="dataset-header">
     <tt-icon [icon]="faInfo" iconStyle="white"></tt-icon>
-    <span class="dataset-header__text">{{ model["@id"] }}</span>
+    <span class="dataset-header__text">{{ model['@id'] }}</span>
     <div class="dataset-header__actions">
       <button
         mat-button
@@ -22,7 +22,7 @@
     <div class="dataset-info__column">
       <div class="row mb-2">
         <div class="col-5">Type</div>
-        <div class="col-7">{{ model["@type"] }}</div>
+        <div class="col-7">{{ model['@type'] }}</div>
       </div>
       <div class="row mb-2" *ngIf="model?.bases?.length > 0">
         <div class="col-5">Based on</div>

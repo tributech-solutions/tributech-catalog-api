@@ -7,12 +7,11 @@ on:
   # https://tributech.atlassian.net/wiki/spaces/TM/pages/99614725/Branches+Build-Pipelines+Tags#Issue-with-merge%2Fbuild-for-master-branch)
 
   push:
-    branches: [ release, develop, hotfix/* ]
+    branches: [release, develop, hotfix/*]
     tags:
       - '*'
   pull_request:
-    branches: [ release, develop, feature/*, hotfix/* ]
-
+    branches: [release, develop, feature/*, hotfix/*]
 
 jobs:
   check:
@@ -66,4 +65,3 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
-
