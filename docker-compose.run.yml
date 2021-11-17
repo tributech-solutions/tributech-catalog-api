@@ -12,4 +12,4 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     ports:
-      - '80:80'
+      - '4000:80'

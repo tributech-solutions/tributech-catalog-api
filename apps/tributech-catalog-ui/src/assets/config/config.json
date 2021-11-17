@@ -1,13 +1,10 @@
 {
   "endpoints": {
-    "identityServerUrl": "https://auth.dev.dataspace-hub.com/auth/realms",
-    "catalogApiUrl": "https://catalog-api.dev-node-a.dataspace-node.com",
-    "twinApiUrl": "https://twin-api.dev-node-a.dataspace-node.com"
+    "identityServerUrl": "YOUR KEYCLOAK IDENTITY SERVER",
+    "catalogApiUrl": "CATALOG API URL",
+    "twinApiUrl": "TWIN API URL"
   },
   "realm": {
-    "name": "dev-node-a"
-  },
-  "authorizationConfig": {
-    "tributech_dsk_node_id": "6d94960d-3f24-4b6d-a56e-317dce752661"
+    "name": "YOUR REALM"
   }
 }

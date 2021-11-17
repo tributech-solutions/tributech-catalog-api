@@ -2,25 +2,25 @@ FROM node:16-alpine As build
 # Install Git
 RUN apk --no-cache add git
 # Install OpenJDK-8
-RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk && \
-    apt-get install -y ant && \
-    apt-get clean;
+RUN apk --no-cache add openjdk8-jre
 
 WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
+
+# ensure NODE_ENV is not set to production as
+# otherwise we do not install devDependencies
+RUN npm i --ci
+
 COPY workspace.json ./
 COPY nx.json ./
+COPY openapitools.json ./
 COPY tsconfig.base.json ./
 COPY apps/ ./apps/
 COPY libs/ ./libs/
 COPY tools/schemas ./tools/schemas
 
-# ensure NODE_ENV is not set to production as
-# otherwise we do not install devDependencies
-RUN npm i --ci
 RUN npm run generate-connectors
 RUN npm run build-ui
 
