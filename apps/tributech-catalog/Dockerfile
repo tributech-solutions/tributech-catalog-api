@@ -6,7 +6,7 @@ WORKDIR /app
 FROM base As build
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY package-lock.json ./
 COPY workspace.json ./
 COPY nx.json ./
 COPY tsconfig.base.json ./
@@ -17,9 +17,9 @@ COPY tools/schemas ./tools/schemas
 
 # ensure NODE_ENV is not set to production as
 # otherwise we do not install devDependencies
-RUN yarn install --frozen-lockfile
+RUN npm i --ci
 
-RUN yarn run build-api
+RUN npm run build-api
 
 FROM base as final
 EXPOSE 3000

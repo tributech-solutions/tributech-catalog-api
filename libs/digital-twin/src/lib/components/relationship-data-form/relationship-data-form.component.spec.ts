@@ -7,11 +7,11 @@ import {
 } from '@ngneat/spectator/jest';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { createEmptyRelationship } from '@tributech/self-description';
 import { MockModule } from 'ng-mocks';
 import { ModelQuery } from '../../services/store/model.query';
 import { RelationshipService } from '../../services/store/relationship.service';
 import { TwinQuery } from '../../services/store/twin.query';
-import { createEmptyRelationship } from '../../utils/utils';
 import { RelationshipDataFormComponent } from './relationship-data-form.component';
 
 describe('RelationshipDataFormComponent', () => {

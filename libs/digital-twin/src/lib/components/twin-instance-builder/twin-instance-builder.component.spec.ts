@@ -8,11 +8,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { ManageModelsService } from '@tributech/catalog-api';
-import {
-  DialogService,
-  NavigationService,
-  TrackByPropertyModule,
-} from '@tributech/core';
+import { DialogService, TrackByPropertyModule } from '@tributech/core';
 import { TwinsService } from '@tributech/twin-api';
 import { AngularSplitModule } from 'angular-split';
 import { MockModule } from 'ng-mocks';
@@ -55,13 +51,7 @@ describe('TwinInstanceBuilderComponent', () => {
         useValue: true,
       },
     ],
-    mocks: [
-      NavigationService,
-      TwinService,
-      TwinsService,
-      TwinQuery,
-      DialogService,
-    ],
+    mocks: [TwinService, TwinsService, TwinQuery, DialogService],
   });
 
   it('should create', () => {

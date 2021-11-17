@@ -6,11 +6,11 @@ import {
   ContextType,
   Interface,
   InterfaceType,
-  mockProvider,
   SelfDescriptionType,
 } from '@tributech/self-description';
 import { ModelEntity } from '../models/db-model';
 import { ValidationError } from '../models/validation-error.model';
+import { mockProvider } from '../shared/testing.utils';
 import { ModelManagerService } from './model-manager.service';
 import { StorageService } from './storage.service';
 

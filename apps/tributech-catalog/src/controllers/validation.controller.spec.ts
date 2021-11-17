@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
-import { mockProvider } from '@tributech/self-description';
 import { TwinGraph, TwinInstance, TwinRelationship } from '../models/models';
 import { SchemaValidationError } from '../models/validation-error.model';
 import { ValidationService } from '../services/validation.service';
+import { mockProvider } from '../shared/testing.utils';
 import { ValidationController } from './validation.controller';
 
 describe('ValidationController', () => {

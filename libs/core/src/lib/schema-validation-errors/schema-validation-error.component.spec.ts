@@ -1,14 +1,14 @@
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { MockComponents } from 'ng-mocks';
-import { IconComponent } from '../icon/icon.component';
+import { MockModule } from 'ng-mocks';
 import { SchemaValidationErrorComponent } from './schema-validation-error.component';
 
 describe('ValidationErrorsComponent', () => {
   let spectator: Spectator<SchemaValidationErrorComponent>;
   const createComponent = createComponentFactory({
     component: SchemaValidationErrorComponent,
-    imports: [],
-    declarations: [...MockComponents(IconComponent)],
+    imports: [MockModule(FontAwesomeModule)],
+    declarations: [],
   });
   it('should create', () => {
     spectator = createComponent();

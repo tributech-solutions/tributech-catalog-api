@@ -81,7 +81,7 @@ export function getCommandRequest(vertex: Vertex): CommandPayload {
 
   const payload = {
     ...getBaseModelPropertiesFromVertex(data),
-    name: getName(vertex),
+    name: getName(data),
     schema: inferSchema(data),
   };
 
@@ -97,7 +97,7 @@ export function getCommandResponse(vertex: Vertex): CommandPayload {
 
   const payload = {
     ...getBaseModelPropertiesFromVertex(data),
-    name: getName(vertex),
+    name: getName(data),
     schema: inferSchema(data),
   };
 

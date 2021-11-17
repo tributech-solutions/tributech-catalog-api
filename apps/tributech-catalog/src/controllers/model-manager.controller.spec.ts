@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { mockProvider } from '@tributech/self-description';
 import { Interface } from '../models/models';
 import { ModelManagerService } from '../services/model-manager.service';
+import { mockProvider } from '../shared/testing.utils';
 import { ModelManagerController } from './model-manager.controller';
 
 describe('ModelManagerController', () => {

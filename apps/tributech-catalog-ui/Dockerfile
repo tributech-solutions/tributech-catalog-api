@@ -10,20 +10,19 @@ RUN apt-get update && \
 WORKDIR /app
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY package-lock.json ./
 COPY workspace.json ./
-
+COPY nx.json ./
+COPY tsconfig.base.json ./
 COPY apps/ ./apps/
 COPY libs/ ./libs/
 COPY tools/schemas ./tools/schemas
-COPY nx.json ./
-COPY tsconfig.base.json ./
 
 # ensure NODE_ENV is not set to production as
 # otherwise we do not install devDependencies
-RUN yarn install --frozen-lockfile
-RUN yarn run generate-connectors
-RUN yarn run build-ui
+RUN npm i --ci
+RUN npm run generate-connectors
+RUN npm run build-ui
 
 FROM nginx:stable-alpine as deploy
 ARG NODE_ENV=production

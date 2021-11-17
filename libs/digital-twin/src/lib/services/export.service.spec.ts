@@ -1,18 +1,19 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { MockProvider } from 'ng-mocks';
 import {
-  BaseDigitalTwin,
-  BasicRelationship,
+  ContextType,
+  createEmptyRelationship,
   Interface,
   SelfDescriptionType,
-} from '../models/data.model';
-import { createEmptyRelationship } from '../utils/utils';
+  TwinInstance,
+  TwinRelationship,
+} from '@tributech/self-description';
+import { MockProvider } from 'ng-mocks';
 import { ExportService } from './export.service';
 import { ModelQuery } from './store/model.query';
 import { RelationshipQuery } from './store/relationship.query';
 import { TwinQuery } from './store/twin.query';
 
-const exampleTwin: BaseDigitalTwin = {
+const exampleTwin: TwinInstance = {
   $dtId: 'test01',
   $etag: 'etag-01',
   $metadata: {
@@ -20,7 +21,7 @@ const exampleTwin: BaseDigitalTwin = {
   },
 };
 
-const exampleTwin1: BaseDigitalTwin = {
+const exampleTwin1: TwinInstance = {
   $dtId: 'test02',
   $etag: 'etag-02',
   $metadata: {
@@ -28,14 +29,14 @@ const exampleTwin1: BaseDigitalTwin = {
   },
 };
 
-const exampleRel: BasicRelationship = createEmptyRelationship(
+const exampleRel: TwinRelationship = createEmptyRelationship(
   'testRel',
   exampleTwin?.$dtId,
   exampleTwin1?.$dtId
 );
 
 const exampleModel: Partial<Interface> = {
-  '@context': 'dtmi:dtdl:context;2',
+  '@context': ContextType.DTDL2,
   '@id': 'dtmi:example:test;01',
   '@type': SelfDescriptionType.Interface,
   displayName: 'TestModel',

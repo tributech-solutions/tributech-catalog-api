@@ -1,7 +1,7 @@
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { Test } from '@nestjs/testing';
-import { ContextType, InterfaceType } from '../models/models';
-import { mockProvider } from '../utils/testing.utils';
+import { ContextType, InterfaceType } from '@tributech/self-description';
+import { mockProvider } from '../shared/testing.utils';
 import { ModelGraphService } from './model-graph.service';
 
 describe('ModelGraphService', () => {
@@ -216,12 +216,12 @@ describe('ModelGraphService', () => {
         jasmine.objectContaining({
           '@type': 'Command',
           name: 'reboot',
-          request: jasmine.objectContaining({
+          request: {
             name: 'rebootTime',
             displayName: 'Reboot Time',
             description: 'Requested time to reboot the device.',
             schema: 'dateTime',
-          }),
+          },
           response: jasmine.objectContaining({
             name: 'scheduledTime',
             schema: 'dateTime',

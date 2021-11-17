@@ -3,11 +3,11 @@ import {
   ContextType,
   DTMI_REGEX,
   ExpandedInterface,
-  mockProvider,
   SelfDescriptionType,
   TwinInstance,
   TwinRelationship,
 } from '@tributech/self-description';
+import { mockProvider } from '../shared/testing.utils';
 import { ModelGraphService } from './model-graph.service';
 import { ValidationService } from './validation.service';
 

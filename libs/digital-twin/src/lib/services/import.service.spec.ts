@@ -1,11 +1,11 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { MockProvider } from 'ng-mocks';
 import {
-  BaseDigitalTwin,
-  BasicRelationship,
+  createEmptyRelationship,
   Interface,
-} from '../models/data.model';
-import { createEmptyRelationship } from '../utils/utils';
+  TwinInstance,
+  TwinRelationship,
+} from '@tributech/self-description';
+import { MockProvider } from 'ng-mocks';
 import { ImportService } from './import.service';
 import { ModelService } from './store/model.service';
 import { RelationshipService } from './store/relationship.service';
@@ -25,7 +25,7 @@ const exampleModel: Interface = {
   ],
 } as Interface;
 
-const exampleTwin: BaseDigitalTwin = {
+const exampleTwin: TwinInstance = {
   $dtId: 'test01',
   $etag: 'etag-01',
   $metadata: {
@@ -33,7 +33,7 @@ const exampleTwin: BaseDigitalTwin = {
   },
 };
 
-const exampleRel: BasicRelationship = createEmptyRelationship(
+const exampleRel: TwinRelationship = createEmptyRelationship(
   'testRel',
   exampleTwin?.$dtId,
   exampleTwin?.$dtId

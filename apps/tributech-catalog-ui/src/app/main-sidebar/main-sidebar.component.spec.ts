@@ -6,14 +6,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  ConcealedInTrialModule,
-  ConfigService,
-  MockConfigService,
-  NotificationService,
-  TrackByPropertyModule,
-} from '@tributech/core';
-import { MockModule, MockProvider } from 'ng-mocks';
+import { mockProvider } from '@ngneat/spectator/jest';
+import { ConfigService, TrackByPropertyModule } from '@tributech/core';
+import { MockModule } from 'ng-mocks';
 import { MainSidebarComponent } from './main-sidebar.component';
 
 describe('MainSidebarComponent', () => {
@@ -29,15 +24,11 @@ describe('MainSidebarComponent', () => {
         HttpClientTestingModule,
         NoopAnimationsModule,
         MockModule(MatIconModule),
-        MockModule(ConcealedInTrialModule),
         MockModule(TrackByPropertyModule),
         MockModule(MatListModule),
       ],
       declarations: [MainSidebarComponent],
-      providers: [
-        { provide: ConfigService, useClass: MockConfigService },
-        MockProvider(NotificationService),
-      ],
+      providers: [mockProvider(ConfigService, { endpoints: {} })],
     }).compileComponents();
   }));
 

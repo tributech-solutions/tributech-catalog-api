@@ -6,7 +6,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { DtdlModelsService } from '@tributech/catalog-api';
-import { HeroHeaderModule, NavigationService } from '@tributech/core';
+import { HeroHeaderModule } from '@tributech/core';
 import {
   TwinBuilderService,
   TwinInstanceTableModule,
@@ -35,7 +35,7 @@ describe('TwinModelDetailComponent', () => {
       }),
       mockProvider(TwinBuilderService),
     ],
-    mocks: [NavigationService],
+    mocks: [],
   });
 
   it('should create', () => {
