@@ -6,7 +6,6 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { DtdlModelsService } from '@tributech/catalog-api';
-import { HeroHeaderModule } from '@tributech/core';
 import {
   TwinBuilderService,
   TwinInstanceTableModule,
@@ -14,6 +13,7 @@ import {
 import { TwinsService } from '@tributech/twin-api';
 import { MockModule } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
+import { HeroHeaderModule } from '../../shared/hero-header/hero-header.module';
 import { TwinModelDetailComponent } from './twin-model-detail.component';
 
 describe('TwinModelDetailComponent', () => {

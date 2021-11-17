@@ -8,7 +8,7 @@ import {
   ColumnType,
   TableNoDataHint,
   TablePaginationSettings,
-} from '@tributech/core';
+} from '@tributech/digital-twin';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -32,7 +32,6 @@ export class ModelOverviewComponent implements OnInit {
 
   noDataHint: TableNoDataHint = {
     text: `You don't have any models stored yet.`,
-    showGoToDocumentation: true,
   };
 
   constructor(

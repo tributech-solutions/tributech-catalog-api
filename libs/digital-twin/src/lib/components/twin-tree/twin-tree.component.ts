@@ -5,13 +5,13 @@ import {
   MatTreeFlattener,
 } from '@angular/material/tree';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Relationship as RelationshipModel } from '@tributech/catalog-api';
 import {
   createEmptyTwin,
   ExpandedInterface,
   RelationType,
+  TwinInstance,
+  TwinRelationship,
 } from '@tributech/self-description';
-import { DigitalTwin } from '@tributech/twin-api';
 import { omit } from 'lodash';
 import { Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class TwinTreeComponent implements OnInit {
   @Input() relationshipWhitelist: string[] = [];
 
   twins$ = this.twinQuery.selectAll();
-  selectedTwin$: Observable<DigitalTwin> =
+  selectedTwin$: Observable<TwinInstance> =
     this.twinBuilderService.selectedTwin$;
 
   treeControl = new FlatTreeControl<TwinFlatNode>(
@@ -141,8 +141,8 @@ export class TwinTreeComponent implements OnInit {
   }
 
   addTwinViaRelationship(
-    rel: RelationshipModel,
-    source: DigitalTwin,
+    rel: TwinRelationship,
+    source: TwinInstance,
     target: ExpandedInterface
   ) {
     const newTwin = createEmptyTwin(target?.['@id']);

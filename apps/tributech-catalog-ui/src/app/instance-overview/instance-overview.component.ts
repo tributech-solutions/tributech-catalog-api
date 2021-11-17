@@ -5,8 +5,8 @@ import {
   ColumnSettings,
   TableNoDataHint,
   TablePaginationSettings,
-} from '@tributech/core';
-import { TwinBuilderService } from '@tributech/digital-twin';
+  TwinBuilderService,
+} from '@tributech/digital-twin';
 import { DigitalTwin, TwinsService } from '@tributech/twin-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -28,7 +28,6 @@ export class InstanceOverviewComponent implements OnInit {
 
   noDataHint: TableNoDataHint = {
     text: `You don't have any twin instances stored yet.`,
-    showGoToDocumentation: true,
   };
 
   constructor(

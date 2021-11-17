@@ -9,8 +9,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { MockModule, MockProvider } from 'ng-mocks';
-import { ConfigService } from '../config/config.service';
+import { MockModule } from 'ng-mocks';
 import { TrackByPropertyModule } from '../track-by-propery/track-by-property.module';
 import { TableComponent } from './table.component';
 
@@ -32,7 +31,7 @@ describe('TableComponent', () => {
       MockModule(FontAwesomeModule),
       MockModule(RouterModule),
     ],
-    providers: [MockProvider(ConfigService)],
+    providers: [],
   });
 
   it('should create', () => {

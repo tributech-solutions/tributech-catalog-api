@@ -3,5 +3,6 @@
   "dest": "../../dist/digital-twin",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["lodash", "short-unique-id"]
 }

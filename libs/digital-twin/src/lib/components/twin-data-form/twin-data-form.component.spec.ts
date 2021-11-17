@@ -7,8 +7,6 @@ import {
 } from '@ngneat/spectator/jest';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { ValidationService } from '@tributech/catalog-api';
-import { DialogService } from '@tributech/core';
 import { createEmptyTwin } from '@tributech/self-description';
 import { MockModule } from 'ng-mocks';
 import { ModelQuery } from '../../services/store/model.query';
@@ -26,12 +24,7 @@ describe('TwinDataFormComponent', () => {
       FormsModule,
       ReactiveFormsModule,
     ],
-    providers: [
-      mockProvider(ModelQuery),
-      mockProvider(TwinService),
-      mockProvider(ValidationService),
-      mockProvider(DialogService),
-    ],
+    providers: [mockProvider(ModelQuery), mockProvider(TwinService)],
   });
 
   beforeEach(() => {

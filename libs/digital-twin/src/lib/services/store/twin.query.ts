@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { cloneDeep } from '@apollo/client/utilities';
 import { HashMap, QueryEntity } from '@datorama/akita';
-import { ExpandedInterface, RelationType } from '@tributech/self-description';
-import { DigitalTwin } from '@tributech/twin-api';
+import {
+  ExpandedInterface,
+  RelationType,
+  TwinInstance,
+} from '@tributech/self-description';
 import { ModelQuery } from './model.query';
 import { RelationshipQuery } from './relationship.query';
 import { TwinState, TwinStore } from './twin.store';
 
-export interface TwinTreeNode extends DigitalTwin {
+export interface TwinTreeNode extends TwinInstance {
   children?: TwinTreeNode[];
 }
 

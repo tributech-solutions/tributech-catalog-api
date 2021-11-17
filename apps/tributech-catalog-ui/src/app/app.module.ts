@@ -12,16 +12,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormlyModule } from '@ngx-formly/core';
 import { CatalogApiConfiguration } from '@tributech/catalog-api';
 import {
-  AuthInterceptor,
-  AuthService,
-  BASE_AUTH_CONFIG,
-  ConfigService,
-  TrackByPropertyModule,
-} from '@tributech/core';
-import {
   OFFLINE_MODE,
   RelationshipFormModule,
   SelfDescriptionBuilderModule,
+  TrackByPropertyModule,
   TwinFormModule,
   TwinInstanceBuilderModule,
   TwinJsonModalModule,
@@ -40,6 +34,9 @@ import { MainSidebarComponent } from './main-sidebar/main-sidebar.component';
 import { ModelBuilderComponent } from './model-builder/model-builder.component';
 import { ModelOverviewModule } from './model-overview/model-overview.module';
 import { SelfDescriptionGraphModule } from './self-description-graph/self-description-graph.module';
+import { AuthInterceptor } from './shared/auth/auth.interceptor';
+import { AuthService, BASE_AUTH_CONFIG } from './shared/auth/auth.service';
+import { ConfigService } from './shared/config/config.service';
 import { TwinBuilderToolbarModule } from './twin-builder-toolbar/twin-builder-toolbar.module';
 
 export function configureApis(

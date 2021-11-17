@@ -1,15 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DtdlModelsService, ExpandedInterface } from '@tributech/catalog-api';
 import {
-  ColumnSettings,
-  TableNoDataHint,
-  TablePaginationSettings,
-} from '@tributech/core';
-import { convertDTMIToNeo4jLabel } from '@tributech/self-description';
-import { DigitalTwin, QueryService, TwinsService } from '@tributech/twin-api';
+  convertDTMIToNeo4jLabel,
+  TwinInstance,
+} from '@tributech/self-description';
+import { QueryService, TwinsService } from '@tributech/twin-api';
 import { isString } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {
+  ColumnSettings,
+  TableNoDataHint,
+  TablePaginationSettings,
+} from '../../other-components/table/table-settings.model';
 
 @Component({
   selector: 'tt-twin-instance-table',
@@ -19,10 +22,10 @@ import { map } from 'rxjs/operators';
 export class TwinInstanceTableComponent implements OnInit {
   @Input() dtmi: string;
   @Output()
-  instanceClicked: EventEmitter<DigitalTwin> = new EventEmitter<DigitalTwin>();
+  instanceClicked: EventEmitter<TwinInstance> = new EventEmitter<TwinInstance>();
 
   columns: ColumnSettings[];
-  rowData$: Observable<DigitalTwin[]>;
+  rowData$: Observable<TwinInstance[]>;
   pagination: TablePaginationSettings = {
     enablePagination: true,
     pageSize: 15,
@@ -32,7 +35,6 @@ export class TwinInstanceTableComponent implements OnInit {
 
   noDataHint: TableNoDataHint = {
     text: `You don't have any stored instances of this model yet.`,
-    showGoToDocumentation: true,
   };
 
   constructor(

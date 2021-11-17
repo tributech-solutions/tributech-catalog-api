@@ -16,12 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@tributech/catalog-api": ["libs/connectors/catalog-api/src/index.ts"],
-      "@tributech/core": ["libs/core/src/public-api.ts"],
       "@tributech/digital-twin": ["libs/digital-twin/src/index.ts"],
-      "@tributech/self-description": [
-        "libs/self-description/src/index.ts",
-        "libs/self-description/src/index.spec.ts"
-      ],
+      "@tributech/self-description": ["libs/self-description/src/index.ts"],
       "@tributech/twin-api": ["libs/connectors/twin-api/src/index.ts"]
     }
   },

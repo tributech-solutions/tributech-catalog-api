@@ -1,7 +1,7 @@
 {
   "npmScope": "tributech",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "develop"
   },
   "cli": {
     "defaultCollection": "@nrwl/nest"

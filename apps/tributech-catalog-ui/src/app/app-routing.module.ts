@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SecurityGuard } from '@tributech/core';
 import { InstanceBuilderComponent } from './instance-builder/instance-builder.component';
 import { InstanceOverviewComponent } from './instance-overview/instance-overview.component';
 import { ModelBuilderComponent } from './model-builder/model-builder.component';
 import { ModelOverviewComponent } from './model-overview/model-overview.component';
 import { TwinModelDetailComponent } from './model-overview/twin-model-detail/twin-model-detail.component';
 import { SelfDescriptionGraphComponent } from './self-description-graph/self-description-graph.component';
+import { SecurityGuard } from './shared/security/guards/security.guard';
 
 const routes: Routes = [
   {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '@tributech/core';
+import { AuthService } from '../shared/auth/auth.service';
 
 @Component({
   selector: 'tributech-twin-builder-toolbar',

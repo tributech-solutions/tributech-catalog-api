@@ -10,9 +10,10 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
-import { DialogService, TrackByPropertyModule } from '@tributech/core';
 import { MockModule } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
+import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
+import { TrackByPropertyModule } from '../../other-components/track-by-propery/track-by-property.module';
 import { RelationshipQuery } from '../../services/store/relationship.query';
 import { TwinQuery } from '../../services/store/twin.query';
 import { TwinGraphComponent } from './twin-graph.component';

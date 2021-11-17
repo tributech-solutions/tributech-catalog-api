@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TableModule } from '@tributech/core';
+import { TableModule } from '../../other-components/table/table.module';
 import { TwinInstanceTableComponent } from './twin-instance-table.component';
 
 @NgModule({

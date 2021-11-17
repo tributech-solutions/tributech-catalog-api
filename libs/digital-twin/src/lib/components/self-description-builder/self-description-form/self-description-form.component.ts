@@ -9,7 +9,6 @@ import {
 import { FormGroup } from '@angular/forms';
 import { isArray } from '@datorama/akita';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { DialogService } from '@tributech/core';
 import { SelfDescription } from '@tributech/self-description';
 import { isEqual, isNil, omitBy } from 'lodash';
 import { SelfDescriptionFormService } from '../self-description-form.service';
@@ -33,10 +32,7 @@ export class SelfDescriptionFormComponent implements OnChanges {
     },
   };
 
-  constructor(
-    private dialogService: DialogService,
-    private selfDescriptionFormService: SelfDescriptionFormService
-  ) {}
+  constructor(private selfDescriptionFormService: SelfDescriptionFormService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.selfDescription) {

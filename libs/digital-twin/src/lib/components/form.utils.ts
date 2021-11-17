@@ -1,5 +1,4 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { uuidv4 } from '@tributech/core';
 import {
   EnumSchema,
   ExpandedInterface,
@@ -7,6 +6,7 @@ import {
   MapSchema,
   ObjectSchema,
   Property,
+  uuidv4,
 } from '@tributech/self-description';
 import { filter } from 'lodash';
 

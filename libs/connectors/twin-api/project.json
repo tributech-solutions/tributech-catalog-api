@@ -3,5 +3,30 @@
   "sourceRoot": "libs/connectors/twin-api/src",
   "projectType": "library",
   "prefix": "tt",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/connectors/twin-api"],
+      "options": {
+        "project": "libs/connectors/twin-api/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/connectors/twin-api/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/connectors/twin-api/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production"
+      }
+    }
+  },
   "tags": []
 }

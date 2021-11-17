@@ -1,5 +1,5 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { DigitalTwin } from '@tributech/twin-api';
+import { TwinInstance } from '@tributech/self-description';
 import { MockProvider } from 'ng-mocks';
 import { ModelQuery } from './model.query';
 import { RelationshipQuery } from './relationship.query';
@@ -9,7 +9,7 @@ import { TwinQuery } from './twin.query';
 import { TwinService } from './twin.service';
 import { TwinStore } from './twin.store';
 
-const exampleTwin: DigitalTwin = {
+const exampleTwin: TwinInstance = {
   $dtId: 'test01',
   $etag: 'etag-01',
   $metadata: {
@@ -17,7 +17,7 @@ const exampleTwin: DigitalTwin = {
   },
 };
 
-const exampleTwin1: DigitalTwin = {
+const exampleTwin1: TwinInstance = {
   $dtId: 'test02',
   $etag: 'etag-02',
   $metadata: {

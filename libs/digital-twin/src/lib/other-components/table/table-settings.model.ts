@@ -97,6 +97,5 @@ export interface TableAction<T = unknown> {
 
 export interface TableNoDataHint {
   text: string;
-  showGoToDocumentation?: boolean;
   routerLink?: string[];
 }

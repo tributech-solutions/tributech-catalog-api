@@ -7,7 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { ResizeObserverModule } from '@ng-web-apis/resize-observer';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
-import { TrackByPropertyModule } from '@tributech/core';
+import { TrackByPropertyModule } from '../../other-components/track-by-propery/track-by-property.module';
 import { TwinGraphComponent } from './twin-graph.component';
 
 @NgModule({

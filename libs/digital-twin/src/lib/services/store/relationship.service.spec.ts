@@ -1,9 +1,9 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { uuidv4 } from '@tributech/core';
 import {
   createEmptyRelationship,
   createETag,
   TwinRelationship,
+  uuidv4,
 } from '@tributech/self-description';
 import { RelationshipQuery } from './relationship.query';
 import { RelationshipService } from './relationship.service';

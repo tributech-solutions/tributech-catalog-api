@@ -133,14 +133,7 @@
             [routerLink]="noDataHint?.routerLink"
             >{{ noDataHint?.text }}
           </span>
-          <span
-            *ngIf="noDataHint && noDataHint?.showGoToDocumentation"
-            class="ml-1"
-          >
-            Visit the
-            <a target="_blank" [href]="documentationLink">Documentation</a>.
-          </span></ng-container
-        >
+        </ng-container>
         <ng-container
           *ngIf="
             dataSource?.data?.length !== 0 &&

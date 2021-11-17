@@ -23,16 +23,23 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { cloneDeep } from '@apollo/client/utilities';
+import { isArray } from '@datorama/akita';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { map as _map, some } from 'lodash';
-import { ConfigService } from '../config/config.service';
-import { getInPath } from '../utils/get-by-path';
 import {
   ColumnSettings,
   TableNoDataHint,
   TablePaginationSettings,
   TableSelectionSettings,
 } from './table-settings.model';
+
+function getInPath(object: any, path: string | string[]) {
+  if (!object) return undefined;
+  if (!path) return object;
+
+  const parts = isArray(path) ? path : path?.split?.('.');
+  return parts?.reduce((acc, part) => acc && acc[part], object) ?? undefined;
+}
 
 @UntilDestroy()
 @Component({
@@ -84,11 +91,6 @@ export class TableComponent<T extends { id: string } = { id: string }>
   selectedRowIndex = '';
   _selection = new SelectionModel<T>();
   columnNames: string[] = [];
-  documentationLink: string;
-
-  constructor(private configService: ConfigService) {
-    this.documentationLink = this.configService?.endpoints?.documentationUrl;
-  }
 
   ngOnInit() {
     this.columnNames = _map(this.columns, 'propertyPath');
