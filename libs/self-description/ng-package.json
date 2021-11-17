@@ -3,5 +3,6 @@
   "dest": "../../dist/self-description",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["jsonld-graph", "lodash"]
 }

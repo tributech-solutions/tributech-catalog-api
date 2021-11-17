@@ -6,16 +6,16 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/test"],
+      "outputs": ["dist/libs/self-description"],
       "options": {
-        "project": "libs/test/ng-package.json"
+        "project": "libs/self-description/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/test/tsconfig.lib.prod.json"
+          "tsConfig": "libs/self-description/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/test/tsconfig.lib.json"
+          "tsConfig": "libs/self-description/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
@@ -32,6 +32,13 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["libs/test/src/**/*.ts", "libs/test/src/**/*.html"]
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production"
       }
     }
   },

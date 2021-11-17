@@ -29,5 +29,16 @@
       }
     ]
   },
-  "defaultProject": "tributech-catalog"
+  "defaultProject": "tributech-catalog",
+  "generators": {
+    "@nrwl/angular:application": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {}
+  }
 }
