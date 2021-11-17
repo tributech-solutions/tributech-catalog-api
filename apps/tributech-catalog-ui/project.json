@@ -5,7 +5,7 @@
   "prefix": "tributech",
   "targets": {
     "build": {
-      "builder": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:browser",
       "options": {
         "allowedCommonJsDependencies": [
           "zen-observable",
@@ -74,7 +74,7 @@
       }
     },
     "serve": {
-      "builder": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
         "browserTarget": "tributech-catalog-ui:build",
         "ssl": true
@@ -86,7 +86,7 @@
       }
     },
     "lint": {
-      "builder": "@nrwl/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/tributech-catalog-ui/src/**/*.ts",
@@ -95,7 +95,7 @@
       }
     },
     "test": {
-      "builder": "@nrwl/jest:jest",
+      "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/tributech-catalog-ui"],
       "options": {
         "jestConfig": "apps/tributech-catalog-ui/jest.config.js",

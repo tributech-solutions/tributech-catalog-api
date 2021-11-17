@@ -5,7 +5,7 @@
   "prefix": "tt",
   "targets": {
     "test": {
-      "builder": "@nrwl/jest:jest",
+      "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "libs/core/jest.config.js",
         "passWithNoTests": true,
@@ -13,7 +13,7 @@
       }
     },
     "lint": {
-      "builder": "@nrwl/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["libs/core/**/*.ts", "libs/core/**/*.html"]
       }

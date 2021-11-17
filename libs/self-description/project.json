@@ -1,0 +1,39 @@
+{
+  "root": "libs/self-description",
+  "sourceRoot": "libs/self-description/src",
+  "projectType": "library",
+  "prefix": "tt",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/test"],
+      "options": {
+        "project": "libs/test/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/test/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/test/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/test"],
+      "options": {
+        "jestConfig": "libs/test/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/test/src/**/*.ts", "libs/test/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -19,8 +19,8 @@
       "@tributech/core": ["libs/core/src/public-api.ts"],
       "@tributech/digital-twin": ["libs/digital-twin/src/index.ts"],
       "@tributech/self-description": [
-        "libs/twin-models/src/index.ts",
-        "libs/twin-models/src/index.spec.ts"
+        "libs/self-description/src/index.ts",
+        "libs/self-description/src/index.spec.ts"
       ],
       "@tributech/twin-api": ["libs/connectors/twin-api/src/index.ts"]
     }

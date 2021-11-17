@@ -5,7 +5,7 @@
   "prefix": "tt",
   "targets": {
     "lint": {
-      "builder": "@nrwl/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/digital-twin/src/**/*.ts",
@@ -14,7 +14,7 @@
       }
     },
     "test": {
-      "builder": "@nrwl/jest:jest",
+      "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/digital-twin"],
       "options": {
         "jestConfig": "libs/digital-twin/jest.config.js",

@@ -5,8 +5,23 @@
     "connectors-twin-api": "libs/connectors/twin-api",
     "core": "libs/core",
     "digital-twin": "libs/digital-twin",
+    "self-description": "libs/self-description",
     "tributech-catalog": "apps/tributech-catalog",
-    "tributech-catalog-ui": "apps/tributech-catalog-ui",
-    "twin-models": "libs/twin-models"
+    "tributech-catalog-ui": "apps/tributech-catalog-ui"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "tributech-catalog",
+  "generators": {
+    "@nrwl/angular:application": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {}
   }
 }
