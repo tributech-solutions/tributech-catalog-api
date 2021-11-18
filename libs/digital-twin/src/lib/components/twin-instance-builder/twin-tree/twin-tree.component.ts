@@ -15,19 +15,19 @@ import {
 import { omit } from 'lodash';
 import { Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
-import { ExportService } from '../../services/export.service';
-import { LoadService } from '../../services/load.service';
-import { ModelQuery } from '../../services/store/model.query';
-import { ModelService } from '../../services/store/model.service';
-import { RelationshipQuery } from '../../services/store/relationship.query';
-import { RelationshipService } from '../../services/store/relationship.service';
+import { ExportService } from '../../../services/export.service';
+import { LoadService } from '../../../services/load.service';
+import { ModelQuery } from '../../../services/store/model.query';
+import { ModelService } from '../../../services/store/model.service';
+import { RelationshipQuery } from '../../../services/store/relationship.query';
+import { RelationshipService } from '../../../services/store/relationship.service';
 import {
   EnrichedTwinTreeNode,
   TwinQuery,
   TwinTreeNode,
-} from '../../services/store/twin.query';
-import { TwinService } from '../../services/store/twin.service';
-import { TwinBuilderService } from '../twin-instance-builder/twin-builder.service';
+} from '../../../services/store/twin.query';
+import { TwinService } from '../../../services/store/twin.service';
+import { TwinBuilderService } from '../twin-builder.service';
 
 interface TwinFlatNode {
   expandable: boolean;

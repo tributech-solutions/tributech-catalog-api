@@ -7,15 +7,15 @@ import { MatTreeModule } from '@angular/material/tree';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockModule, MockProvider } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
-import { TrackByPropertyModule } from '../../other-components/track-by-propery/track-by-property.module';
-import { LoadService } from '../../services/load.service';
-import { ModelQuery } from '../../services/store/model.query';
-import { ModelService } from '../../services/store/model.service';
-import { RelationshipQuery } from '../../services/store/relationship.query';
-import { RelationshipService } from '../../services/store/relationship.service';
-import { TwinQuery } from '../../services/store/twin.query';
-import { TwinService } from '../../services/store/twin.service';
-import { TwinBuilderService } from '../twin-instance-builder/twin-builder.service';
+import { TrackByPropertyModule } from '../../../other-components/track-by-propery/track-by-property.module';
+import { LoadService } from '../../../services/load.service';
+import { ModelQuery } from '../../../services/store/model.query';
+import { ModelService } from '../../../services/store/model.service';
+import { RelationshipQuery } from '../../../services/store/relationship.query';
+import { RelationshipService } from '../../../services/store/relationship.service';
+import { TwinQuery } from '../../../services/store/twin.query';
+import { TwinService } from '../../../services/store/twin.service';
+import { TwinBuilderService } from '../twin-builder.service';
 import { TwinTreeComponent } from './twin-tree.component';
 
 describe('TwinTreeComponent', () => {
