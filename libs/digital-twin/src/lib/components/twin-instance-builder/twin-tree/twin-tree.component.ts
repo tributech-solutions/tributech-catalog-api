@@ -1,38 +1,33 @@
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
-  MatTreeFlatDataSource,
-  MatTreeFlattener,
-} from '@angular/material/tree';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ITreeOptions, TreeNode } from '@circlon/angular-tree-component';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   createEmptyTwin,
   ExpandedInterface,
   RelationType,
+  SelfDescription,
   TwinInstance,
   TwinRelationship,
 } from '@tributech/self-description';
 import { omit } from 'lodash';
-import { Observable } from 'rxjs';
-import { startWith } from 'rxjs/operators';
 import { ExportService } from '../../../services/export.service';
 import { LoadService } from '../../../services/load.service';
 import { ModelQuery } from '../../../services/store/model.query';
-import { ModelService } from '../../../services/store/model.service';
 import { RelationshipQuery } from '../../../services/store/relationship.query';
-import { RelationshipService } from '../../../services/store/relationship.service';
-import {
-  EnrichedTwinTreeNode,
-  TwinQuery,
-  TwinTreeNode,
-} from '../../../services/store/twin.query';
-import { TwinService } from '../../../services/store/twin.service';
+import { TwinQuery } from '../../../services/store/twin.query';
 import { TwinBuilderService } from '../twin-builder.service';
 
-interface TwinFlatNode {
-  expandable: boolean;
-  twin: EnrichedTwinTreeNode;
-  level: number;
+type TwinInstanceTreeNode = { data: TwinInstance } & TreeNode;
+export interface CreateNewTwinInstancePayload {
+  twin: TwinInstance;
+  relationship?: TwinRelationship;
 }
 
 @UntilDestroy()
@@ -41,57 +36,50 @@ interface TwinFlatNode {
   templateUrl: './twin-tree.component.html',
   styleUrls: ['./twin-tree.component.scss'],
 })
-export class TwinTreeComponent implements OnInit {
+export class TwinTreeComponent {
   @Input() disableEditing: boolean;
   @Input() modelWhitelist: string[] = [];
   @Input() relationshipWhitelist: string[] = [];
 
-  twins$ = this.twinQuery.selectAll();
-  selectedTwin$: Observable<TwinInstance> =
-    this.twinBuilderService.selectedTwin$;
+  @Output() twinSelected = new EventEmitter<TwinInstance>();
+  @Output() relationshipSelected = new EventEmitter<TwinRelationship[]>();
+  @Output() twinCreated = new EventEmitter<CreateNewTwinInstancePayload>();
 
-  treeControl = new FlatTreeControl<TwinFlatNode>(
-    (node) => node.level,
-    (node) => node.expandable,
-    { trackBy: (dataNode) => dataNode?.twin?.$dtId as any }
-  );
+  @ViewChild('trigger', { read: MatMenuTrigger })
+  contextMenu: MatMenuTrigger;
 
-  treeFlattener = new MatTreeFlattener(
-    (node: TwinTreeNode, level: number) => {
-      return {
-        expandable: !!node.children && node.children.length > 0,
-        twin: node,
-        level: level,
-      };
-    },
-    (node) => node.level,
-    (node) => node.expandable,
-    (node) => node.children
-  );
+  twins$ = this.twinQuery.treeData$;
+  outgoingRelationships: TwinRelationship[] = [];
+  contextMenuPosition = { x: '0px', y: '0px' };
+  options: ITreeOptions = {
+    idField: '$dtId',
+    displayField: 'Name',
+    getChildren: this.getChildren.bind(this),
+    useVirtualScroll: true,
+  };
 
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-  treeTracker = (index: number, node: TwinFlatNode) => node?.twin?.$dtId;
-  hasChild = (_: number, node: TwinFlatNode) => node.expandable;
+  get contextTwin() {
+    return this.contextMenu?.menuData?.item as TwinInstance;
+  }
 
   constructor(
     private twinQuery: TwinQuery,
     private modelQuery: ModelQuery,
     private relationshipQuery: RelationshipQuery,
-    private relationshipService: RelationshipService,
     private twinBuilderService: TwinBuilderService,
-    private twinService: TwinService,
-    private modelService: ModelService,
     private loadService: LoadService,
-    private exportService: ExportService,
-    private changeDetectorRef: ChangeDetectorRef
+    private exportService: ExportService
   ) {}
 
-  ngOnInit(): void {
-    this.twinBuilderService.twinGraphChanged$
-      .pipe(startWith(void 0), untilDestroyed(this))
-      .subscribe(() => {
-        this.updateTree();
-      });
+  onContextMenu(event: MouseEvent, item: SelfDescription) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.contextMenu.menuData = { item: item };
+    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.openMenu();
+
+    this.outgoingRelationships = this.getPossibleOutgoingRelationships();
   }
 
   getRootModels() {
@@ -102,19 +90,21 @@ export class TwinTreeComponent implements OnInit {
     return this.modelQuery.getTwinGraphModelWithParents(modelId);
   }
 
-  twinSelected(twin: TwinFlatNode) {
-    this.twinBuilderService.selectTwin(
-      omit(twin?.twin, ['modelMetadata$', 'children'])
-    );
+  _twinSelected(twin: TwinInstance) {
+    this.twinSelected.emit(twin);
+    this.twinBuilderService.selectTwin(omit(twin, ['children', 'hasChildren']));
   }
 
-  relationshipSelected(twin: TwinFlatNode) {
-    const targetId = twin?.twin?.$dtId;
+  _relationshipsSelected(twin: TwinInstance) {
+    const targetId = twin?.$dtId;
+    if (!targetId) return;
     const rels = this.relationshipQuery.getRelationshipsForTwin(
       targetId,
       RelationType.Target
     );
+    if (rels?.length === 0) return;
     this.twinBuilderService.selectRelationships(rels);
+    this.relationshipSelected.emit(rels);
   }
 
   addTwin(model: ExpandedInterface) {
@@ -123,8 +113,8 @@ export class TwinTreeComponent implements OnInit {
     this.twinBuilderService.selectTwin(newTwin);
   }
 
-  deleteTwin(twin: TwinFlatNode) {
-    this.twinBuilderService.deleteTwin(twin?.twin);
+  deleteTwin(twin: TwinInstance) {
+    this.twinBuilderService.deleteTwin(twin);
   }
 
   isActionEnabled(targetTwinModel: string, relType?: string) {
@@ -166,8 +156,14 @@ export class TwinTreeComponent implements OnInit {
     this.twinBuilderService.clearLoadedTwins();
   }
 
-  private updateTree() {
-    this.dataSource.data = this.twinQuery.getTwinsAsTreeWithMetadata();
-    this.changeDetectorRef.markForCheck();
+  private getPossibleOutgoingRelationships() {
+    if (!this.contextTwin?.$metadata?.$model) return [];
+    return this.modelQuery.getTwinGraphModel(
+      this.contextTwin?.$metadata?.$model
+    )?.relationships;
+  }
+
+  private getChildren(node: TwinInstanceTreeNode) {
+    return [...this.twinQuery.getChildren(node.data)];
   }
 }

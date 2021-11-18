@@ -54,7 +54,6 @@ describe('TwinQuery', () => {
   it('should get all twin(s)', () => {
     service.addTwins(exampleTwin);
     service.addTwins(exampleTwin1);
-    expect(spectator.service.twins).toEqual([exampleTwin, exampleTwin1]);
     expect(spectator.service.getAllTwins()).toEqual([
       exampleTwin,
       exampleTwin1,
@@ -73,77 +72,5 @@ describe('TwinQuery', () => {
     expect(spectator.service.getTwinById(exampleTwin?.$dtId)).toEqual(
       exampleTwin
     );
-  });
-
-  it('should get twins as tree', () => {
-    const relQuery = spectator.inject(RelationshipQuery);
-
-    const parent: TwinInstance = {
-      $dtId: 'test01',
-      $etag: 'etag-01',
-      $metadata: {
-        $model: 'dtmi:example:parent;01',
-      },
-    };
-
-    const child: TwinInstance = {
-      $dtId: 'test02',
-      $etag: 'etag-02',
-      $metadata: {
-        $model: 'dtmi:example:child;01',
-      },
-    };
-
-    service.addTwins([parent, child]);
-    expect(spectator.service.getCount()).toEqual(2);
-
-    relQuery.getRelationshipsForTwin.andCallFake((twinId, relType) => {
-      if (twinId !== 'test02') return [];
-      return [{ $sourceId: 'test01', $targetId: 'test02' }];
-    });
-
-    const twinTree = spectator.service.getTwinsAsTree();
-    expect(twinTree.length).toEqual(1);
-    expect(twinTree[0].$dtId).toEqual('test01');
-    expect(twinTree[0].children.length).toEqual(1);
-    expect(twinTree[0].children[0].$dtId).toEqual('test02');
-  });
-
-  it('should get twins as tree with metadata', () => {
-    const relQuery = spectator.inject(RelationshipQuery);
-    const modelQuery = spectator.inject(ModelQuery);
-
-    const parent: TwinInstance = {
-      $dtId: 'test01',
-      $etag: 'etag-01',
-      $metadata: {
-        $model: 'dtmi:example:parent;01',
-      },
-    };
-
-    const child: TwinInstance = {
-      $dtId: 'test02',
-      $etag: 'etag-02',
-      $metadata: {
-        $model: 'dtmi:example:child;01',
-      },
-    };
-
-    service.addTwins([parent, child]);
-    expect(spectator.service.getCount()).toEqual(2);
-
-    modelQuery.getTwinGraphModel.andReturn(null);
-    relQuery.getRelationshipsForTwin.andCallFake((twinId, relType) => {
-      if (twinId !== 'test02') return [];
-      return [{ $sourceId: 'test01', $targetId: 'test02' }];
-    });
-
-    const twinTree = spectator.service.getTwinsAsTreeWithMetadata();
-    expect(twinTree.length).toEqual(1);
-    expect(twinTree[0].$dtId).toEqual('test01');
-    expect(twinTree[0].children.length).toEqual(1);
-    expect(twinTree[0].children[0].$dtId).toEqual('test02');
-
-    expect(modelQuery.getTwinGraphModel).toHaveBeenCalledTimes(2);
   });
 });

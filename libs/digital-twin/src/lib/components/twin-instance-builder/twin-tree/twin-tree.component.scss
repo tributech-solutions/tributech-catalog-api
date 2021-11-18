@@ -8,6 +8,7 @@
 }
 .tree {
   overflow: auto;
+  height: 100%;
 }
 .twin {
   &-list {
@@ -19,12 +20,6 @@
     overflow: hidden;
 
     &-header {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding: $grid-gutter-base;
-
       &__title {
         display: block;
         font-size: $fs-h3;

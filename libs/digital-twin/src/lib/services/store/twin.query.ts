@@ -1,22 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HashMap, QueryEntity } from '@datorama/akita';
-import {
-  ExpandedInterface,
-  RelationType,
-  TwinInstance,
-} from '@tributech/self-description';
-import { cloneDeep } from 'lodash';
+import { QueryEntity } from '@datorama/akita';
+import { RelationType, TwinInstance } from '@tributech/self-description';
+import { map } from 'rxjs/operators';
 import { ModelQuery } from './model.query';
 import { RelationshipQuery } from './relationship.query';
 import { TwinState, TwinStore } from './twin.store';
-
-export interface TwinTreeNode extends TwinInstance {
-  children?: TwinTreeNode[];
-}
-
-export interface EnrichedTwinTreeNode extends TwinTreeNode {
-  modelMetadata$?: ExpandedInterface;
-}
 
 @Injectable({ providedIn: 'root' })
 export class TwinQuery extends QueryEntity<TwinState> {
@@ -28,8 +16,34 @@ export class TwinQuery extends QueryEntity<TwinState> {
     super(store);
   }
 
-  get twins() {
-    return this.getAll();
+  treeData$ = this.selectAll({
+    filterBy: (twin) =>
+      this.relationshipQuery.getRelationshipsForTwin(
+        twin?.$dtId,
+        RelationType.Target
+      ).length === 0,
+  }).pipe(
+    map((models) => models.map((m) => this.enrichTwin(m))),
+    map((models) => [...models])
+  );
+
+  getChildren(parent: TwinInstance) {
+    if (!parent) return [];
+
+    const childrenRels = this.relationshipQuery.getRelationshipsForTwin(
+      parent?.$dtId,
+      RelationType.Source
+    );
+    const childrenIds = childrenRels?.map((t) => t?.$targetId);
+
+    const childrenTwins = this.getAll({
+      filterBy: (twin) => childrenIds.includes(twin?.$dtId),
+    });
+
+    const mapChildrenFields = [
+      ...childrenTwins?.map((model) => this.enrichTwin(model)),
+    ];
+    return mapChildrenFields;
   }
 
   getTwinsByModelId(modelId: string) {
@@ -46,62 +60,17 @@ export class TwinQuery extends QueryEntity<TwinState> {
     return this.getEntity(twinId);
   }
 
-  getTwinsAsTree() {
-    const hashMap: HashMap<TwinTreeNode> = cloneDeep(
-      this.getAll({ asObject: true })
-    );
-
-    Object.keys(hashMap).forEach(
-      (twinId) => (hashMap[twinId] = { ...hashMap[twinId], children: [] })
-    );
-
-    const dataTree: TwinTreeNode[] = [];
-    Object.entries(hashMap).forEach(([twinId, twin]) => {
-      const relationships = this.relationshipQuery.getRelationshipsForTwin(
-        twinId,
-        RelationType.Target
-      );
-      if (relationships.length > 0) {
-        relationships.forEach((rel) => {
-          hashMap[rel?.$sourceId].children.push(hashMap[rel?.$targetId]);
-        });
-      } else {
-        dataTree.push(hashMap[twinId]);
-      }
-    });
-    return dataTree;
-  }
-
-  getTwinsAsTreeWithMetadata() {
-    const hashMap: HashMap<EnrichedTwinTreeNode> = cloneDeep(
-      this.getAll({ asObject: true })
-    );
-
-    Object.keys(hashMap).forEach(
-      (twinId) =>
-        (hashMap[twinId] = {
-          ...hashMap[twinId],
-          children: [],
-          modelMetadata$: this.modelQuery.getTwinGraphModel(
-            hashMap[twinId]?.$metadata?.$model
-          ),
-        })
-    );
-
-    const dataTree: EnrichedTwinTreeNode[] = [];
-    Object.entries(hashMap).forEach(([twinId, twin]) => {
-      const relationships = this.relationshipQuery.getRelationshipsForTwin(
-        twinId,
-        RelationType.Target
-      );
-      if (relationships.length > 0) {
-        relationships.forEach((rel) => {
-          hashMap[rel?.$sourceId].children.push(hashMap[rel?.$targetId]);
-        });
-      } else {
-        dataTree.push(hashMap[twinId]);
-      }
-    });
-    return dataTree;
+  private enrichTwin(instance: TwinInstance): TwinInstance {
+    return {
+      ...instance,
+      hasChildren:
+        this.relationshipQuery.getRelationshipsForTwin(
+          instance?.$dtId,
+          RelationType.Source
+        ).length > 0,
+      $modelMetadata: this.modelQuery.getTwinGraphModel(
+        instance?.$metadata?.$model
+      ),
+    };
   }
 }
