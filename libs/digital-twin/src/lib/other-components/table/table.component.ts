@@ -22,10 +22,9 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { cloneDeep } from '@apollo/client/utilities';
 import { isArray } from '@datorama/akita';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { map as _map, some } from 'lodash';
+import { cloneDeep, map as _map, some } from 'lodash';
 import {
   ColumnSettings,
   TableNoDataHint,

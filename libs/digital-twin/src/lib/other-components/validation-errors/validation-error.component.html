@@ -10,6 +10,6 @@
     </ul>
   </ng-container>
   <p *ngIf="!$any(error)?.errors">
-    {{ error?.detail || error?.message || error }}
+    {{ $any(error)?.detail || $any(error)?.message || error }}
   </p>
 </div>
