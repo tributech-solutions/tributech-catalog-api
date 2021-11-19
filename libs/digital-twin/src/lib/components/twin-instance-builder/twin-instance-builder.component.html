@@ -1,0 +1,52 @@
+<ng-container
+  *ngIf="{
+    selectedTwin: selectedTwin$ | async,
+    selectedRelationships: selectedRelationships$ | async,
+    hasSelection: hasSelection$ | async
+  } as state"
+>
+  <as-split class="content-container" direction="horizontal">
+    <as-split-area class="twin-list" [size]="30">
+      <tt-twin-tree
+        [disableEditing]="disableEditing"
+        [modelWhitelist]="modelWhitelist"
+        [relationshipWhitelist]="relationshipWhitelist"
+      ></tt-twin-tree>
+    </as-split-area>
+    <as-split-area *ngIf="state?.hasSelection" [size]="30" class="twin-form">
+      <button
+        mat-icon-button
+        class="twin-detail-close"
+        (click)="resetSelection()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <tt-twin-data-form
+        *ngIf="state?.selectedTwin"
+        [disableEditing]="!canEditTwin(state?.selectedTwin?.$metadata?.$model)"
+        [twin]="state?.selectedTwin"
+        (twinChanged)="saveTwin($event)"
+      ></tt-twin-data-form>
+
+      <ng-container *ngIf="state?.selectedRelationships?.length > 0">
+        <tt-relationship-data-form
+          *ngFor="
+            let rel of state?.selectedRelationships;
+            trackBy: '$relationshipId' | trackByProperty
+          "
+          [relationship]="rel"
+          [disableEditing]="!canEditRelationship(rel?.$relationshipName)"
+          (relChanged)="saveRel($event)"
+        >
+        </tt-relationship-data-form>
+      </ng-container>
+    </as-split-area>
+    <as-split-area [size]="70">
+      <tt-twin-graph
+        class="twin-graph"
+        (twinSelected)="selectTwin($event)"
+      ></tt-twin-graph>
+    </as-split-area>
+  </as-split>
+</ng-container>

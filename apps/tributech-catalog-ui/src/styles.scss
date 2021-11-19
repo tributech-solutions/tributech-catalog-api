@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+@import '~@circlon/angular-tree-component/css/angular-tree-component.css';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$main-primary: mat-palette($mat-indigo);
+$main-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$main-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$main-theme: mat-light-theme(
+  (
+    color: (
+      primary: $main-primary,
+      accent: $main-accent,
+      warn: $main-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($main-theme);
+
+@import 'main';
+$config: mat-typography-config();
+
+html,
+body {
+  height: 100%;
+  background-color: rgb(233, 232, 232);
+  font-family: mat-font-family($config);
+}
+body {
+  margin: 0;
+  height: 100%;
+  font-family: mat-font-family($config);
+}

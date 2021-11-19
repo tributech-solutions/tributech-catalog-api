@@ -1,0 +1,1897 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/manage/entity/{dtmi}": {
+      "get": {
+        "operationId": "getEntity",
+        "summary": "Get the stored model entity.",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the requested model entity based on its dtmi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelEntity"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "manage-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/manage/entities": {
+      "get": {
+        "operationId": "getAllEntities",
+        "summary": "Get all stored model entities.",
+        "parameters": [
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns all stored model entities.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelEntityPagedResult"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "manage-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/manage/model": {
+      "post": {
+        "operationId": "addNewModel",
+        "summary": "Add a new model to the catalog api.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Interface"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The model has been successfully added.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelEntity"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "manage-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/manage/models": {
+      "post": {
+        "operationId": "addNewModels",
+        "summary": "Add multiple new models to the catalog api.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Interface"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The record has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ModelEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "manage-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/manage/model/{dtmi}/revoke": {
+      "put": {
+        "operationId": "revokeModel",
+        "summary": "Revoke a model.",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The model has been successfully added.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelEntity"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "manage-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph/expanded": {
+      "get": {
+        "operationId": "getExpandedModels",
+        "summary": "Get all stored models in expanded form.",
+        "parameters": [
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns all stored models in their expanded representation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpandedInterfacePagedResult"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "dtdl-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph/roots": {
+      "get": {
+        "operationId": "getRoots",
+        "summary": "Get stored root models in expanded form.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns root models in their expanded representation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpandedInterface"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "dtdl-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph/{dtmi}/bases": {
+      "get": {
+        "operationId": "getBases",
+        "summary": "Get the bases of the requested model",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the bases of a model",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "dtdl-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph/{dtmi}/expand": {
+      "get": {
+        "operationId": "getExpanded",
+        "summary": "Get the requested model in expanded form.",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a model in its expanded representation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpandedInterface"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "dtdl-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph/relationships/{sourceDtmi}/{targetDtmi}": {
+      "get": {
+        "operationId": "getRelationships",
+        "summary": "Get the involved relationships between two models.",
+        "parameters": [
+          {
+            "name": "sourceDtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "targetDtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the possible relationships between two models.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Relationship"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "dtdl-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph/relationships/{sourceDtmi}": {
+      "get": {
+        "operationId": "getOutgoingRelationships",
+        "summary": "Get the outgoing relationships of a model.",
+        "parameters": [
+          {
+            "name": "sourceDtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the possible relationships.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Relationship"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "dtdl-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph/{dtmi}": {
+      "get": {
+        "operationId": "getDTDLModel",
+        "summary": "Get plain DTDL model.",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a model based on its dtmi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Interface"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "dtdl-models"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/validate/schema/{dtmi}": {
+      "get": {
+        "operationId": "ValidationController_getSchema",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a JSON schema for the requested model",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JSONSchema4"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "validation"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/validate": {
+      "post": {
+        "operationId": "ValidationController_validateInstance",
+        "summary": "Validate twin instance",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseDigitalTwin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns validation result for instance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchemaValidationError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "validation"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    },
+    "/validate/graph": {
+      "post": {
+        "operationId": "ValidationController_validateGraph",
+        "summary": "Validate twin graph",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DigitalTwinModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns validation result for twin graph.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchemaValidationError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "validation"
+        ],
+        "security": [
+          {
+            "oauth2": [
+              "catalog-api"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Tributech catalog",
+    "description": "<p>API to access and manage the known vocabulary for this node.<br /><br /><a href=\"https://tributech.io\" title=\"Website\">Website</a><br /><a href=\"https://github.com/tributech-solutions/tributech-catalog-api-client\" title =\"API Client on GitHub\">API Client on GitHub</a><br /><a href=\"https://tributech.atlassian.net/servicedesk/customer/portals\" title =\"Customer Support Portal\">Customer Support Portal</a><br /></p>",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://auth.dev.dataspace-hub.com/auth/realms/dev-node-a/protocol/openid-connect/token",
+            "scopes": {
+              "profile": "profile",
+              "email": "email",
+              "catalog-api": "catalog-api",
+              "node-id": "node-id"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ArraySchema": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Array"
+            ]
+          },
+          "elementSchema": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/ArraySchema"
+              },
+              {
+                "$ref": "#/components/schemas/EnumSchema"
+              },
+              {
+                "$ref": "#/components/schemas/MapSchema"
+              },
+              {
+                "$ref": "#/components/schemas/ObjectSchema"
+              }
+            ]
+          }
+        },
+        "required": [
+          "@type",
+          "elementSchema"
+        ]
+      },
+      "EnumValue": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "enumValue": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "enumValue"
+        ]
+      },
+      "EnumSchema": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Enum"
+            ]
+          },
+          "enumValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnumValue"
+            }
+          },
+          "valueSchema": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "@type",
+          "enumValues",
+          "valueSchema"
+        ]
+      },
+      "MapKey": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "schema": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "schema"
+        ]
+      },
+      "MapValue": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "schema": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/ArraySchema"
+              },
+              {
+                "$ref": "#/components/schemas/EnumSchema"
+              },
+              {
+                "$ref": "#/components/schemas/MapSchema"
+              },
+              {
+                "$ref": "#/components/schemas/ObjectSchema"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "schema"
+        ]
+      },
+      "MapSchema": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Map"
+            ]
+          },
+          "mapKey": {
+            "$ref": "#/components/schemas/MapKey"
+          },
+          "mapValue": {
+            "$ref": "#/components/schemas/MapValue"
+          }
+        },
+        "required": [
+          "@type",
+          "mapKey",
+          "mapValue"
+        ]
+      },
+      "Field": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "schema": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/ArraySchema"
+              },
+              {
+                "$ref": "#/components/schemas/EnumSchema"
+              },
+              {
+                "$ref": "#/components/schemas/MapSchema"
+              },
+              {
+                "$ref": "#/components/schemas/ObjectSchema"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "schema"
+        ]
+      },
+      "ObjectSchema": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Object"
+            ]
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            }
+          }
+        },
+        "required": [
+          "@type",
+          "fields"
+        ]
+      },
+      "Property": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Property"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Property",
+                    "Acceleration",
+                    "Angle",
+                    "AngularAcceleration",
+                    "AngularVelocity",
+                    "Area",
+                    "Capacitance",
+                    "Current",
+                    "DataRate",
+                    "DataSize",
+                    "Density",
+                    "Distance",
+                    "ElectricCharge",
+                    "Energy",
+                    "Force",
+                    "Frequency",
+                    "Humidity",
+                    "Illuminance",
+                    "Inductance",
+                    "Latitude",
+                    "Longitude",
+                    "Length",
+                    "Luminance",
+                    "Luminosity",
+                    "LuminousFlux",
+                    "LuminousIntensity",
+                    "MagneticFlux",
+                    "MagneticInduction",
+                    "Mass",
+                    "MassFlowRate",
+                    "Power",
+                    "Pressure",
+                    "RelativeHumidity",
+                    "Resistance",
+                    "SoundPressure",
+                    "Temperature",
+                    "Thrust",
+                    "TimeSpan",
+                    "Torque",
+                    "Velocity",
+                    "Voltage",
+                    "Volume",
+                    "VolumeFlowRate",
+                    "AccelerationUnit",
+                    "AngleUnit",
+                    "AngularAccelerationUnit",
+                    "AngularVelocityUnit",
+                    "AreaUnit",
+                    "CapacitanceUnit",
+                    "ChargeUnit",
+                    "CurrentUnit",
+                    "DataRateUnit",
+                    "DataSizeUnit",
+                    "DensityUnit",
+                    "EnergyUnit",
+                    "ForceUnit",
+                    "FrequencyUnit",
+                    "IlluminanceUnit",
+                    "InductanceUnit",
+                    "LengthUnit",
+                    "LuminanceUnit",
+                    "LuminousFluxUnit",
+                    "LuminousIntensityUnit",
+                    "MagneticFluxUnit",
+                    "MagneticInductionUnit",
+                    "MassUnit",
+                    "MassFlowRateUnit",
+                    "PowerUnit",
+                    "PressureUnit",
+                    "ResistanceUnit",
+                    "SoundPressureUnit",
+                    "TemperatureUnit",
+                    "TimeUnit",
+                    "TorqueUnit",
+                    "Unitless",
+                    "VelocityUnit",
+                    "VoltageUnit",
+                    "VolumeUnit",
+                    "VolumeFlowRateUnit"
+                  ]
+                }
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "schema": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/ArraySchema"
+              },
+              {
+                "$ref": "#/components/schemas/EnumSchema"
+              },
+              {
+                "$ref": "#/components/schemas/MapSchema"
+              },
+              {
+                "$ref": "#/components/schemas/ObjectSchema"
+              }
+            ]
+          },
+          "unit": {
+            "type": "string"
+          },
+          "writable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "@type",
+          "name",
+          "schema"
+        ]
+      },
+      "Relationship": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Relationship"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "maxMultiplicity": {
+            "type": "number"
+          },
+          "minMultiplicity": {
+            "type": "number"
+          },
+          "properties": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          },
+          "target": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "@type",
+          "name"
+        ]
+      },
+      "Component": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Component"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "schema": {
+            "$ref": "#/components/schemas/Interface"
+          }
+        },
+        "required": [
+          "@type",
+          "name",
+          "schema"
+        ]
+      },
+      "Command": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Command"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "commandType": {
+            "type": "object"
+          },
+          "request": {
+            "type": "object"
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "@type",
+          "name"
+        ]
+      },
+      "InterfaceSchema": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Enum",
+              "Map",
+              "Object",
+              "Array"
+            ]
+          }
+        },
+        "required": [
+          "@type"
+        ]
+      },
+      "Interface": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Interface"
+            ]
+          },
+          "@context": {
+            "type": "string",
+            "enum": [
+              "dtmi:dtdl:context;2"
+            ]
+          },
+          "contents": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Property"
+                },
+                {
+                  "$ref": "#/components/schemas/Relationship"
+                },
+                {
+                  "$ref": "#/components/schemas/Component"
+                },
+                {
+                  "$ref": "#/components/schemas/Command"
+                }
+              ]
+            },
+            "nullable": true
+          },
+          "extends": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ],
+            "nullable": true
+          },
+          "schemas": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InterfaceSchema"
+            }
+          }
+        },
+        "required": [
+          "@type",
+          "@context"
+        ]
+      },
+      "ModelEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "model": {
+            "$ref": "#/components/schemas/Interface"
+          },
+          "createdTime": {
+            "type": "string"
+          },
+          "modifiedTime": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "active",
+          "model",
+          "createdTime",
+          "modifiedTime"
+        ]
+      },
+      "ModelEntityPagedResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelEntity"
+            }
+          },
+          "totalCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "data",
+          "totalCount"
+        ]
+      },
+      "Telemetry": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "nullable": false,
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Telemetry"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Telemetry",
+                    "Acceleration",
+                    "Angle",
+                    "AngularAcceleration",
+                    "AngularVelocity",
+                    "Area",
+                    "Capacitance",
+                    "Current",
+                    "DataRate",
+                    "DataSize",
+                    "Density",
+                    "Distance",
+                    "ElectricCharge",
+                    "Energy",
+                    "Force",
+                    "Frequency",
+                    "Humidity",
+                    "Illuminance",
+                    "Inductance",
+                    "Latitude",
+                    "Longitude",
+                    "Length",
+                    "Luminance",
+                    "Luminosity",
+                    "LuminousFlux",
+                    "LuminousIntensity",
+                    "MagneticFlux",
+                    "MagneticInduction",
+                    "Mass",
+                    "MassFlowRate",
+                    "Power",
+                    "Pressure",
+                    "RelativeHumidity",
+                    "Resistance",
+                    "SoundPressure",
+                    "Temperature",
+                    "Thrust",
+                    "TimeSpan",
+                    "Torque",
+                    "Velocity",
+                    "Voltage",
+                    "Volume",
+                    "VolumeFlowRate",
+                    "AccelerationUnit",
+                    "AngleUnit",
+                    "AngularAccelerationUnit",
+                    "AngularVelocityUnit",
+                    "AreaUnit",
+                    "CapacitanceUnit",
+                    "ChargeUnit",
+                    "CurrentUnit",
+                    "DataRateUnit",
+                    "DataSizeUnit",
+                    "DensityUnit",
+                    "EnergyUnit",
+                    "ForceUnit",
+                    "FrequencyUnit",
+                    "IlluminanceUnit",
+                    "InductanceUnit",
+                    "LengthUnit",
+                    "LuminanceUnit",
+                    "LuminousFluxUnit",
+                    "LuminousIntensityUnit",
+                    "MagneticFluxUnit",
+                    "MagneticInductionUnit",
+                    "MassUnit",
+                    "MassFlowRateUnit",
+                    "PowerUnit",
+                    "PressureUnit",
+                    "ResistanceUnit",
+                    "SoundPressureUnit",
+                    "TemperatureUnit",
+                    "TimeUnit",
+                    "TorqueUnit",
+                    "Unitless",
+                    "VelocityUnit",
+                    "VoltageUnit",
+                    "VolumeUnit",
+                    "VolumeFlowRateUnit"
+                  ]
+                }
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "schema": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "$ref": "#/components/schemas/ArraySchema"
+              },
+              {
+                "$ref": "#/components/schemas/EnumSchema"
+              },
+              {
+                "$ref": "#/components/schemas/MapSchema"
+              },
+              {
+                "$ref": "#/components/schemas/ObjectSchema"
+              }
+            ]
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "schema"
+        ]
+      },
+      "ExpandedInterface": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string",
+            "enum": [
+              "Interface"
+            ]
+          },
+          "@context": {
+            "type": "string",
+            "enum": [
+              "dtmi:dtdl:context;2"
+            ]
+          },
+          "schemas": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/ArraySchema"
+              },
+              {
+                "$ref": "#/components/schemas/EnumSchema"
+              },
+              {
+                "$ref": "#/components/schemas/MapSchema"
+              },
+              {
+                "$ref": "#/components/schemas/ObjectSchema"
+              }
+            ],
+            "nullable": true
+          },
+          "bases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Relationship"
+            }
+          },
+          "telemetries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Telemetry"
+            }
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Component"
+            }
+          }
+        },
+        "required": [
+          "@type",
+          "@context"
+        ]
+      },
+      "ExpandedInterfacePagedResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpandedInterface"
+            }
+          },
+          "totalCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "data",
+          "totalCount"
+        ]
+      },
+      "JSONSchema4": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "$ref": {
+            "type": "string"
+          },
+          "$schema": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "default": {
+            "type": "object"
+          },
+          "multipleOf": {
+            "type": "number"
+          },
+          "maximum": {
+            "type": "number"
+          },
+          "exclusiveMaximum": {
+            "type": "boolean"
+          },
+          "minimum": {
+            "type": "number"
+          },
+          "exclusiveMinimum": {
+            "type": "boolean"
+          },
+          "maxLength": {
+            "type": "number"
+          },
+          "minLength": {
+            "type": "number"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "additionalItems": {
+            "type": "object"
+          },
+          "items": {
+            "type": "object"
+          },
+          "maxItems": {
+            "type": "number"
+          },
+          "minItems": {
+            "type": "number"
+          },
+          "uniqueItems": {
+            "type": "boolean"
+          },
+          "maxProperties": {
+            "type": "number"
+          },
+          "minProperties": {
+            "type": "number"
+          },
+          "required": {
+            "type": "object"
+          },
+          "definitions": {
+            "type": "object"
+          },
+          "properties": {
+            "type": "object"
+          },
+          "patternProperties": {
+            "type": "object"
+          },
+          "dependencies": {
+            "type": "object"
+          },
+          "enum": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "object"
+          },
+          "allOf": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "anyOf": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "oneOf": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "not": {
+            "$ref": "#/components/schemas/JSONSchema4"
+          },
+          "extends": {
+            "type": "object"
+          },
+          "format": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "$ref",
+          "$schema",
+          "title",
+          "description",
+          "default",
+          "multipleOf",
+          "maximum",
+          "exclusiveMaximum",
+          "minimum",
+          "exclusiveMinimum",
+          "maxLength",
+          "minLength",
+          "pattern",
+          "additionalItems",
+          "items",
+          "maxItems",
+          "minItems",
+          "uniqueItems",
+          "maxProperties",
+          "minProperties",
+          "required",
+          "definitions",
+          "properties",
+          "patternProperties",
+          "dependencies",
+          "enum",
+          "type",
+          "allOf",
+          "anyOf",
+          "oneOf",
+          "not",
+          "extends",
+          "format"
+        ]
+      },
+      "DigitalTwinMetadata": {
+        "type": "object",
+        "properties": {
+          "$model": {
+            "type": "string",
+            "nullable": false,
+            "pattern": "^dtmi:(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$"
+          }
+        },
+        "required": [
+          "$model"
+        ]
+      },
+      "BaseDigitalTwin": {
+        "type": "object",
+        "properties": {
+          "$dtId": {
+            "type": "string"
+          },
+          "$etag": {
+            "type": "string"
+          },
+          "$metadata": {
+            "$ref": "#/components/schemas/DigitalTwinMetadata"
+          }
+        },
+        "required": [
+          "$dtId",
+          "$etag",
+          "$metadata"
+        ]
+      },
+      "SchemaErrorObject": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string"
+          },
+          "instancePath": {
+            "type": "string"
+          },
+          "schemaPath": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object"
+          },
+          "propertyName": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "schema": {
+            "type": "object"
+          },
+          "data": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "keyword",
+          "instancePath",
+          "schemaPath",
+          "params",
+          "message"
+        ]
+      },
+      "SchemaValidationError": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SchemaErrorObject"
+            }
+          }
+        },
+        "required": [
+          "success",
+          "errors"
+        ]
+      },
+      "BasicRelationship": {
+        "type": "object",
+        "properties": {
+          "$relationshipId": {
+            "type": "string"
+          },
+          "$targetId": {
+            "type": "string"
+          },
+          "$sourceId": {
+            "type": "string"
+          },
+          "$relationshipName": {
+            "type": "string"
+          },
+          "$etag": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "$relationshipId",
+          "$targetId",
+          "$sourceId",
+          "$relationshipName",
+          "$etag"
+        ]
+      },
+      "DigitalTwinModel": {
+        "type": "object",
+        "properties": {
+          "digitalTwins": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseDigitalTwin"
+            }
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BasicRelationship"
+            }
+          }
+        },
+        "required": [
+          "digitalTwins",
+          "relationships"
+        ]
+      }
+    }
+  }
+}

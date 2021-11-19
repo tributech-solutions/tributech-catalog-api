@@ -1,0 +1,52 @@
+.ts-table {
+  border: 1px solid $grey-700;
+
+  .mat-header-row {
+    height: 50px;
+  }
+}
+
+.ts-table__title {
+  background: $grey-900;
+  border-bottom: 1px solid $grey-700;
+}
+
+.ts-table__row {
+  cursor: pointer;
+  transition: all 100ms ease;
+
+  td {
+    font-size: $fs-body-2;
+    border: none !important;
+  }
+
+  &:first-child {
+    height: 50px;
+    box-shadow: inset 0px 11px 8px -10px #ccc;
+  }
+
+  &:nth-child(2n) {
+    background: rgba($grey-800, 0.3);
+  }
+
+  &:hover {
+    background: rgba($primary, 0.1);
+  }
+
+  .mat-radio-button {
+    margin-top: 8px;
+  }
+}
+
+.ts-table__header {
+  // background: rgba($gray-dark, 0.5);
+  .mat-sort-header-button {
+    font-size: $fs-body-2;
+  }
+}
+
+.ts-table__row.ts-table__row--selected {
+  background: rgba($primary, 0.1);
+  // @include mat-elevation(2, $primary, 0.8);
+  // transform: scale(1.005);
+}

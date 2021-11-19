@@ -7,12 +7,11 @@ on:
   # https://tributech.atlassian.net/wiki/spaces/TM/pages/99614725/Branches+Build-Pipelines+Tags#Issue-with-merge%2Fbuild-for-master-branch)
 
   push:
-    branches: [ release, develop, hotfix/* ]
+    branches: [release, develop, hotfix/*]
     tags:
       - '*'
   pull_request:
-    branches: [ release, develop, feature/*, hotfix/* ]
-
+    branches: [release, develop, feature/*, hotfix/*]
 
 jobs:
   check:
@@ -24,11 +23,12 @@ jobs:
         with:
           node-version: 14.x
       - run: yarn --frozen-lockfile
-      - run: yarn run format-check
+      - run: yarn run generate-connectors
+      - run: yarn run format:check
       - run: yarn run lint
-      - run: yarn run test:cov
+      - run: yarn run test
       - run: yarn run build
-  images:
+  image-api:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -52,6 +52,7 @@ jobs:
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
+      - run: yarn --frozen-lockfile
       - name: Login to Azure Container Registry
         uses: docker/login-action@v1
         with:
@@ -59,11 +60,46 @@ jobs:
           username: ${{ secrets.AZURE_CLIENT_ID }}
           password: ${{ secrets.AZURE_CLIENT_SECRET  }}
 
-      - name: Build and push images
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.prep.outputs.tags }}
+      - name: 'nx build'
+        run: yarn run docker-api
+        env:
+          INPUT_TAGS: ${{ steps.prep.outputs.tags }}
+          INPUT_PUSH: ${{ github.event_name != 'pull_request' }}
 
+  image-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare
+        id: prep
+        run: |
+          DOCKER_IMAGE=tributech.azurecr.io/catalog-ui
+          TAGS=""
+          VERSION=alpha
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:beta,${DOCKER_IMAGE}:stable,${DOCKER_IMAGE}:latest"
+          elif [[ $GITHUB_REF == refs/heads/develop ]]; then
+            TAGS="$TAGS,${DOCKER_IMAGE}:beta"
+          elif [[ $GITHUB_REF == refs/heads/release/* ]]; then
+            VERSION=${GITHUB_REF#refs/release/}
+            TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:beta"
+          fi
+          TAGS="$TAGS,${DOCKER_IMAGE}:${GITHUB_SHA::8},${DOCKER_IMAGE}:alpha"
+          echo ::set-output name=version::${VERSION}
+          echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+
+      - run: yarn --frozen-lockfile
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: tributech.azurecr.io
+          username: ${{ secrets.AZURE_CLIENT_ID }}
+          password: ${{ secrets.AZURE_CLIENT_SECRET  }}
+
+      - name: 'nx build'
+        run: yarn run docker-ui
+        env:
+          INPUT_TAGS: ${{ steps.prep.outputs.tags }}
+          INPUT_PUSH: ${{ github.event_name != 'pull_request' }}

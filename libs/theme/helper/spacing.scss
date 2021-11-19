@@ -1,0 +1,115 @@
+$spacing: 4, 8, 12, 15, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512, 640, 768;
+
+@each $size in $spacing {
+  $i: index($spacing, $size);
+
+  .m-#{$i} {
+    margin: #{$size}px !important;
+    @media (min-width: 1500px) {
+      margin: #{$size * 1.3}px !important;
+    }
+  }
+
+  .mx-#{$i} {
+    margin-left: #{$size}px !important;
+    margin-right: #{$size}px !important;
+    @media (min-width: 1500px) {
+      margin-left: #{$size * 1.3}px !important;
+      margin-right: #{$size * 1.3}px !important;
+    }
+  }
+
+  .my-#{$i} {
+    margin-top: #{$size}px !important;
+    margin-bottom: #{$size}px !important;
+    @media (min-width: 1500px) {
+      margin-top: #{$size * 1.3}px !important;
+      margin-bottom: #{$size * 1.3}px !important;
+    }
+  }
+
+  .mt-#{$i} {
+    margin-top: #{$size}px !important;
+    @media (min-width: 1500px) {
+      margin-top: #{$size * 1.3}px !important;
+    }
+  }
+
+  .mr-#{$i} {
+    margin-right: #{$size}px !important;
+    @media (min-width: 1500px) {
+      margin-right: #{$size * 1.3}px !important;
+    }
+  }
+
+  .mb-#{$i} {
+    margin-bottom: #{$size}px !important;
+    @media (min-width: 1500px) {
+      margin-bottom: #{$size * 1.3}px !important;
+    }
+  }
+
+  .ml-#{$i} {
+    margin-left: #{$size}px !important;
+    @media (min-width: 1500px) {
+      margin-left: #{$size * 1.3}px !important;
+    }
+  }
+
+  .p-#{$i} {
+    padding: #{$size}px !important;
+    @media (min-width: 1500px) {
+      padding: #{$size * 1.3}px !important;
+    }
+  }
+
+  .px-#{$i} {
+    padding-left: #{$size}px !important;
+    padding-right: #{$size}px !important;
+    @media (min-width: 1500px) {
+      padding-left: #{$size * 1.3}px !important;
+      padding-right: #{$size * 1.3}px !important;
+    }
+  }
+
+  .py-#{$i} {
+    padding-top: #{$size}px !important;
+    padding-bottom: #{$size}px !important;
+    @media (min-width: 1500px) {
+      padding-top: #{$size * 1.3}px !important;
+      padding-bottom: #{$size * 1.3}px !important;
+    }
+  }
+
+  .pt-#{$i} {
+    padding-top: #{$size}px !important;
+    @media (min-width: 1500px) {
+      padding-top: #{$size * 1.3}px !important;
+    }
+  }
+
+  .pr-#{$i} {
+    padding-right: #{$size}px !important;
+    @media (min-width: 1500px) {
+      padding-right: #{$size * 1.3}px !important;
+    }
+  }
+
+  .pb-#{$i} {
+    padding-bottom: #{$size}px !important;
+    @media (min-width: 1500px) {
+      padding-bottom: #{$size * 1.3}px !important;
+    }
+  }
+
+  .pl-#{$i} {
+    padding-left: #{$size}px !important;
+    @media (min-width: 1500px) {
+      padding-left: #{$size * 1.3}px !important;
+    }
+  }
+}
+
+.justify-content-evenly {
+  justify-content: space-evenly;
+}

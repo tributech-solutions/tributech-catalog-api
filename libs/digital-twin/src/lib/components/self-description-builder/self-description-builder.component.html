@@ -1,0 +1,26 @@
+<as-split class="content-container" direction="horizontal">
+  <as-split-area class="sd-tree" [size]="30">
+    <tt-self-description-tree
+      (sdSelected)="sdSelectionChanged($event)"
+      (sdCreated)="sdCreated($event)"
+    ></tt-self-description-tree>
+  </as-split-area>
+  <as-split-area
+    *ngIf="selectedSelfDescription || createdSelfDescription"
+    [size]="30"
+  >
+    <button mat-icon-button class="detail-close" (click)="clearSelection()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <tt-self-description-form
+      [selfDescription]="selectedSelfDescription || createdSelfDescription?.sd"
+      (sdChanged)="sdChanged($event)"
+    >
+    </tt-self-description-form>
+  </as-split-area>
+  <as-split-area [size]="70">
+    <tt-self-description-preview
+      [id]="selectedSelfDescription?.['@id']"
+    ></tt-self-description-preview>
+  </as-split-area>
+</as-split>

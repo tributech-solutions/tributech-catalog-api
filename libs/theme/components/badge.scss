@@ -1,0 +1,19 @@
+.mat-badge-small .mat-badge-content {
+  @media (min-width: 1500px) {
+    font-size: 14px;
+  }
+}
+
+.mat-badge-small .mat-badge-content {
+  @media (min-width: 1500px) {
+    line-height: 19px;
+    height: 19px;
+    width: 19px;
+  }
+}
+
+[ttTruncate] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}

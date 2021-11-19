@@ -1,0 +1,216 @@
+<div class="menu-buttons">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <button mat-icon-button (click)="centerGraph()">
+    <mat-icon>zoom_out_map</mat-icon>
+  </button>
+</div>
+
+<ngx-graph
+  *ngIf="mode === GraphMode.TWINS"
+  #twinGraph
+  class="chart-container"
+  waResizeBox="content-box"
+  (waResizeObserver)="onResize($event)"
+  [view]="this.size"
+  [links]="relationships"
+  [nodes]="nodes"
+  [clusters]="showCluster ? groups : []"
+  [autoCenter]="true"
+  [autoZoom]="true"
+  [draggingEnabled]="false"
+  [showMiniMap]="true"
+  [animate]="true"
+  [center$]="centerGraphSubject"
+  [zoomToFit$]="centerGraphSubject"
+  layout="dagreCluster"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+  <ng-template #defsTemplate>
+    <svg:marker
+      id="arrow"
+      viewBox="0 -5 10 10"
+      refX="8"
+      refY="0"
+      markerWidth="4"
+      markerHeight="4"
+      orient="auto"
+    >
+      <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+    </svg:marker>
+  </ng-template>
+
+  <ng-template #clusterTemplate let-cluster>
+    <svg:g class="node cluster">
+      <svg:rect
+        rx="5"
+        ry="5"
+        [attr.width]="cluster.dimension.width"
+        [attr.height]="cluster.dimension.height"
+        [attr.fill]="cluster.data.color"
+      />
+      <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="20">
+        {{ cluster.label }}
+      </svg:text>
+    </svg:g>
+  </ng-template>
+
+  <ng-template #nodeTemplate let-node>
+    <svg:g class="node" xmlns="http://www.w3.org/2000/xhtml">
+      <svg:foreignObject [attr.width]="254" [attr.height]="46">
+        <xhtml:div
+          class="node-dom"
+          xmlns="http://www.w3.org/1999/xhtml"
+          (click)="_twinSelected(node)"
+        >
+          <xhtml:div
+            class="node-label node-label__name"
+            xmlns="http://www.w3.org/1999/xhtml"
+            [style.background-color]="node.data.color"
+          >
+            <label class="node-text node-name">{{ node.label }}</label>
+          </xhtml:div>
+          <xhtml:div
+            class="node-label node-label__type"
+            xmlns="http://www.w3.org/1999/xhtml"
+          >
+            <label class="node-text node-type">{{ node.type }}</label>
+          </xhtml:div>
+        </xhtml:div>
+      </svg:foreignObject>
+    </svg:g>
+  </ng-template>
+
+  <ng-template #linkTemplate let-link>
+    <svg:g class="edge">
+      <svg:path
+        class="line"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      ></svg:path>
+      <svg:text class="edge-label" text-anchor="middle">
+        <textPath
+          class="text-path"
+          [attr.href]="'#' + link.id"
+          [style.dominant-baseline]="link.dominantBaseline"
+          startOffset="50%"
+        >
+          {{ link.label }}
+        </textPath>
+      </svg:text>
+    </svg:g>
+  </ng-template>
+</ngx-graph>
+
+<ngx-graph
+  *ngIf="mode === GraphMode.MODELS"
+  #twinGraph
+  waResizeBox="content-box"
+  (waResizeObserver)="onResize($event)"
+  [view]="this.size"
+  class="chart-container"
+  [links]="relationshipModels"
+  [nodes]="nodeModels"
+  [autoCenter]="true"
+  [autoZoom]="true"
+  [draggingEnabled]="false"
+  [showMiniMap]="true"
+  [animate]="true"
+  [center$]="centerGraphSubject"
+  [zoomToFit$]="centerGraphSubject"
+  layout="dagreCluster"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+  <ng-template #defsTemplate>
+    <svg:marker
+      id="arrow"
+      viewBox="0 -5 10 10"
+      refX="8"
+      refY="0"
+      markerWidth="4"
+      markerHeight="4"
+      orient="auto"
+    >
+      <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+    </svg:marker>
+  </ng-template>
+
+  <ng-template #clusterTemplate let-cluster>
+    <svg:g class="node cluster">
+      <svg:rect
+        rx="5"
+        ry="5"
+        [attr.width]="cluster.dimension.width"
+        [attr.height]="cluster.dimension.height"
+        [attr.fill]="cluster.data.color"
+      />
+      <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="20">
+        {{ cluster.label }}
+      </svg:text>
+    </svg:g>
+  </ng-template>
+
+  <ng-template #nodeTemplate let-node>
+    <svg:g class="node" xmlns="http://www.w3.org/2000/xhtml">
+      <svg:foreignObject [attr.width]="254" [attr.height]="24">
+        <xhtml:div
+          class="node-dom"
+          xmlns="http://www.w3.org/1999/xhtml"
+          (click)="_twinSelected(node)"
+        >
+          <xhtml:div
+            class="node-label node-label__name"
+            xmlns="http://www.w3.org/1999/xhtml"
+            [style.background-color]="node.data.color"
+          >
+            <label class="node-text node-name">{{ node.label }}</label>
+          </xhtml:div>
+        </xhtml:div>
+      </svg:foreignObject>
+    </svg:g>
+  </ng-template>
+
+  <ng-template #linkTemplate let-link>
+    <svg:g class="edge">
+      <svg:path
+        class="line"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+      ></svg:path>
+      <svg:text class="edge-label" text-anchor="middle">
+        <textPath
+          class="text-path"
+          [attr.href]="'#' + link.id"
+          [style.dominant-baseline]="link.dominantBaseline"
+          startOffset="50%"
+        >
+          {{ link.label }}
+        </textPath>
+      </svg:text>
+    </svg:g>
+  </ng-template>
+</ngx-graph>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="showCluster = !showCluster">
+    <mat-icon>space_dashboard</mat-icon>
+    <span>Toggle Clusters</span>
+  </button>
+  <ng-container *ngIf="!disableToggle">
+    <button
+      *ngIf="mode === GraphMode.MODELS"
+      mat-menu-item
+      (click)="mode = GraphMode.TWINS"
+    >
+      <span>Toggle Twin Mode</span>
+    </button>
+    <button
+      *ngIf="mode === GraphMode.TWINS"
+      mat-menu-item
+      (click)="mode = GraphMode.MODELS"
+    >
+      <span>Toggle Model Mode</span>
+    </button>
+  </ng-container>
+</mat-menu>

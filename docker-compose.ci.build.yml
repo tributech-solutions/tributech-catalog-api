@@ -5,3 +5,8 @@ services:
     build:
       context: .
       target: final
+      dockerfile: apps/tributech-catalog/Dockerfile
+  catalog-ui:
+    build:
+      context: .
+      dockerfile: apps/tributech-catalog-ui/Dockerfile

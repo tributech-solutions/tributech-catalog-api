@@ -1,0 +1,7 @@
+{
+  "root": "libs/connectors/catalog-api",
+  "sourceRoot": "libs/connectors/catalog-api/src",
+  "projectType": "library",
+  "prefix": "tt",
+  "tags": []
+}

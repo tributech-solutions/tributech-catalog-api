@@ -1,0 +1,13 @@
+@import 'variables';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.card {
+  background-color: $white;
+  margin-left: $grid-gutter-base * 2;
+  margin-bottom: $grid-gutter-base * 2;
+  padding: $grid-gutter-base * 2;
+}

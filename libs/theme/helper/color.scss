@@ -1,0 +1,60 @@
+.color--font {
+  color: $font-color;
+}
+
+.color--white {
+  color: $white;
+}
+
+.color--black {
+  color: $black;
+}
+
+.color--red {
+  color: $status-red !important;
+}
+
+.color--green {
+  color: $status-green !important;
+}
+
+.color--blue {
+  color: $blue !important;
+}
+
+.color--mid-grey {
+  color: $mid-grey !important;
+}
+
+.fill--blue {
+  fill: $blue !important;
+}
+
+@each $hue, $color in $ts-blue {
+  .color--1-#{$hue} {
+    color: $color !important;
+  }
+}
+
+// @each $hue,
+// $color in $grey {
+//   .color--2-#{$hue} {
+//     color: $color !important
+//   }
+// }
+
+@each $hue, $color in $red {
+  .color--3-#{$hue} {
+    color: $color !important;
+  }
+}
+
+@each $hue, $color in $green {
+  .color--4-#{$hue} {
+    color: $color !important;
+  }
+}
+
+.mat-drawer-container {
+  color: $font-color !important;
+}

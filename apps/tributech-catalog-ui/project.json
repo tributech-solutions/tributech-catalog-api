@@ -1,0 +1,118 @@
+{
+  "root": "apps/tributech-catalog-ui",
+  "sourceRoot": "apps/tributech-catalog-ui/src",
+  "projectType": "application",
+  "prefix": "tributech",
+  "targets": {
+    "build": {
+      "builder": "@angular-devkit/build-angular:browser",
+      "options": {
+        "allowedCommonJsDependencies": [
+          "zen-observable",
+          "lodash",
+          "node-forge",
+          "jsonld-graph",
+          "date-fns",
+          "date-fns/*",
+          "dagre",
+          "webcola"
+        ],
+        "outputPath": "dist/apps/tributech-catalog-ui",
+        "index": "apps/tributech-catalog-ui/src/index.html",
+        "main": "apps/tributech-catalog-ui/src/main.ts",
+        "polyfills": "apps/tributech-catalog-ui/src/polyfills.ts",
+        "tsConfig": "apps/tributech-catalog-ui/tsconfig.app.json",
+        "assets": [
+          "apps/tributech-catalog-ui/src/favicon.ico",
+          "apps/tributech-catalog-ui/src/assets",
+          {
+            "glob": "**/*",
+            "input": "assets/",
+            "output": "assets/"
+          }
+        ],
+        "styles": ["apps/tributech-catalog-ui/src/styles.scss"],
+        "scripts": ["node_modules/jsonld/dist/jsonld.min.js"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/theme"]
+        },
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/tributech-catalog-ui/src/environments/environment.ts",
+              "with": "apps/tributech-catalog-ui/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "builder": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "tributech-catalog-ui:build",
+        "ssl": true
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "tributech-catalog-ui:build:production"
+        }
+      }
+    },
+    "lint": {
+      "builder": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/tributech-catalog-ui/src/**/*.ts",
+          "apps/tributech-catalog-ui/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "builder": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/tributech-catalog-ui"],
+      "options": {
+        "jestConfig": "apps/tributech-catalog-ui/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "file": "apps/tributech-catalog-ui/Dockerfile",
+        "push": false,
+        "tags": [
+          "tributech.azurecr.io/catalog-ui:latest",
+          "tributech.azurecr.io/catalog-ui:alpha"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

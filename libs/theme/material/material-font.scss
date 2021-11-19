@@ -1,0 +1,18 @@
+$basic-typography: mat-typography-config(
+  $font-family: 'Lato, sans-serif, monospace',
+  $display-4: mat-typography-level(112px, 112px, 300),
+  $display-3: mat-typography-level(56px, 56px, 400),
+  $display-2: mat-typography-level(45px, 48px, 400),
+  $display-1: mat-typography-level(34px, 40px, 400),
+  $headline: mat-typography-level($fs-h1, $fs-h1, 300),
+  $title: mat-typography-level($fs-h2, $fs-h2, 300),
+  $subheading-2: mat-typography-level($fs-h3, $fs-h3, 300),
+  $subheading-1: mat-typography-level($fs-h4, $fs-h4, 300),
+  $body-2: mat-typography-level($font-size-default, 24px, 500),
+  $body-1: mat-typography-level($font-size-default, 20px, 400),
+  $caption: mat-typography-level($fs-body-2, 16px, 400),
+  $button: mat-typography-level($fs-body-2, $fs-body-2, 400),
+  $input: mat-typography-level($font-size-default, 1.125, 400),
+);
+
+@include angular-material-typography($basic-typography);

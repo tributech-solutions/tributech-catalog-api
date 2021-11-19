@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "5.0.1",
+    "generators": {
+      "catalog-api": {
+        "generatorName": "typescript-angular",
+        "output": "#{cwd}/libs/connectors/#{name}/src/",
+        "glob": "tools/schemas/catalog-api.json",
+        "additionalProperties": {
+          "fileNaming": "kebab-case",
+          "configurationPrefix": "CatalogApi",
+          "apiModulePrefix": "CatalogApi",
+          "stringEnums": true
+        }
+      },
+      "twin-api": {
+        "generatorName": "typescript-angular",
+        "output": "#{cwd}/libs/connectors/#{name}/src/",
+        "glob": "tools/schemas/twin-api.json",
+        "additionalProperties": {
+          "fileNaming": "kebab-case",
+          "configurationPrefix": "TwinApi",
+          "apiModulePrefix": "TwinApi",
+          "stringEnums": true
+        }
+      }
+    }
+  }
+}

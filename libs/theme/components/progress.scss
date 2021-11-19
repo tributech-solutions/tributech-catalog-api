@@ -1,0 +1,21 @@
+body {
+  .mat-progress-bar {
+    height: 10px;
+  }
+}
+
+$progress-colors: (
+  50: $ts-blue-700,
+  100: $ts-blue-500,
+  200: $ts-blue-500,
+  contrast: (
+    50: $white,
+    100: $white,
+    200: $white,
+  ),
+);
+
+$progressbar-primary: mat-palette($progress-colors, 50, 100, 200);
+$progressbar-accent: mat-palette($mat-accent, 50, 100, 200);
+$progressbar-theme: mat-light-theme($progressbar-primary, $progressbar-accent);
+@include mat-progress-bar-theme($progressbar-theme);

@@ -1,18 +1,36 @@
 # Tributech Catalog
 
-## Description
-The Tributech catalog gets used to store, exchange and manage vocabulary written in the [Digital Twin Definition Language](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md).
+The Tributech Catalog Monorepo is part of the [Tributech](https://tributech.io) open-source stack. It offers the possibility to create a custom vocabulary based on the [Digital Twin Definition Language](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md) that can be used to construct a domain specific knowledge graph. Models can be revoked or updated once added.
 
-Responsibilities:
-- Store models
-- Validate models
-- Retrieve models
-- Get related models
-- Exchange/Sync models with other catalog nodes
+The data model can than be used to create instances of the data that can be inserted into the [Twin-API](https://github.com/tributech-solutions/tributech-twin-api) that is also part of the open-source stack. To find out what can be queried from the Twin-API you can use the meta-queries offered by the Catalog-API that is part of this repository.
 
-## Models
+<a href="https://raw.githubusercontent.com/tributech-solutions/tributech-catalog-api/develop/docs/assets/model-builder.png"><img src="https://raw.githubusercontent.com/tributech-solutions/tributech-catalog-api/develop/docs/assets/model-builder.png" width="550" alt="Tributech Catalog UI Screenshot"></a>
 
-Models can be added to the Catalog API via REST, a default set of models gets loaded by default. These models can be found in the following repositories:
+## Projects
+
+- Tributech Catalog API
+  - Backend for the Catalog UI
+  - OpenAPI endpoints to manage DTDL models
+- Tributech Catalog UI
+  - Graphical Interface Webapp
+  - Create, view, edit and delete DTDL models
+  - Create, view, edit and delete instances
+
+Screenshots can be found under /docs/assets/.
+
+### State of the projects
+
+Both projects of this repository are used in production to power the [Tributech DataSpace Kit](https://www.tributech.io/product/dataspace-kit). We will create a demo repository that allows a quick bootstrap of the open-source stack including authorization soon. At the moment some manual adaptions might be necessary to get the frontend/backend running without an identity provider.
+
+#### Catalog-UI
+
+The model builder is currently under develop and not feature complete, missing functionality mainly affects complex properties for now e.g. it is currently not possible to add/edit/remove enum values.
+
+### Example DTDL-Models
+
+Models can be added to the Catalog API via REST, a default set of models gets loaded by default.
+
+These models can be found in the following repositories:
 
 [Tributech Data-Asset Models](https://github.com/tributech-solutions/data-asset-twin)
 
@@ -20,46 +38,57 @@ Models can be added to the Catalog API via REST, a default set of models gets lo
 
 ## Installation
 
+Install dependencies
+
 ```bash
-$ npm install
+$ yarn install
 ```
 
-## Running the app
+Generate API-Connectors
 
 ```bash
-# development
+$ npm run generate-connectors
+```
+
+### Configuration UI
+
+- Adapt config.json in apps/tributech-catalog-ui/src/assets/config
+  - Currently, needs a Keycloak Identity Server with OpenID-Connect
+  - Insert URLs of Keycloak, make sure client-id and scope matches the config set in auth-config.base.ts in /apps/tributech-catalog-ui/src/app
+
+### Configuration API
+
+- Adapt settings.json in apps/tributech-catalog/src/settings
+  - Currently, needs a Keycloak Identity Server with OpenID-Connect
+
+### HTTPS
+
+Generate certificate to serve frontend via Self-Signed Certificate
+
+```bash
+$ openssl req -x509 -newkey rsa:2048 -keyout apps/tributech-catalog-ui/ssl/key.pem -out apps/tributech-catalog-ui/ssl/cert.pem
+```
+
+## Development
+
+```bash
+# start ui and api at the same time
 $ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# if running with Ubuntu using WSL2 under Windows you might have to set different IP binding
-$ HOST=0.0.0.0 npm run start
-
-# production mode
-$ npm run start:prod
 ```
 
 By default the swagger-ui is reachable via http://localhost:3000/api/
 and the Open-API spec at http://localhost:3000/api-json/.
 
-
-## Test
+### Testing
 
 ```bash
-# unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Docker
 
 ### Build images
+
 ```powershell
 docker-compose -f ./docker-compose.yml -f ./docker-compose.ci.build.yml build
 ```
@@ -72,3 +101,7 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalo
 # stop
 docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalog-api down
 ```
+
+## Licence
+
+The Tributech Open-Source stack is [fair-code](https://faircode.io/) licensed under Apache 2.0 with Commons Clause.

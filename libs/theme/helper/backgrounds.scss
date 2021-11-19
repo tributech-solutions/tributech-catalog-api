@@ -1,0 +1,32 @@
+@each $hue, $color in $ts-blue {
+  .bg--1-#{$hue} {
+    background-color: $color !important;
+  }
+}
+
+// @each $hue,
+// $color in $grey {
+//   .bg--2-#{$hue} {
+//     background-color: $color !important;
+//   }
+// }
+
+@each $hue, $color in $red {
+  .bg--3-#{$hue} {
+    background-color: $color !important;
+  }
+}
+
+@each $hue, $color in $green {
+  .bg--4-#{$hue} {
+    background-color: $color !important;
+  }
+}
+
+.bg-white {
+  background-color: $white !important;
+}
+
+body {
+  background-color: $body-background !important;
+}
