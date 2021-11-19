@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { filterNil } from '@datorama/akita';
+import { filterNilValue } from '@datorama/akita';
 import {
   ColumnSettings,
   TableNoDataHint,
@@ -37,9 +37,9 @@ export class InstanceOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.rowData$ = this.twinService.getAllTwins(1, 100).pipe(
+    this.rowData$ = this.twinService.getAllTwins(1, 1000).pipe(
       map((pagedResult) => pagedResult.content),
-      filterNil
+      filterNilValue()
     );
 
     this.columns = [

@@ -4,8 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { FormExtensionsModule } from '../../wrappers/form-extensions.module';
 import { PanelWrapperComponent } from '../../wrappers/panel-wrapper.component';
-import { PanelWrapperModule } from '../../wrappers/panel-wrapper.module';
+import { RepeatSectionComponent } from '../../wrappers/repeat-section.component';
 import { RelationshipDataFormComponent } from './relationship-data-form.component';
 
 @NgModule({
@@ -16,10 +17,11 @@ import { RelationshipDataFormComponent } from './relationship-data-form.componen
     ReactiveFormsModule,
     FormlyModule.forChild({
       wrappers: [{ name: 'panel', component: PanelWrapperComponent }],
+      types: [{ name: 'repeat', component: RepeatSectionComponent }],
     }),
     FormlyMaterialModule,
     MatButtonModule,
-    PanelWrapperModule,
+    FormExtensionsModule,
   ],
   exports: [RelationshipDataFormComponent],
 })
