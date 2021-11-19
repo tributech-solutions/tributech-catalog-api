@@ -22,16 +22,19 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/test"],
+      "outputs": ["coverage/libs/self-description"],
       "options": {
-        "jestConfig": "libs/test/jest.config.js",
+        "jestConfig": "libs/self-description/jest.config.js",
         "passWithNoTests": true
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["libs/test/src/**/*.ts", "libs/test/src/**/*.html"]
+        "lintFilePatterns": [
+          "libs/self-description/src/**/*.ts",
+          "libs/self-description/src/**/*.html"
+        ]
       }
     },
     "deploy": {

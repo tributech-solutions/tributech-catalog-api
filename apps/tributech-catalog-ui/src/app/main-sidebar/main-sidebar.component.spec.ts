@@ -7,8 +7,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { mockProvider } from '@ngneat/spectator/jest';
-import { ConfigService, TrackByPropertyModule } from '@tributech/core';
+import { TrackByPropertyModule } from '@tributech/digital-twin';
 import { MockModule } from 'ng-mocks';
+import { ConfigService } from '../shared/config/config.service';
 import { MainSidebarComponent } from './main-sidebar.component';
 
 describe('MainSidebarComponent', () => {

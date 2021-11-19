@@ -104,4 +104,3 @@ jobs:
         env:
           INPUT_TAGS: ${{ steps.prep.outputs.tags }}
           INPUT_PUSH: ${{ github.event_name != 'pull_request' }}
-

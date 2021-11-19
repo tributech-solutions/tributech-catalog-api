@@ -4,12 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { mockProvider } from '@ngneat/spectator/jest';
 import {
-  AuthService,
   DialogService,
-  TrackByPropertyModule,
-} from '@tributech/core';
-import {
   RelationshipFormModule,
+  TrackByPropertyModule,
   TwinBuilderService,
   TwinFormModule,
   TwinTreeModule,
@@ -18,6 +15,7 @@ import { MockComponent, MockModule } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
 import { AppComponent } from './app.component';
 import { MainSidebarComponent } from './main-sidebar/main-sidebar.component';
+import { AuthService } from './shared/auth/auth.service';
 import { TwinBuilderToolbarComponent } from './twin-builder-toolbar/twin-builder-toolbar.component';
 import { TwinBuilderToolbarModule } from './twin-builder-toolbar/twin-builder-toolbar.module';
 
