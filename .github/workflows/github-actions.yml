@@ -104,3 +104,19 @@ jobs:
         env:
           INPUT_TAGS: ${{ steps.prep.outputs.tags }}
           INPUT_PUSH: ${{ github.event_name != 'pull_request' }}
+
+  npm:
+    runs-on: ubuntu-latest
+    if: contains(github.ref, '/heads/tags') || contains(github.ref, 'refs/tags')
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - run: npm i --ci
+      - run: npm run generate-connectors
+      # Set NPM token to be able to publish
+      - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/.npmrc
+      - run: npm whoami
+      - run: npm run affected:deploy-all

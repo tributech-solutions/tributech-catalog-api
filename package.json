@@ -25,6 +25,7 @@
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
     "affected:build-all": "nx affected:build --all",
+    "affected:deploy-all": "nx affected:deploy --all",
     "affected:e2e": "nx affected:e2e",
     "affected:test": "nx affected:test",
     "affected:test-all": "nx affected:test --all --code-coverage --source-maps",
