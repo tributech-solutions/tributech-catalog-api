@@ -1,8 +1,4 @@
 <div class="menu-buttons">
-  <button mat-menu-item (click)="showCluster = !showCluster">
-    <mat-icon>space_dashboard</mat-icon>
-    <span>Toggle Clusters</span>
-  </button>
   <button mat-icon-button (click)="centerGraph()">
     <mat-icon>zoom_out_map</mat-icon>
   </button>
@@ -10,13 +6,12 @@
 
 <ngx-graph
   #twinGraph
+  [view]="this.size"
   class="chart-container"
   waResizeBox="content-box"
   (waResizeObserver)="onResize($event)"
-  [view]="this.size"
-  [links]="relationships"
-  [nodes]="nodes"
-  [clusters]="showCluster ? groups : []"
+  [links]="visibleEdges"
+  [nodes]="visibleNodes"
   [autoCenter]="true"
   [autoZoom]="true"
   [draggingEnabled]="false"
@@ -24,7 +19,7 @@
   [animate]="true"
   [center$]="centerGraphSubject"
   [zoomToFit$]="centerGraphSubject"
-  layout="dagreCluster"
+  layout="dagre"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
 >
   <ng-template #defsTemplate>
@@ -41,24 +36,9 @@
     </svg:marker>
   </ng-template>
 
-  <ng-template #clusterTemplate let-cluster>
-    <svg:g class="node cluster">
-      <svg:rect
-        rx="5"
-        ry="5"
-        [attr.width]="cluster.dimension.width"
-        [attr.height]="cluster.dimension.height"
-        [attr.fill]="cluster.data.color"
-      />
-      <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="20">
-        {{ cluster.label }}
-      </svg:text>
-    </svg:g>
-  </ng-template>
-
   <ng-template #nodeTemplate let-node>
     <svg:g class="node" xmlns="http://www.w3.org/2000/xhtml">
-      <svg:foreignObject [attr.width]="254" [attr.height]="46">
+      <svg:foreignObject [attr.width]="100" [attr.height]="20">
         <xhtml:div
           class="node-dom"
           xmlns="http://www.w3.org/1999/xhtml"
@@ -70,12 +50,6 @@
             [style.background-color]="node.data.color"
           >
             <label class="node-text node-name">{{ node.label }}</label>
-          </xhtml:div>
-          <xhtml:div
-            class="node-label node-label__type"
-            xmlns="http://www.w3.org/1999/xhtml"
-          >
-            <label class="node-text node-type">{{ node.type }}</label>
           </xhtml:div>
         </xhtml:div>
       </svg:foreignObject>
@@ -102,3 +76,11 @@
     </svg:g>
   </ng-template>
 </ngx-graph>
+
+<tt-graph-legend
+  class="legend"
+  [nodes]="nodeModels"
+  [edges]="relationshipModels"
+  (selectionChanged)="legendChanged($event)"
+>
+</tt-graph-legend>

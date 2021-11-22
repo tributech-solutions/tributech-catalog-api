@@ -1,0 +1,28 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Nodes </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-selection-list class="list" #nodeList>
+      <mat-list-option
+        [value]="node"
+        *ngFor="let node of uniqueNodes; trackBy: 'id' | trackByProperty"
+      >
+        {{ node?.label }}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Edges </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-selection-list class="list" #edgeList>
+      <mat-list-option
+        [value]="edge"
+        *ngFor="let edge of uniqueEdges; trackBy: 'id' | trackByProperty"
+      >
+        {{ edge?.label }}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>
+</mat-accordion>

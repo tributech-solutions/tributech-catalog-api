@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -17,15 +16,8 @@ import {
 import { groupBy } from 'lodash';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
-import { ModelQuery } from '../../services/store/model.query';
 import { RelationshipQuery } from '../../services/store/relationship.query';
 import { TwinQuery } from '../../services/store/twin.query';
-
-export enum GraphMode {
-  TWINS = 'TWINS',
-  MODELS = 'MODELS',
-}
 
 @UntilDestroy()
 @Component({
@@ -34,10 +26,7 @@ export enum GraphMode {
   styleUrls: ['./twin-graph.component.scss'],
 })
 export class TwinGraphComponent implements OnInit, OnDestroy {
-  @Input() mode: GraphMode = GraphMode.TWINS;
-  @Input() disableToggle: boolean;
   @Output() twinSelected = new EventEmitter<TwinInstance>();
-  @Output() modelSelected = new EventEmitter<ExpandedInterface>();
 
   @ViewChild('twinGraph') twinGraph: GraphComponent;
 
@@ -45,20 +34,14 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
   nodes: Node[] = [];
   groups: ClusterNode[] = [];
 
-  relationshipModels: Edge[] = [];
-  nodeModels: Node[] = [];
-
   size: [number, number] = null;
   showCluster = false;
-  GraphMode = GraphMode;
   centerGraphSubject = new Subject<void>();
   graphSize = new Subject<[number, number]>();
 
   constructor(
     private twinQuery: TwinQuery,
-    private relationshipQuery: RelationshipQuery,
-    private modelQuery: ModelQuery,
-    private dialogService: DialogService
+    private relationshipQuery: RelationshipQuery
   ) {}
 
   ngOnInit(): void {
@@ -69,26 +52,12 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
         this.nodes = this.mapToNodes(twins);
         this.groups = this.mapToClusters(twins);
       });
+
     this.relationshipQuery
       .selectAll()
       .pipe(untilDestroyed(this))
       .subscribe((rels) => {
         this.relationships = this.mapToEdges(rels);
-      });
-
-    this.modelQuery
-      .selectAll()
-      .pipe(debounceTime(100), untilDestroyed(this))
-      .subscribe(() => {
-        const ref = this.dialogService.openLoadingModal(
-          'Building model graph...'
-        );
-        const [nodes, edges] = this.generateModelGraph(
-          this.modelQuery.getTwinGraphModels()
-        );
-        this.nodeModels = nodes;
-        this.relationshipModels = edges;
-        ref.close();
       });
 
     this.graphSize
@@ -109,53 +78,11 @@ export class TwinGraphComponent implements OnInit, OnDestroy {
   }
 
   _twinSelected(twin: { twin: TwinInstance | ExpandedInterface }) {
-    if (this.mode === GraphMode.MODELS) {
-      this.modelSelected.emit(twin?.twin as ExpandedInterface);
-      return;
-    }
     this.twinSelected.emit(twin?.twin);
   }
 
   centerGraph() {
     this.centerGraphSubject.next();
-  }
-
-  private generateModelGraph(twins: ExpandedInterface[]): [Node[], Edge[]] {
-    const nodes = twins.map((twin) => ({
-      id: twin?.['@id'],
-      label: twin?.displayName || twin?.['@id'],
-      twin,
-    }));
-
-    const relationships = twins.reduce(
-      (curr, parent) => [
-        ...curr,
-        ...parent?.relationships.map(
-          (rel) =>
-            ({
-              id: rel?.['@id'],
-              label: rel?.name,
-              source: parent['@id'],
-              target: rel?.target,
-              rel,
-            } as Edge)
-        ),
-      ],
-      [] as Edge[]
-    );
-
-    const inheritanceRels = twins
-      .filter((t) => t?.bases?.length !== 0)
-      .map(
-        (twin) =>
-          ({
-            label: 'Extends',
-            source: twin?.bases?.shift(),
-            target: twin?.['@id'],
-          } as Edge)
-      );
-
-    return [nodes, [...relationships, ...inheritanceRels]];
   }
 
   private mapToNodes(twins: TwinInstance[]): Node[] {
