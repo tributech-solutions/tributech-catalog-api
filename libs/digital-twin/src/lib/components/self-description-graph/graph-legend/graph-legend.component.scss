@@ -1,0 +1,10 @@
+@import 'libs/theme/variables';
+
+:host {
+  display: flex;
+}
+
+.list {
+  max-height: 600px;
+  overflow: auto;
+}

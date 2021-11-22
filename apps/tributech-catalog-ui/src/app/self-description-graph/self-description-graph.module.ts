@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TwinGraphModule } from '@tributech/digital-twin';
+import { SelfDescriptionGraphModule as LibSelfDescriptionGraphModule } from '@tributech/digital-twin';
 import { SelfDescriptionGraphComponent } from './self-description-graph.component';
 
 @NgModule({
-  imports: [CommonModule, TwinGraphModule],
+  imports: [CommonModule, LibSelfDescriptionGraphModule],
   declarations: [SelfDescriptionGraphComponent],
 })
 export class SelfDescriptionGraphModule {}

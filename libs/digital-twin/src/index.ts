@@ -2,6 +2,8 @@ export * from './lib/components/relationship-data-form/relationship-data-form.co
 export * from './lib/components/relationship-data-form/relationship-data-form.module';
 export * from './lib/components/self-description-builder/self-description-builder.component';
 export * from './lib/components/self-description-builder/self-description-builder.module';
+export * from './lib/components/self-description-graph/self-description-graph.component';
+export * from './lib/components/self-description-graph/self-description-graph.module';
 export * from './lib/components/twin-data-form/twin-data-form.component';
 export * from './lib/components/twin-data-form/twin-data-form.module';
 export * from './lib/components/twin-graph/twin-graph.component';
