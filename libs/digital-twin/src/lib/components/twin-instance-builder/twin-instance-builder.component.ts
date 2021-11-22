@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { DigitalTwin, Relationship } from '@tributech/twin-api';
+import { TwinInstance, TwinRelationship } from '@tributech/self-description';
 import { Observable } from 'rxjs';
 import { TwinBuilderService } from './twin-builder.service';
 
@@ -23,9 +23,9 @@ export class TwinInstanceBuilderComponent implements OnInit {
 
   @Output() modelLoaded: EventEmitter<void> = new EventEmitter<void>();
 
-  selectedTwin$: Observable<DigitalTwin> =
+  selectedTwin$: Observable<TwinInstance> =
     this.twinBuilderService.selectedTwin$;
-  selectedRelationships$: Observable<Relationship[]> =
+  selectedRelationships$: Observable<TwinRelationship[]> =
     this.twinBuilderService.selectedRelationship$;
   hasSelection$: Observable<boolean> = this.twinBuilderService.hasSelection$;
 
@@ -40,11 +40,11 @@ export class TwinInstanceBuilderComponent implements OnInit {
     });
   }
 
-  selectTwin(twin: DigitalTwin) {
+  selectTwin(twin: TwinInstance) {
     this.twinBuilderService.selectTwin(twin);
   }
 
-  selectRelationships(relationships: Relationship[]) {
+  selectRelationships(relationships: TwinRelationship[]) {
     this.twinBuilderService.selectRelationships(relationships);
   }
 
@@ -64,11 +64,11 @@ export class TwinInstanceBuilderComponent implements OnInit {
     return this.relationshipWhitelist.includes(relName);
   }
 
-  saveTwin(twin: DigitalTwin | [Relationship, DigitalTwin]) {
+  saveTwin(twin: TwinInstance | [TwinRelationship, TwinInstance]) {
     this.twinBuilderService.saveTwin(twin);
   }
 
-  saveRel(rel: Relationship) {
+  saveRel(rel: TwinRelationship) {
     this.twinBuilderService.saveRel(rel);
   }
 }

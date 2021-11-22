@@ -10,18 +10,18 @@
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
-          "error",
+          "warn",
           {
             "type": "attribute",
-            "prefix": "tributech",
+            "prefix": "tt",
             "style": "camelCase"
           }
         ],
         "@angular-eslint/component-selector": [
-          "error",
+          "warn",
           {
             "type": "element",
-            "prefix": "tributech",
+            "prefix": "tt",
             "style": "kebab-case"
           }
         ]

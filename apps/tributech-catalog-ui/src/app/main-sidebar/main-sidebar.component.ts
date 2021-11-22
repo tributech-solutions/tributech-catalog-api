@@ -10,7 +10,7 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { ConfigService } from '@tributech/core';
+import { ConfigService } from '../shared/config/config.service';
 
 export interface MenuItem {
   name?: string;

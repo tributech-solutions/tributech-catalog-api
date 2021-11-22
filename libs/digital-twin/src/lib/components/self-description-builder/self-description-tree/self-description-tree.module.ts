@@ -9,7 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TreeModule } from '@circlon/angular-tree-component';
-import { TrackByPropertyModule } from '@tributech/core';
+import { TrackByPropertyModule } from '../../../other-components/track-by-propery/track-by-property.module';
 import { SelfDescriptionTreeComponent } from './self-description-tree.component';
 
 @NgModule({

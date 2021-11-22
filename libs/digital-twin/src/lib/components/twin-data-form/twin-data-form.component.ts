@@ -8,15 +8,8 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import {
-  BaseDigitalTwin,
-  SchemaValidationError,
-  ValidationService,
-} from '@tributech/catalog-api';
-import { DialogService } from '@tributech/core';
-import { DigitalTwin } from '@tributech/twin-api';
+import { TwinInstance } from '@tributech/self-description';
 import { isEqual, isNil, omitBy } from 'lodash';
-import { Observable } from 'rxjs';
 import { ModelQuery } from '../../services/store/model.query';
 import { DEFAULT_FIELDS_TWIN, DEFAULT_FIELDS_TWIN_HIDDEN } from '../form.model';
 import { convertToFormConfig } from '../form.utils';
@@ -29,9 +22,9 @@ import { convertToFormConfig } from '../form.utils';
 export class TwinDataFormComponent implements OnChanges {
   @Input() disableEditing: boolean;
   @Input() hideDefaultData = false;
-  @Input() twin: DigitalTwin;
-  @Output() twinChanged: EventEmitter<DigitalTwin> =
-    new EventEmitter<DigitalTwin>();
+  @Input() twin: TwinInstance;
+  @Output() twinChanged: EventEmitter<TwinInstance> =
+    new EventEmitter<TwinInstance>();
 
   form = new FormGroup({});
   model = {};
@@ -43,11 +36,7 @@ export class TwinDataFormComponent implements OnChanges {
     },
   };
 
-  constructor(
-    private modelQuery: ModelQuery,
-    private validationService: ValidationService,
-    private dialogService: DialogService
-  ) {}
+  constructor(private modelQuery: ModelQuery) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.twin || changes.hideDefaultData) {
@@ -67,17 +56,8 @@ export class TwinDataFormComponent implements OnChanges {
 
   onSubmit() {
     if (this.form.valid && this.twin) {
-      const updatedTwin = omitBy({ ...this.twin, ...this.form.value }, isNil);
-
-      this.validateTwin(updatedTwin)
-        .toPromise()
-        .then((result: SchemaValidationError) => {
-          if (result?.success) {
-            this.emitChanges(updatedTwin);
-          } else {
-            this.dialogService.openValidationErrorModal(result);
-          }
-        });
+      const updatedTwin = { ...this.twin, ...this.form.value };
+      this.emitChanges(updatedTwin);
     }
   }
 
@@ -109,18 +89,10 @@ export class TwinDataFormComponent implements OnChanges {
     });
   }
 
-  private emitChanges(updatedTwin: DigitalTwin) {
+  private emitChanges(updatedTwin: TwinInstance) {
     if (this.disableEditing) return;
     if (!isEqual(this.twin, updatedTwin)) {
       this.twinChanged.emit(updatedTwin);
     }
-  }
-
-  private validateTwin(
-    updatedTwin: DigitalTwin
-  ): Observable<SchemaValidationError> {
-    return this.validationService.validationControllerValidateInstance(
-      updatedTwin as BaseDigitalTwin
-    );
   }
 }

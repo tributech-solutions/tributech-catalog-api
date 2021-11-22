@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { DialogService } from '@tributech/core';
 import { MockProvider } from 'ng-mocks';
+import { DialogService } from '../other-components/dynamic-dialog/dialog.service';
 import { ImportService } from './import.service';
 import { LoadService } from './load.service';
 

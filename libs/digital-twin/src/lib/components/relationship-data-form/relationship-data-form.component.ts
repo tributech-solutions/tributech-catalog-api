@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { DigitalTwin, Relationship } from '@tributech/twin-api';
+import { TwinRelationship } from '@tributech/self-description';
 import { ModelQuery } from '../../services/store/model.query';
 import { TwinQuery } from '../../services/store/twin.query';
 import { DEFAULT_FIELDS_RELATION } from '../form.model';
@@ -21,9 +21,9 @@ import { convertToFormConfig } from '../form.utils';
 })
 export class RelationshipDataFormComponent implements OnChanges {
   @Input() disableEditing: boolean;
-  @Input() relationship: Relationship;
+  @Input() relationship: TwinRelationship;
   @Output()
-  relChanged: EventEmitter<DigitalTwin> = new EventEmitter<DigitalTwin>();
+  relChanged: EventEmitter<TwinRelationship> = new EventEmitter<TwinRelationship>();
 
   form = new FormGroup({});
   model = {};

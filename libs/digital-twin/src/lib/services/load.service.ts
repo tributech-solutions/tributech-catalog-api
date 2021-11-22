@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ManageModelsService, ModelEntity } from '@tributech/catalog-api';
-import { DialogService, FileService, ReadType, uuidv4 } from '@tributech/core';
 import {
   ensureIsTwinGraph,
   Interface,
@@ -9,11 +8,14 @@ import {
   mapToRelevantData,
   TwinFileModel,
   TwinGraph,
+  uuidv4,
 } from '@tributech/self-description';
 import { to } from 'await-to-js';
 import { every as _every } from 'lodash';
 import { take } from 'rxjs/operators';
 import { TwinJsonModalComponent } from '../components/twin-json-modal/twin-json-modal.component';
+import { DialogService } from '../other-components/dynamic-dialog/dialog.service';
+import { FileService, ReadType } from './file.service';
 import { ImportService } from './import.service';
 
 @Injectable({ providedIn: 'root' })
@@ -60,7 +62,7 @@ export class LoadService {
       return Promise.reject('Unknown error at base model import!');
     }
     return this.importModels(
-      (twinModels.data as unknown as ModelEntity[]).map(
+      (twinModels?.data as unknown as ModelEntity[]).map(
         (m) => m.model as unknown as Interface
       )
     );
@@ -190,7 +192,7 @@ export class LoadService {
     return str.replace(find, replace);
   }
 
-  escapeRegExp(string) {
+  escapeRegExp(string: string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
 }

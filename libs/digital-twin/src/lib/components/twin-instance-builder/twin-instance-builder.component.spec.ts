@@ -8,11 +8,12 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { ManageModelsService } from '@tributech/catalog-api';
-import { DialogService, TrackByPropertyModule } from '@tributech/core';
 import { TwinsService } from '@tributech/twin-api';
 import { AngularSplitModule } from 'angular-split';
 import { MockModule } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
+import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
+import { TrackByPropertyModule } from '../../other-components/track-by-propery/track-by-property.module';
 import { LoadService } from '../../services/load.service';
 import { TwinQuery } from '../../services/store/twin.query';
 import { TwinService } from '../../services/store/twin.service';

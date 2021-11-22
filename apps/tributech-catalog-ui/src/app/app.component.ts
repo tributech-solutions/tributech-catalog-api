@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthService, DialogService } from '@tributech/core';
-import { TwinBuilderService } from '@tributech/digital-twin';
+import { DialogService, TwinBuilderService } from '@tributech/digital-twin';
 import { filter, switchMap } from 'rxjs/operators';
+import { AuthService } from './shared/auth/auth.service';
 
 @Component({
   selector: 'tributech-root',

@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { isArray } from '@datorama/akita';
-import { DialogService, uuidv4 } from '@tributech/core';
-import { createETag } from '@tributech/self-description';
+import { createETag, uuidv4 } from '@tributech/self-description';
 import {
   DigitalTwin,
   Relationship,
@@ -17,6 +16,7 @@ import {
   Subject,
 } from 'rxjs';
 import { debounceTime, map, mapTo } from 'rxjs/operators';
+import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
 import { LoadService } from '../../services/load.service';
 import { ModelQuery } from '../../services/store/model.query';
 import { RelationshipQuery } from '../../services/store/relationship.query';

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isArray, OrArray } from '@datorama/akita';
-import { createETag } from '@tributech/self-description';
-import { DigitalTwin } from '@tributech/twin-api';
+import { createETag, TwinInstance } from '@tributech/self-description';
 import { RelationshipService } from './relationship.service';
 import { RelationshipStore } from './relationship.store';
 import { TwinStore } from './twin.store';
@@ -14,13 +13,13 @@ export class TwinService {
     private relationshipService: RelationshipService
   ) {}
 
-  addTwins(twin: OrArray<DigitalTwin>) {
+  addTwins(twin: OrArray<TwinInstance>) {
     this.twinStore.upsertMany(isArray(twin) ? twin : [twin], {
       loading: false,
     });
   }
 
-  updateTwin(twinId: string, patch: Partial<DigitalTwin>) {
+  updateTwin(twinId: string, patch: Partial<TwinInstance>) {
     const updatePatch = { ...patch };
     updatePatch.$etag = createETag();
     return this.twinStore.upsert(twinId, updatePatch);

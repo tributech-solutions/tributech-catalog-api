@@ -4,7 +4,7 @@
 /httpRequests/
 /seeddata/
 /coverage/
-/apps/tributech-catalog/src/settings/settings.dev.json
+/settings/settings.dev.json
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 

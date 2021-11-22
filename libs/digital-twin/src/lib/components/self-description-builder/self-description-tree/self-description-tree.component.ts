@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ITreeOptions, TreeNode } from '@circlon/angular-tree-component';
-import { UtilsService } from '@tributech/core';
 import {
   isInterfaceSD,
   SelfDescription,
@@ -15,6 +14,7 @@ import {
   ChildLinkTarget,
   SelfDescriptionService,
 } from '../../../services/store/self-description/self-description.service';
+import { UtilsService } from '../../../services/utils.service';
 import { SelfDescriptionFormService } from '../self-description-form.service';
 
 type SelfDescriptionTreeNode = { data: SelfDescription } & TreeNode;

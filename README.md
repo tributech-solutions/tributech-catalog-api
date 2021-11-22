@@ -58,7 +58,7 @@ $ npm run generate-connectors
 
 ### Configuration API
 
-- Adapt settings.json in apps/tributech-catalog/src/settings
+- Adapt settings.json in /settings
   - Currently, needs a Keycloak Identity Server with OpenID-Connect
 
 ### HTTPS

@@ -36,7 +36,7 @@
             trackBy: '$relationshipId' | trackByProperty
           "
           [relationship]="rel"
-          [disableEditing]="!canEditRelationship(rel?.$relationshipName)"
+          [disableEditing]="!rel || !canEditRelationship(rel.$relationshipName)"
           (relChanged)="saveRel($event)"
         >
         </tt-relationship-data-form>

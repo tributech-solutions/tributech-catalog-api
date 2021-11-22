@@ -1,7 +1,7 @@
 {
   "npmScope": "tributech",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "develop"
   },
   "cli": {
     "defaultCollection": "@nrwl/nest"
@@ -29,5 +29,16 @@
       }
     ]
   },
-  "defaultProject": "tributech-catalog"
+  "defaultProject": "tributech-catalog",
+  "generators": {
+    "@nrwl/angular:application": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {}
+  }
 }

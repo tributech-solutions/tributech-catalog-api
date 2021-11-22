@@ -5,10 +5,10 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { DtdlModelsService } from '@tributech/catalog-api';
-import { TableModule } from '@tributech/core';
 import { QueryService, TwinsService } from '@tributech/twin-api';
 import { MockModule } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
+import { TableModule } from '../../other-components/table/table.module';
 import { TwinInstanceTableComponent } from './twin-instance-table.component';
 
 describe('TwinInstanceTableComponent', () => {

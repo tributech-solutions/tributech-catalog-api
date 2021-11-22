@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ClusterNode, Edge, GraphComponent, Node } from '@swimlane/ngx-graph';
-import { DialogService } from '@tributech/core';
 import {
   ExpandedInterface,
   TwinInstance,
@@ -18,6 +17,7 @@ import {
 import { groupBy } from 'lodash';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
 import { ModelQuery } from '../../services/store/model.query';
 import { RelationshipQuery } from '../../services/store/relationship.query';
 import { TwinQuery } from '../../services/store/twin.query';

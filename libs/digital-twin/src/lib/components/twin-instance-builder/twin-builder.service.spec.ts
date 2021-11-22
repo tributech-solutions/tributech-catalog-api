@@ -4,11 +4,11 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { DialogService } from '@tributech/core';
 import {
   RelationshipsService as RelationshipAPIService,
   TwinsService,
 } from '@tributech/twin-api';
+import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
 import { LoadService } from '../../services/load.service';
 import { RelationshipQuery } from '../../services/store/relationship.query';
 import { RelationshipService } from '../../services/store/relationship.service';

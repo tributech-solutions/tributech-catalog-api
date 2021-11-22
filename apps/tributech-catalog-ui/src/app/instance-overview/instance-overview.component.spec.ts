@@ -1,10 +1,10 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { HeroHeaderModule, TableModule } from '@tributech/core';
-import { TwinBuilderService } from '@tributech/digital-twin';
+import { TableModule, TwinBuilderService } from '@tributech/digital-twin';
 import { TwinsService } from '@tributech/twin-api';
 import { MockModule, MockProvider } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
+import { HeroHeaderModule } from '../shared/hero-header/hero-header.module';
 import { InstanceOverviewComponent } from './instance-overview.component';
 
 describe('InstanceOverviewComponent', () => {
