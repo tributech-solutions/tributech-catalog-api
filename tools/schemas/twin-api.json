@@ -8,9 +8,7 @@
   "paths": {
     "/graph": {
       "put": {
-        "tags": [
-          "Graph"
-        ],
+        "tags": ["Graph"],
         "summary": "Upsert digital twin graph.",
         "operationId": "UpsertTwinGraph",
         "requestBody": {
@@ -124,9 +122,7 @@
     },
     "/query/cypher": {
       "post": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "summary": "Query digital twin graph using cypher query.",
         "operationId": "GetTwinGraphByCypherQuery",
         "parameters": [
@@ -229,9 +225,7 @@
     },
     "/query/subgraph": {
       "post": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "summary": "Query digital twin graph by criterias.",
         "operationId": "GetTwinGraphByQuery",
         "requestBody": {
@@ -325,9 +319,7 @@
     },
     "/outgoing/{dtId}": {
       "get": {
-        "tags": [
-          "Relationships"
-        ],
+        "tags": ["Relationships"],
         "summary": "Get all outgoing relationships for a digital twin.",
         "operationId": "GetOutgoingRelationships",
         "parameters": [
@@ -417,9 +409,7 @@
     },
     "/incoming/{dtId}": {
       "get": {
-        "tags": [
-          "Relationships"
-        ],
+        "tags": ["Relationships"],
         "summary": "Get all incoming relationships for a digital twin.",
         "operationId": "GetIncomingRelationships",
         "parameters": [
@@ -509,9 +499,7 @@
     },
     "/relationships": {
       "get": {
-        "tags": [
-          "Relationships"
-        ],
+        "tags": ["Relationships"],
         "summary": "Get all relationships between digital twins.",
         "operationId": "GetAllRelationships",
         "parameters": [
@@ -600,9 +588,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Relationships"
-        ],
+        "tags": ["Relationships"],
         "summary": "Create new relationship between digital twins.\r\nCurrently no checks regarding existence of referenced twins is made!",
         "operationId": "CreateRelationship",
         "requestBody": {
@@ -716,9 +702,7 @@
     },
     "/relationships/{relationshipId}": {
       "get": {
-        "tags": [
-          "Relationships"
-        ],
+        "tags": ["Relationships"],
         "summary": "Get single relationship between digital twins by relationship id.",
         "operationId": "GetRelationshipById",
         "parameters": [
@@ -817,9 +801,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Relationships"
-        ],
+        "tags": ["Relationships"],
         "summary": "Create or update relationship between digital twins.\r\nurrently no checks regarding existence of referenced twins is made!",
         "operationId": "UpsertRelationship",
         "parameters": [
@@ -943,9 +925,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Relationships"
-        ],
+        "tags": ["Relationships"],
         "summary": "Delete relationship of digital twins (if exists).",
         "operationId": "DeleteRelationship",
         "parameters": [
@@ -1009,9 +989,7 @@
     },
     "/twins": {
       "get": {
-        "tags": [
-          "Twins"
-        ],
+        "tags": ["Twins"],
         "summary": "Get all digital twins.",
         "operationId": "GetAllTwins",
         "parameters": [
@@ -1100,9 +1078,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Twins"
-        ],
+        "tags": ["Twins"],
         "summary": "Create digital twin.",
         "operationId": "CreateTwin",
         "requestBody": {
@@ -1216,9 +1192,7 @@
     },
     "/model/{dtmi}": {
       "get": {
-        "tags": [
-          "Twins"
-        ],
+        "tags": ["Twins"],
         "summary": "Get all digital twins of certain model type.",
         "operationId": "GetTwinsByModelId",
         "parameters": [
@@ -1318,9 +1292,7 @@
     },
     "/twins/{dtid}": {
       "get": {
-        "tags": [
-          "Twins"
-        ],
+        "tags": ["Twins"],
         "summary": "Get single digital twin by id.",
         "operationId": "GetTwinById",
         "parameters": [
@@ -1419,9 +1391,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Twins"
-        ],
+        "tags": ["Twins"],
         "summary": "Create or update digital twin.",
         "operationId": "UpsertTwin",
         "parameters": [
@@ -1545,9 +1515,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Twins"
-        ],
+        "tags": ["Twins"],
         "summary": "Delete digital twin (if exists) and all its relationsips.",
         "operationId": "DeleteTwin",
         "parameters": [
@@ -1627,7 +1595,7 @@
             "$ref": "#/components/schemas/DigitalTwinMetadata"
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       },
       "DigitalTwinMetadata": {
         "type": "object",
@@ -1681,7 +1649,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       },
       "Relationship": {
         "type": "object",
@@ -1707,7 +1675,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       },
       "RelationshipPaginatedResponse": {
         "type": "object",
@@ -1825,7 +1793,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       }
     },
     "securitySchemes": {
@@ -1848,12 +1816,7 @@
   },
   "security": [
     {
-      "OAuth2": [
-        "profile",
-        "email",
-        "twin-api",
-        "catalog-api"
-      ]
+      "OAuth2": ["profile", "email", "twin-api", "catalog-api"]
     }
   ]
 }

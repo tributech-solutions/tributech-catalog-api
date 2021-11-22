@@ -1,6 +1,6 @@
 {
   "name": "@tributech/catalog-api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "API services for the Tributech Catalog API.",
   "author": "Tributech Solutions GmbH <support@tributech.io>",
   "homepage": "https://github.com/tributech-solutions/tributech-catalog-api",

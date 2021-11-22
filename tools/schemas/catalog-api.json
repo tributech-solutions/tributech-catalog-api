@@ -10,9 +10,7 @@
             "name": "dtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -20,23 +18,13 @@
             "description": "Returns the requested model entity based on its dtmi.",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModelEntity"
-                }
+                "schema": { "$ref": "#/components/schemas/ModelEntity" }
               }
             }
           }
         },
-        "tags": [
-          "manage-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["manage-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/manage/entities": {
@@ -48,17 +36,13 @@
             "name": "size",
             "required": true,
             "in": "query",
-            "schema": {
-              "type": "number"
-            }
+            "schema": { "type": "number" }
           },
           {
             "name": "page",
             "required": true,
             "in": "query",
-            "schema": {
-              "type": "number"
-            }
+            "schema": { "type": "number" }
           }
         ],
         "responses": {
@@ -73,16 +57,8 @@
             }
           }
         },
-        "tags": [
-          "manage-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["manage-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/manage/model": {
@@ -94,9 +70,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Interface"
-              }
+              "schema": { "$ref": "#/components/schemas/Interface" }
             }
           }
         },
@@ -105,23 +79,13 @@
             "description": "The model has been successfully added.",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModelEntity"
-                }
+                "schema": { "$ref": "#/components/schemas/ModelEntity" }
               }
             }
           }
         },
-        "tags": [
-          "manage-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["manage-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/manage/models": {
@@ -135,9 +99,7 @@
             "application/json": {
               "schema": {
                 "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Interface"
-                }
+                "items": { "$ref": "#/components/schemas/Interface" }
               }
             }
           }
@@ -149,24 +111,14 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ModelEntity"
-                  }
+                  "items": { "$ref": "#/components/schemas/ModelEntity" }
                 }
               }
             }
           }
         },
-        "tags": [
-          "manage-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["manage-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/manage/model/{dtmi}/revoke": {
@@ -178,9 +130,7 @@
             "name": "dtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -188,23 +138,13 @@
             "description": "The model has been successfully added.",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModelEntity"
-                }
+                "schema": { "$ref": "#/components/schemas/ModelEntity" }
               }
             }
           }
         },
-        "tags": [
-          "manage-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["manage-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/graph/expanded": {
@@ -216,17 +156,13 @@
             "name": "size",
             "required": true,
             "in": "query",
-            "schema": {
-              "type": "number"
-            }
+            "schema": { "type": "number" }
           },
           {
             "name": "page",
             "required": true,
             "in": "query",
-            "schema": {
-              "type": "number"
-            }
+            "schema": { "type": "number" }
           }
         ],
         "responses": {
@@ -241,16 +177,8 @@
             }
           }
         },
-        "tags": [
-          "dtdl-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/graph/roots": {
@@ -265,38 +193,26 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExpandedInterface"
-                  }
+                  "items": { "$ref": "#/components/schemas/ExpandedInterface" }
                 }
               }
             }
           }
         },
-        "tags": [
-          "dtdl-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/graph/{dtmi}/bases": {
       "get": {
         "operationId": "getBases",
-        "summary": "Get the bases of the requested model",
+        "summary": "Gets the bases of the requested model",
         "parameters": [
           {
             "name": "dtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -304,26 +220,48 @@
             "description": "Returns the bases of a model",
             "content": {
               "application/json": {
+                "schema": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
+      }
+    },
+    "/graph/{dtmi}/children": {
+      "get": {
+        "operationId": "getChildren",
+        "summary": "Gets the children of the requested model up to a optionally specified depth",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "depth",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the children of a model",
+            "content": {
+              "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+                  "items": { "$ref": "#/components/schemas/ExpandedInterface" }
                 }
               }
             }
           }
         },
-        "tags": [
-          "dtdl-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/graph/{dtmi}/expand": {
@@ -335,9 +273,7 @@
             "name": "dtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -345,23 +281,71 @@
             "description": "Returns a model in its expanded representation.",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExpandedInterface"
-                }
+                "schema": { "$ref": "#/components/schemas/ExpandedInterface" }
               }
             }
           }
         },
-        "tags": [
-          "dtdl-models"
-        ],
-        "security": [
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
+      }
+    },
+    "/graph/{dtmi}/simplified": {
+      "get": {
+        "operationId": "getSimplified",
+        "summary": "Get the requested model in simplified form.",
+        "parameters": [
           {
-            "oauth2": [
-              "catalog-api"
-            ]
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a model in its simplified representation.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ExpandedInterface" }
+              }
+            }
+          }
+        },
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
+      }
+    },
+    "/graph/{dtmi}/full-expand": {
+      "get": {
+        "operationId": "getFullyExpanded",
+        "summary": "Get the requested model with related models inlined (JSON-LD representation).",
+        "parameters": [
+          {
+            "name": "dtmi",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "includeContext",
+            "required": false,
+            "in": "query",
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a model in its expanded representation.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ExpandedInterface" }
+              }
+            }
+          }
+        },
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/graph/relationships/{sourceDtmi}/{targetDtmi}": {
@@ -373,17 +357,13 @@
             "name": "sourceDtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           },
           {
             "name": "targetDtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -393,24 +373,14 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Relationship"
-                  }
+                  "items": { "$ref": "#/components/schemas/Relationship" }
                 }
               }
             }
           }
         },
-        "tags": [
-          "dtdl-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/graph/relationships/{sourceDtmi}": {
@@ -422,9 +392,7 @@
             "name": "sourceDtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -434,24 +402,14 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Relationship"
-                  }
+                  "items": { "$ref": "#/components/schemas/Relationship" }
                 }
               }
             }
           }
         },
-        "tags": [
-          "dtdl-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/graph/{dtmi}": {
@@ -463,9 +421,7 @@
             "name": "dtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -473,23 +429,13 @@
             "description": "Returns a model based on its dtmi",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Interface"
-                }
+                "schema": { "$ref": "#/components/schemas/Interface" }
               }
             }
           }
         },
-        "tags": [
-          "dtdl-models"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["dtdl-models"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/validate/schema/{dtmi}": {
@@ -500,9 +446,7 @@
             "name": "dtmi",
             "required": true,
             "in": "path",
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -510,23 +454,13 @@
             "description": "Returns a JSON schema for the requested model",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JSONSchema4"
-                }
+                "schema": { "$ref": "#/components/schemas/Schema" }
               }
             }
           }
         },
-        "tags": [
-          "validation"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["validation"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/validate": {
@@ -538,9 +472,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BaseDigitalTwin"
-              }
+              "schema": { "$ref": "#/components/schemas/TwinInstance" }
             }
           }
         },
@@ -556,16 +488,8 @@
             }
           }
         },
-        "tags": [
-          "validation"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["validation"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     },
     "/validate/graph": {
@@ -577,9 +501,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DigitalTwinModel"
-              }
+              "schema": { "$ref": "#/components/schemas/TwinGraph" }
             }
           }
         },
@@ -595,16 +517,8 @@
             }
           }
         },
-        "tags": [
-          "validation"
-        ],
-        "security": [
-          {
-            "oauth2": [
-              "catalog-api"
-            ]
-          }
-        ]
+        "tags": ["validation"],
+        "security": [{ "oauth2": ["catalog-api"] }]
       }
     }
   },
@@ -622,7 +536,7 @@
         "type": "oauth2",
         "flows": {
           "clientCredentials": {
-            "tokenUrl": "https://auth.dev.dataspace-hub.com/auth/realms/dev-node-a/protocol/openid-connect/token",
+            "tokenUrl": "<<identity_provider>>/protocol/openid-connect/token",
             "scopes": {
               "profile": "profile",
               "email": "email",
@@ -637,1097 +551,2075 @@
       "ArraySchema": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Array"
-            ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
           "elementSchema": {
             "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/ArraySchema"
-              },
-              {
-                "$ref": "#/components/schemas/EnumSchema"
-              },
-              {
-                "$ref": "#/components/schemas/MapSchema"
-              },
-              {
-                "$ref": "#/components/schemas/ObjectSchema"
-              }
+              { "type": "string" },
+              { "$ref": "#/components/schemas/ArraySchema" },
+              { "$ref": "#/components/schemas/EnumSchema" },
+              { "$ref": "#/components/schemas/MapSchema" },
+              { "$ref": "#/components/schemas/ObjectSchema" }
             ]
           }
         },
-        "required": [
-          "@type",
-          "elementSchema"
-        ]
+        "required": ["elementSchema"]
       },
       "EnumValue": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
+          "@id": { "type": "string" },
+          "@type": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "enumValue": {
-            "type": "object"
-          }
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
+          "enumValue": { "type": "object" }
         },
-        "required": [
-          "name",
-          "enumValue"
-        ]
+        "required": ["name", "enumValue"]
       },
       "EnumSchema": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Enum"
-            ]
-          },
-          "enumValues": {
             "type": "array",
+            "nullable": false,
             "items": {
-              "$ref": "#/components/schemas/EnumValue"
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
             }
           },
-          "valueSchema": {
-            "type": "string"
-          }
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "enumValues": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/EnumValue" }
+          },
+          "valueSchema": { "type": "string" }
         },
-        "required": [
-          "@type",
-          "enumValues",
-          "valueSchema"
-        ]
+        "required": ["enumValues", "valueSchema"]
       },
       "MapKey": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
+          "@id": { "type": "string" },
+          "@type": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "schema": {
-            "type": "string"
-          }
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
+          "schema": { "type": "string" }
         },
-        "required": [
-          "name",
-          "schema"
-        ]
+        "required": ["name", "schema"]
       },
       "MapValue": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
+          "@id": { "type": "string" },
+          "@type": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
           "schema": {
             "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/ArraySchema"
-              },
-              {
-                "$ref": "#/components/schemas/EnumSchema"
-              },
-              {
-                "$ref": "#/components/schemas/MapSchema"
-              },
-              {
-                "$ref": "#/components/schemas/ObjectSchema"
-              }
+              { "type": "string" },
+              { "$ref": "#/components/schemas/ArraySchema" },
+              { "$ref": "#/components/schemas/EnumSchema" },
+              { "$ref": "#/components/schemas/MapSchema" },
+              { "$ref": "#/components/schemas/ObjectSchema" }
             ]
           }
         },
-        "required": [
-          "name",
-          "schema"
-        ]
+        "required": ["name", "schema"]
       },
       "MapSchema": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Map"
-            ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "mapKey": {
-            "$ref": "#/components/schemas/MapKey"
-          },
-          "mapValue": {
-            "$ref": "#/components/schemas/MapValue"
-          }
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "mapKey": { "$ref": "#/components/schemas/MapKey" },
+          "mapValue": { "$ref": "#/components/schemas/MapValue" }
         },
-        "required": [
-          "@type",
-          "mapKey",
-          "mapValue"
-        ]
+        "required": ["mapKey", "mapValue"]
       },
       "Field": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
+          "@id": { "type": "string" },
+          "@type": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
           "schema": {
             "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/ArraySchema"
-              },
-              {
-                "$ref": "#/components/schemas/EnumSchema"
-              },
-              {
-                "$ref": "#/components/schemas/MapSchema"
-              },
-              {
-                "$ref": "#/components/schemas/ObjectSchema"
-              }
+              { "type": "string" },
+              { "$ref": "#/components/schemas/ArraySchema" },
+              { "$ref": "#/components/schemas/EnumSchema" },
+              { "$ref": "#/components/schemas/MapSchema" },
+              { "$ref": "#/components/schemas/ObjectSchema" }
             ]
           }
         },
-        "required": [
-          "name",
-          "schema"
-        ]
+        "required": ["name", "schema"]
       },
       "ObjectSchema": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Object"
-            ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
           "fields": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Field"
-            }
+            "items": { "$ref": "#/components/schemas/Field" }
           }
         },
-        "required": [
-          "@type",
-          "fields"
-        ]
+        "required": ["fields"]
       },
       "Property": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "oneOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "Property"
-                ]
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "Property",
-                    "Acceleration",
-                    "Angle",
-                    "AngularAcceleration",
-                    "AngularVelocity",
-                    "Area",
-                    "Capacitance",
-                    "Current",
-                    "DataRate",
-                    "DataSize",
-                    "Density",
-                    "Distance",
-                    "ElectricCharge",
-                    "Energy",
-                    "Force",
-                    "Frequency",
-                    "Humidity",
-                    "Illuminance",
-                    "Inductance",
-                    "Latitude",
-                    "Longitude",
-                    "Length",
-                    "Luminance",
-                    "Luminosity",
-                    "LuminousFlux",
-                    "LuminousIntensity",
-                    "MagneticFlux",
-                    "MagneticInduction",
-                    "Mass",
-                    "MassFlowRate",
-                    "Power",
-                    "Pressure",
-                    "RelativeHumidity",
-                    "Resistance",
-                    "SoundPressure",
-                    "Temperature",
-                    "Thrust",
-                    "TimeSpan",
-                    "Torque",
-                    "Velocity",
-                    "Voltage",
-                    "Volume",
-                    "VolumeFlowRate",
-                    "AccelerationUnit",
-                    "AngleUnit",
-                    "AngularAccelerationUnit",
-                    "AngularVelocityUnit",
-                    "AreaUnit",
-                    "CapacitanceUnit",
-                    "ChargeUnit",
-                    "CurrentUnit",
-                    "DataRateUnit",
-                    "DataSizeUnit",
-                    "DensityUnit",
-                    "EnergyUnit",
-                    "ForceUnit",
-                    "FrequencyUnit",
-                    "IlluminanceUnit",
-                    "InductanceUnit",
-                    "LengthUnit",
-                    "LuminanceUnit",
-                    "LuminousFluxUnit",
-                    "LuminousIntensityUnit",
-                    "MagneticFluxUnit",
-                    "MagneticInductionUnit",
-                    "MassUnit",
-                    "MassFlowRateUnit",
-                    "PowerUnit",
-                    "PressureUnit",
-                    "ResistanceUnit",
-                    "SoundPressureUnit",
-                    "TemperatureUnit",
-                    "TimeUnit",
-                    "TorqueUnit",
-                    "Unitless",
-                    "VelocityUnit",
-                    "VoltageUnit",
-                    "VolumeUnit",
-                    "VolumeFlowRateUnit"
-                  ]
-                }
-              }
-            ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "name": {
-            "type": "string"
-          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
           "schema": {
             "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/ArraySchema"
-              },
-              {
-                "$ref": "#/components/schemas/EnumSchema"
-              },
-              {
-                "$ref": "#/components/schemas/MapSchema"
-              },
-              {
-                "$ref": "#/components/schemas/ObjectSchema"
-              }
+              { "type": "string" },
+              { "$ref": "#/components/schemas/ArraySchema" },
+              { "$ref": "#/components/schemas/EnumSchema" },
+              { "$ref": "#/components/schemas/MapSchema" },
+              { "$ref": "#/components/schemas/ObjectSchema" }
             ]
           },
-          "unit": {
-            "type": "string"
-          },
-          "writable": {
-            "type": "boolean"
-          }
+          "unit": { "type": "string" },
+          "writable": { "type": "boolean" }
         },
-        "required": [
-          "@type",
-          "name",
-          "schema"
-        ]
+        "required": ["name", "schema"]
       },
       "Relationship": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Relationship"
-            ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "name": {
-            "type": "string"
-          },
-          "maxMultiplicity": {
-            "type": "number"
-          },
-          "minMultiplicity": {
-            "type": "number"
-          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
+          "maxMultiplicity": { "type": "number" },
+          "minMultiplicity": { "type": "number" },
           "properties": {
             "nullable": true,
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Property"
-            }
+            "items": { "$ref": "#/components/schemas/Property" }
           },
-          "target": {
-            "type": "string"
-          }
+          "target": { "type": "string" },
+          "writable": { "type": "boolean" }
         },
-        "required": [
-          "@type",
-          "name"
-        ]
+        "required": ["name"]
       },
       "Component": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Component"
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
+          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
+          "schema": { "$ref": "#/components/schemas/Interface" }
+        },
+        "required": ["name", "schema"]
+      },
+      "CommandPayload": {
+        "type": "object",
+        "properties": {
+          "@id": { "type": "string" },
+          "@type": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
+          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "schema": {
+            "oneOf": [
+              { "type": "string" },
+              { "$ref": "#/components/schemas/ArraySchema" },
+              { "$ref": "#/components/schemas/EnumSchema" },
+              { "$ref": "#/components/schemas/MapSchema" },
+              { "$ref": "#/components/schemas/ObjectSchema" }
             ]
           },
-          "name": {
-            "type": "string"
-          },
-          "schema": {
-            "$ref": "#/components/schemas/Interface"
-          }
+          "name": { "type": "string" }
         },
-        "required": [
-          "@type",
-          "name",
-          "schema"
-        ]
+        "required": ["schema", "name"]
       },
       "Command": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Command"
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
+          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "name": { "type": "string" },
+          "request": { "$ref": "#/components/schemas/CommandPayload" },
+          "response": { "$ref": "#/components/schemas/CommandPayload" }
+        },
+        "required": ["name"]
+      },
+      "Telemetry": {
+        "type": "object",
+        "properties": {
+          "@id": { "type": "string" },
+          "@type": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
+          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "schema": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "$ref": "#/components/schemas/ArraySchema" },
+              { "$ref": "#/components/schemas/EnumSchema" },
+              { "$ref": "#/components/schemas/MapSchema" },
+              { "$ref": "#/components/schemas/ObjectSchema" }
             ]
           },
-          "name": {
-            "type": "string"
-          },
-          "commandType": {
-            "type": "object"
-          },
-          "request": {
-            "type": "object"
-          },
-          "response": {
-            "type": "object"
-          }
+          "unit": { "type": "string" },
+          "name": { "type": "string" }
         },
-        "required": [
-          "@type",
-          "name"
-        ]
+        "required": ["schema", "name"]
       },
       "InterfaceSchema": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Enum",
-              "Map",
-              "Object",
-              "Array"
-            ]
-          }
-        },
-        "required": [
-          "@type"
-        ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
+          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" }
+        }
       },
       "Interface": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Interface"
-            ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "@context": {
-            "type": "string",
-            "enum": [
-              "dtmi:dtdl:context;2"
-            ]
-          },
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "@context": { "type": "string", "enum": ["dtmi:dtdl:context;2"] },
           "contents": {
             "type": "array",
             "items": {
               "anyOf": [
-                {
-                  "$ref": "#/components/schemas/Property"
-                },
-                {
-                  "$ref": "#/components/schemas/Relationship"
-                },
-                {
-                  "$ref": "#/components/schemas/Component"
-                },
-                {
-                  "$ref": "#/components/schemas/Command"
-                }
+                { "$ref": "#/components/schemas/Property" },
+                { "$ref": "#/components/schemas/Relationship" },
+                { "$ref": "#/components/schemas/Component" },
+                { "$ref": "#/components/schemas/Telemetry" },
+                { "$ref": "#/components/schemas/Command" }
               ]
             },
             "nullable": true
           },
           "extends": {
             "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
             ],
-            "nullable": true
+            "nullable": true,
+            "items": { "type": "string" }
           },
           "schemas": {
             "nullable": true,
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InterfaceSchema"
-            }
+            "items": { "$ref": "#/components/schemas/InterfaceSchema" }
           }
         },
-        "required": [
-          "@type",
-          "@context"
-        ]
+        "required": ["@context"]
       },
       "ModelEntity": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "model": {
-            "$ref": "#/components/schemas/Interface"
-          },
-          "createdTime": {
-            "type": "string"
-          },
-          "modifiedTime": {
-            "type": "string"
-          }
+          "id": { "type": "string" },
+          "active": { "type": "boolean" },
+          "model": { "$ref": "#/components/schemas/Interface" },
+          "createdTime": { "type": "string" },
+          "modifiedTime": { "type": "string" }
         },
-        "required": [
-          "id",
-          "active",
-          "model",
-          "createdTime",
-          "modifiedTime"
-        ]
+        "required": ["id", "active", "model", "createdTime", "modifiedTime"]
       },
       "ModelEntityPagedResult": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ModelEntity"
-            }
+            "items": { "$ref": "#/components/schemas/ModelEntity" }
           },
-          "totalCount": {
-            "type": "number"
-          }
+          "totalCount": { "type": "number" }
         },
-        "required": [
-          "data",
-          "totalCount"
-        ]
-      },
-      "Telemetry": {
-        "type": "object",
-        "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
-          "@type": {
-            "nullable": false,
-            "oneOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "Telemetry"
-                ]
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "Telemetry",
-                    "Acceleration",
-                    "Angle",
-                    "AngularAcceleration",
-                    "AngularVelocity",
-                    "Area",
-                    "Capacitance",
-                    "Current",
-                    "DataRate",
-                    "DataSize",
-                    "Density",
-                    "Distance",
-                    "ElectricCharge",
-                    "Energy",
-                    "Force",
-                    "Frequency",
-                    "Humidity",
-                    "Illuminance",
-                    "Inductance",
-                    "Latitude",
-                    "Longitude",
-                    "Length",
-                    "Luminance",
-                    "Luminosity",
-                    "LuminousFlux",
-                    "LuminousIntensity",
-                    "MagneticFlux",
-                    "MagneticInduction",
-                    "Mass",
-                    "MassFlowRate",
-                    "Power",
-                    "Pressure",
-                    "RelativeHumidity",
-                    "Resistance",
-                    "SoundPressure",
-                    "Temperature",
-                    "Thrust",
-                    "TimeSpan",
-                    "Torque",
-                    "Velocity",
-                    "Voltage",
-                    "Volume",
-                    "VolumeFlowRate",
-                    "AccelerationUnit",
-                    "AngleUnit",
-                    "AngularAccelerationUnit",
-                    "AngularVelocityUnit",
-                    "AreaUnit",
-                    "CapacitanceUnit",
-                    "ChargeUnit",
-                    "CurrentUnit",
-                    "DataRateUnit",
-                    "DataSizeUnit",
-                    "DensityUnit",
-                    "EnergyUnit",
-                    "ForceUnit",
-                    "FrequencyUnit",
-                    "IlluminanceUnit",
-                    "InductanceUnit",
-                    "LengthUnit",
-                    "LuminanceUnit",
-                    "LuminousFluxUnit",
-                    "LuminousIntensityUnit",
-                    "MagneticFluxUnit",
-                    "MagneticInductionUnit",
-                    "MassUnit",
-                    "MassFlowRateUnit",
-                    "PowerUnit",
-                    "PressureUnit",
-                    "ResistanceUnit",
-                    "SoundPressureUnit",
-                    "TemperatureUnit",
-                    "TimeUnit",
-                    "TorqueUnit",
-                    "Unitless",
-                    "VelocityUnit",
-                    "VoltageUnit",
-                    "VolumeUnit",
-                    "VolumeFlowRateUnit"
-                  ]
-                }
-              }
-            ]
-          },
-          "name": {
-            "type": "string"
-          },
-          "schema": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "number"
-              },
-              {
-                "$ref": "#/components/schemas/ArraySchema"
-              },
-              {
-                "$ref": "#/components/schemas/EnumSchema"
-              },
-              {
-                "$ref": "#/components/schemas/MapSchema"
-              },
-              {
-                "$ref": "#/components/schemas/ObjectSchema"
-              }
-            ]
-          },
-          "unit": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "schema"
-        ]
+        "required": ["data", "totalCount"]
       },
       "ExpandedInterface": {
         "type": "object",
         "properties": {
-          "@id": {
-            "type": "string",
-            "nullable": false
-          },
-          "comment": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
+          "@id": { "type": "string" },
           "@type": {
-            "type": "string",
-            "enum": [
-              "Interface"
-            ]
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Interface",
+                "Property",
+                "Relationship",
+                "Telemetry",
+                "Component",
+                "Command",
+                "Array",
+                "Enum",
+                "Map",
+                "Object",
+                "Acceleration",
+                "Angle",
+                "AngularAcceleration",
+                "AngularVelocity",
+                "Area",
+                "Capacitance",
+                "Current",
+                "DataRate",
+                "DataSize",
+                "Density",
+                "Distance",
+                "ElectricCharge",
+                "Energy",
+                "Force",
+                "Frequency",
+                "Humidity",
+                "Illuminance",
+                "Inductance",
+                "Latitude",
+                "Longitude",
+                "Length",
+                "Luminance",
+                "Luminosity",
+                "LuminousFlux",
+                "LuminousIntensity",
+                "MagneticFlux",
+                "MagneticInduction",
+                "Mass",
+                "MassFlowRate",
+                "Power",
+                "Pressure",
+                "RelativeHumidity",
+                "Resistance",
+                "SoundPressure",
+                "Temperature",
+                "Thrust",
+                "TimeSpan",
+                "Torque",
+                "Velocity",
+                "Voltage",
+                "Volume",
+                "VolumeFlowRate",
+                "AccelerationUnit",
+                "AngleUnit",
+                "AngularAccelerationUnit",
+                "AngularVelocityUnit",
+                "AreaUnit",
+                "CapacitanceUnit",
+                "ChargeUnit",
+                "CurrentUnit",
+                "DataRateUnit",
+                "DataSizeUnit",
+                "DensityUnit",
+                "EnergyUnit",
+                "ForceUnit",
+                "FrequencyUnit",
+                "IlluminanceUnit",
+                "InductanceUnit",
+                "LengthUnit",
+                "LuminanceUnit",
+                "LuminousFluxUnit",
+                "LuminousIntensityUnit",
+                "MagneticFluxUnit",
+                "MagneticInductionUnit",
+                "MassUnit",
+                "MassFlowRateUnit",
+                "PowerUnit",
+                "PressureUnit",
+                "ResistanceUnit",
+                "SoundPressureUnit",
+                "TemperatureUnit",
+                "TimeUnit",
+                "TorqueUnit",
+                "Unitless",
+                "VelocityUnit",
+                "VoltageUnit",
+                "VolumeUnit",
+                "VolumeFlowRateUnit"
+              ]
+            }
           },
-          "@context": {
-            "type": "string",
-            "enum": [
-              "dtmi:dtdl:context;2"
-            ]
+          "comment": { "type": "string" },
+          "description": { "type": "string" },
+          "displayName": { "type": "string" },
+          "@context": { "type": "string", "enum": ["dtmi:dtdl:context;2"] },
+          "contents": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                { "$ref": "#/components/schemas/Property" },
+                { "$ref": "#/components/schemas/Relationship" },
+                { "$ref": "#/components/schemas/Component" },
+                { "$ref": "#/components/schemas/Telemetry" },
+                { "$ref": "#/components/schemas/Command" }
+              ]
+            },
+            "nullable": true
+          },
+          "extends": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "nullable": true,
+            "items": { "type": "string" }
           },
           "schemas": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/ArraySchema"
-              },
-              {
-                "$ref": "#/components/schemas/EnumSchema"
-              },
-              {
-                "$ref": "#/components/schemas/MapSchema"
-              },
-              {
-                "$ref": "#/components/schemas/ObjectSchema"
-              }
-            ],
-            "nullable": true
+            "nullable": true,
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/InterfaceSchema" }
           },
           "bases": {
             "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "items": { "type": "string" },
             "nullable": true
           },
           "properties": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Property"
-            }
+            "items": { "$ref": "#/components/schemas/Property" }
           },
           "relationships": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Relationship"
-            }
+            "items": { "$ref": "#/components/schemas/Relationship" }
           },
           "telemetries": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Telemetry"
-            }
+            "items": { "$ref": "#/components/schemas/Telemetry" }
           },
           "components": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Component"
-            }
+            "items": { "$ref": "#/components/schemas/Component" }
+          },
+          "commands": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Command" }
           }
         },
-        "required": [
-          "@type",
-          "@context"
-        ]
+        "required": ["@context"]
       },
       "ExpandedInterfacePagedResult": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ExpandedInterface"
-            }
+            "items": { "$ref": "#/components/schemas/ExpandedInterface" }
           },
-          "totalCount": {
-            "type": "number"
-          }
+          "totalCount": { "type": "number" }
         },
-        "required": [
-          "data",
-          "totalCount"
-        ]
+        "required": ["data", "totalCount"]
       },
-      "JSONSchema4": {
+      "Schema": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "$ref": {
-            "type": "string"
-          },
-          "$schema": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "default": {
-            "type": "object"
-          },
-          "multipleOf": {
-            "type": "number"
-          },
-          "maximum": {
-            "type": "number"
-          },
-          "exclusiveMaximum": {
-            "type": "boolean"
-          },
-          "minimum": {
-            "type": "number"
-          },
-          "exclusiveMinimum": {
-            "type": "boolean"
-          },
-          "maxLength": {
-            "type": "number"
-          },
-          "minLength": {
-            "type": "number"
-          },
-          "pattern": {
-            "type": "string"
-          },
-          "additionalItems": {
-            "type": "object"
-          },
-          "items": {
-            "type": "object"
-          },
-          "maxItems": {
-            "type": "number"
-          },
-          "minItems": {
-            "type": "number"
-          },
-          "uniqueItems": {
-            "type": "boolean"
-          },
-          "maxProperties": {
-            "type": "number"
-          },
-          "minProperties": {
-            "type": "number"
-          },
-          "required": {
-            "type": "object"
-          },
-          "definitions": {
-            "type": "object"
-          },
-          "properties": {
-            "type": "object"
-          },
-          "patternProperties": {
-            "type": "object"
-          },
-          "dependencies": {
-            "type": "object"
-          },
-          "enum": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "type": {
-            "type": "object"
-          },
-          "allOf": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "anyOf": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "oneOf": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "not": {
-            "$ref": "#/components/schemas/JSONSchema4"
-          },
-          "extends": {
-            "type": "object"
-          },
-          "format": {
-            "type": "string"
-          }
+          "$id": { "type": "string" },
+          "id": { "type": "string" },
+          "$schema": { "type": "string" },
+          "$ref": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "multipleOf": { "type": "number" },
+          "maximum": { "type": "number" },
+          "exclusiveMaximum": { "type": "object" },
+          "minimum": { "type": "number" },
+          "exclusiveMinimum": { "type": "object" },
+          "maxLength": { "type": "number" },
+          "minLength": { "type": "number" },
+          "pattern": { "type": "object" },
+          "additionalItems": { "type": "object" },
+          "items": { "type": "object" },
+          "maxItems": { "type": "number" },
+          "minItems": { "type": "number" },
+          "uniqueItems": { "type": "boolean" },
+          "maxProperties": { "type": "number" },
+          "minProperties": { "type": "number" },
+          "required": { "type": "object" },
+          "additionalProperties": { "type": "object" },
+          "definitions": { "type": "object" },
+          "properties": { "type": "object" },
+          "patternProperties": { "type": "object" },
+          "dependencies": { "type": "object" },
+          "const": { "type": "object" },
+          "enum": { "type": "array", "items": { "type": "string" } },
+          "type": { "type": "object" },
+          "format": { "type": "string" },
+          "allOf": { "type": "array", "items": { "type": "string" } },
+          "anyOf": { "type": "array", "items": { "type": "string" } },
+          "oneOf": { "type": "array", "items": { "type": "string" } },
+          "not": { "$ref": "#/components/schemas/Schema" },
+          "if": { "$ref": "#/components/schemas/Schema" },
+          "then": { "$ref": "#/components/schemas/Schema" },
+          "else": { "$ref": "#/components/schemas/Schema" }
         },
         "required": [
+          "$id",
           "id",
-          "$ref",
           "$schema",
+          "$ref",
           "title",
           "description",
-          "default",
           "multipleOf",
           "maximum",
           "exclusiveMaximum",
@@ -1744,21 +2636,25 @@
           "maxProperties",
           "minProperties",
           "required",
+          "additionalProperties",
           "definitions",
           "properties",
           "patternProperties",
           "dependencies",
+          "const",
           "enum",
           "type",
+          "format",
           "allOf",
           "anyOf",
           "oneOf",
           "not",
-          "extends",
-          "format"
+          "if",
+          "then",
+          "else"
         ]
       },
-      "DigitalTwinMetadata": {
+      "TwinMetadata": {
         "type": "object",
         "properties": {
           "$model": {
@@ -1767,56 +2663,28 @@
             "pattern": "^dtmi:(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$"
           }
         },
-        "required": [
-          "$model"
-        ]
+        "required": ["$model"]
       },
-      "BaseDigitalTwin": {
+      "TwinInstance": {
         "type": "object",
         "properties": {
-          "$dtId": {
-            "type": "string"
-          },
-          "$etag": {
-            "type": "string"
-          },
-          "$metadata": {
-            "$ref": "#/components/schemas/DigitalTwinMetadata"
-          }
+          "$dtId": { "type": "string" },
+          "$etag": { "type": "string" },
+          "$metadata": { "$ref": "#/components/schemas/TwinMetadata" }
         },
-        "required": [
-          "$dtId",
-          "$etag",
-          "$metadata"
-        ]
+        "required": ["$dtId", "$etag", "$metadata"]
       },
       "SchemaErrorObject": {
         "type": "object",
         "properties": {
-          "keyword": {
-            "type": "string"
-          },
-          "instancePath": {
-            "type": "string"
-          },
-          "schemaPath": {
-            "type": "string"
-          },
-          "params": {
-            "type": "object"
-          },
-          "propertyName": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "schema": {
-            "type": "object"
-          },
-          "data": {
-            "type": "object"
-          }
+          "keyword": { "type": "string" },
+          "instancePath": { "type": "string" },
+          "schemaPath": { "type": "string" },
+          "params": { "type": "object" },
+          "propertyName": { "type": "string" },
+          "message": { "type": "string" },
+          "schema": { "type": "object" },
+          "data": { "type": "object" }
         },
         "required": [
           "keyword",
@@ -1829,39 +2697,22 @@
       "SchemaValidationError": {
         "type": "object",
         "properties": {
-          "success": {
-            "type": "boolean"
-          },
+          "success": { "type": "boolean" },
           "errors": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SchemaErrorObject"
-            }
+            "items": { "$ref": "#/components/schemas/SchemaErrorObject" }
           }
         },
-        "required": [
-          "success",
-          "errors"
-        ]
+        "required": ["success", "errors"]
       },
-      "BasicRelationship": {
+      "TwinRelationship": {
         "type": "object",
         "properties": {
-          "$relationshipId": {
-            "type": "string"
-          },
-          "$targetId": {
-            "type": "string"
-          },
-          "$sourceId": {
-            "type": "string"
-          },
-          "$relationshipName": {
-            "type": "string"
-          },
-          "$etag": {
-            "type": "string"
-          }
+          "$relationshipId": { "type": "string" },
+          "$targetId": { "type": "string" },
+          "$sourceId": { "type": "string" },
+          "$relationshipName": { "type": "string" },
+          "$etag": { "type": "string" }
         },
         "required": [
           "$relationshipId",
@@ -1871,26 +2722,19 @@
           "$etag"
         ]
       },
-      "DigitalTwinModel": {
+      "TwinGraph": {
         "type": "object",
         "properties": {
           "digitalTwins": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BaseDigitalTwin"
-            }
+            "items": { "$ref": "#/components/schemas/TwinInstance" }
           },
           "relationships": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BasicRelationship"
-            }
+            "items": { "$ref": "#/components/schemas/TwinRelationship" }
           }
         },
-        "required": [
-          "digitalTwins",
-          "relationships"
-        ]
+        "required": ["digitalTwins", "relationships"]
       }
     }
   }

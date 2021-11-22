@@ -2,8 +2,9 @@
 // Adapted for OpenAPI
 
 import { ApiProperty } from '@nestjs/swagger';
+import { JSONSchema } from '@tributech/self-description';
 
-export class Schema {
+export class Schema implements JSONSchema {
   @ApiProperty()
   $id?: string;
   @ApiProperty()
