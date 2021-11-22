@@ -1,6 +1,6 @@
 {
   "name": "@tributech/digital-twin",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A collection of components and services to handle digital twins based on the DTDL.",
   "author": "Tributech Solutions GmbH <support@tributech.io>",
   "homepage": "https://github.com/tributech-solutions/tributech-catalog-api",
@@ -29,18 +29,28 @@
   "peerDependencies": {
     "@angular/common": "^12.1.2",
     "@angular/core": "^12.1.2",
-    "@ngx-formly/core": "^5.0.0",
-    "@ngx-formly/material": "^5.0.0",
     "@angular/material": "^12.1.2",
-    "@circlon/angular-tree-component": "^11.0.4",
-    "rxjs": "^6.0.0",
-    "angular-split": "^5.0.0",
-    "@ngneat/until-destroy": "^8.0.3"
+    "rxjs": "^6.0.0"
   },
   "dependencies": {
     "tslib": "^2.2.0",
     "lodash": "^4.17.21",
-    "short-unique-id": "^4.4.4"
+    "short-unique-id": "^4.4.4",
+    "angular-split": "^5.0.0",
+    "@ngneat/until-destroy": "^8.0.3",
+    "@datorama/akita": "^6.0.0",
+    "@circlon/angular-tree-component": "^11.0.4",
+    "@ngx-formly/core": "^5.0.0",
+    "@ngx-formly/material": "^5.0.0",
+    "@tributech/catalog-api": "^0.0.2",
+    "@tributech/twin-api": "^0.0.1",
+    "@tributech/self-description": "^0.0.2",
+    "@ng-web-apis/resize-observer": "^1.0.3",
+    "await-to-js": "^3.0.0",
+    "ng-dynamic-component": "^8.0.1",
+    "@fortawesome/angular-fontawesome": "^0.10.0",
+    "@fortawesome/free-solid-svg-icons": "^5.0.0",
+    "@swimlane/ngx-graph": "^7.2.0"
   },
   "devDependencies": {}
 }

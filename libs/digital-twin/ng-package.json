@@ -5,5 +5,23 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../theme/variables.scss"]
   },
-  "allowedNonPeerDependencies": ["lodash", "short-unique-id"]
+  "allowedNonPeerDependencies": [
+    "lodash",
+    "short-unique-id",
+    "angular-split",
+    "@ngneat/until-destroy",
+    "@circlon/angular-tree-component",
+    "@ngx-formly/core",
+    "@ngx-formly/material",
+    "@tributech/catalog-api",
+    "@tributech/twin-api",
+    "@tributech/self-description",
+    "@ng-web-apis/resize-observer",
+    "await-to-js",
+    "ng-dynamic-component",
+    "@fortawesome/angular-fontawesome",
+    "@fortawesome/free-solid-svg-icons",
+    "@datorama/akita",
+    "@swimlane/ngx-graph"
+  ]
 }
