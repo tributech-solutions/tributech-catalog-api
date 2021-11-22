@@ -34,7 +34,7 @@ export class ModelGraphService {
     this.logger.verbose(`Get expanded model for ${modelId}`);
     const model = this.modelGraph.getVertex(modelId);
     if (!model) throw new NotFoundException('Model not found');
-    return expandInterface(model);
+    return expandInterface(model) as ExpandedInterface;
   }
 
   getSimplified(modelId: string): ExpandedInterface {
@@ -61,7 +61,9 @@ export class ModelGraphService {
       .filter((x) => x.isType('dtmi:dtdl:class:Interface;2'))
       .items();
 
-    const data = models.map((model) => expandInterface(model));
+    const data = models.map(
+      (model) => expandInterface(model) as ExpandedInterface
+    );
 
     const startIdx = page * size;
     return {
@@ -79,7 +81,7 @@ export class ModelGraphService {
       .filter((x) => hasNoIncomingRelationships(x))
       .items();
 
-    return models.map((m) => expandInterface(m));
+    return models.map((m) => expandInterface(m) as ExpandedInterface);
   }
 
   getChildren(modelId: string, depth = 1): ExpandedInterface[] {
@@ -96,7 +98,7 @@ export class ModelGraphService {
   ): ExpandedInterface[] {
     // if we reached our target depth or we do not have any children => return model
     if (depth === 0 || getChildrenVertices(vertex)?.length == 0) {
-      return [expandInterface(vertex)];
+      return [expandInterface(vertex) as ExpandedInterface];
     } else {
       return [
         ...getChildrenVertices(vertex).reduce(

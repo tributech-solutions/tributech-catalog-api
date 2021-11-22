@@ -107,7 +107,7 @@ export interface Interface extends SelfDescription {
 export interface ExpandedInterface extends SelfDescription {
   '@context': ContextType.DTDL2;
   '@type': SelfDescriptionType.Interface;
-  bases?: string[];
+  extends?: string[];
   properties?: Property[];
   relationships?: Relationship[];
   telemetries?: Telemetry[];

@@ -329,7 +329,7 @@ export class Interface extends SelfDescription implements IInterface {
   schemas: InterfaceSchema[];
 }
 
-export class ExpandedInterface implements IExpandedInterface {
+export class ExpandedInterface extends Interface implements IExpandedInterface {
   @ApiProperty({ type: 'string', enum: ContextType })
   '@context': ContextType.DTDL2;
   '@type': SelfDescriptionType.Interface;
@@ -350,7 +350,7 @@ export class ExpandedInterface implements IExpandedInterface {
   @ApiPropertyOptional({ type: [Command] })
   commands?: Command[];
   @ApiPropertyOptional({ type: [InterfaceSchema] })
-  schemas?: InterfaceSchema[];
+  schemas: InterfaceSchema[];
 }
 
 export class TwinFileModel {
