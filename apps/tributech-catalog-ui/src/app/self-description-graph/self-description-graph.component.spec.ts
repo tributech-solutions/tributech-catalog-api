@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TwinGraphModule } from '@tributech/digital-twin';
+import { SelfDescriptionGraphModule } from '@tributech/digital-twin';
 import { MockModule } from 'ng-mocks';
 import { SelfDescriptionGraphComponent } from './self-description-graph.component';
 
@@ -7,7 +7,7 @@ describe('SelfDescriptionGraphComponent', () => {
   let spectator: Spectator<SelfDescriptionGraphComponent>;
   const createComponent = createComponentFactory({
     component: SelfDescriptionGraphComponent,
-    imports: [MockModule(TwinGraphModule)],
+    imports: [MockModule(SelfDescriptionGraphModule)],
   });
 
   it('should create', () => {

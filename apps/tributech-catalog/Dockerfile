@@ -18,7 +18,6 @@ COPY tsconfig.base.json ./
 
 COPY apps/ ./apps/
 COPY libs/ ./libs/
-COPY storage/ ./storage/
 COPY tools/schemas ./tools/schemas
 
 RUN npm run build-api
@@ -35,6 +34,5 @@ COPY --from=build app/package-lock.json ./
 RUN npm ci --only=production
 
 COPY --from=build app/dist/apps/tributech-catalog ./
-COPY --from=build app/storage ./storage
 
 CMD ["node", "main.js"]

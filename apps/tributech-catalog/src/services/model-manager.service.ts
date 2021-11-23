@@ -104,7 +104,7 @@ export class ModelManagerService {
       id: m?.['@id'],
       active: true,
       createdTime: new Date().toISOString(),
-      modifiedTime: '',
+      modifiedTime: new Date().toISOString(),
       model: m,
     };
   }
