@@ -97,9 +97,9 @@ docker-compose -f ./docker-compose.yml -f ./docker-compose.ci.build.yml build
 
 ```powershell
 # start
-docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalog-api up -d
+docker-compose -f ./docker-compose.yml -f ./docker-compose.run.yml up -d
 # stop
-docker-compose -f .\docker-compose.yml -f .\docker-compose.run.yml -p dsk-catalog-api down
+docker-compose -f ./docker-compose.yml -f ./docker-compose.run.yml down
 ```
 
 ## Licence
