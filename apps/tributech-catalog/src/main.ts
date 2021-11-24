@@ -24,11 +24,17 @@ async function bootstrap() {
   }
 
   const [errorInit, successInit] = await to(seeder?.initialize());
-  if (errorInit) return Promise.reject(errorInit);
+  if (errorInit) {
+    logger.error('Error while initializing models', errorInit);
+    throw errorInit;
+  }
   logger.log('Initialized vocabulary successfully.');
 
   const [errorGraph, successGraph] = await to(modelGraphService.initialize());
-  if (errorGraph) return Promise.reject(errorGraph);
+  if (errorGraph) {
+    logger.error('Error while initializing graph', errorInit);
+    throw errorGraph;
+  }
   logger.log('Initialized graph successfully.');
 
   const authConfig = config.ApiAuthOptions;
