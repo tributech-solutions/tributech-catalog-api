@@ -5,11 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AngularSplitModule } from 'angular-split';
 import { TrackByPropertyModule } from '../../other-components/track-by-propery/track-by-property.module';
-import { RelationshipFormModule } from '../relationship-data-form/relationship-data-form.module';
-import { TwinFormModule } from '../twin-data-form/twin-data-form.module';
 import { TwinGraphModule } from '../twin-graph/twin-graph.module';
-import { TwinTreeModule } from '../twin-tree/twin-tree.module';
+import { RelationshipFormModule } from './relationship-data-form/relationship-data-form.module';
+import { TwinFormModule } from './twin-data-form/twin-data-form.module';
 import { TwinInstanceBuilderComponent } from './twin-instance-builder.component';
+import { TwinTreeModule } from './twin-tree/twin-tree.module';
 
 @NgModule({
   imports: [

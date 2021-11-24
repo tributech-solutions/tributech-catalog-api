@@ -10,9 +10,12 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TwinInstance } from '@tributech/self-description';
 import { isEqual, isNil, omitBy } from 'lodash';
-import { ModelQuery } from '../../services/store/model.query';
-import { DEFAULT_FIELDS_TWIN, DEFAULT_FIELDS_TWIN_HIDDEN } from '../form.model';
-import { convertToFormConfig } from '../form.utils';
+import { ModelQuery } from '../../../services/store/model.query';
+import {
+  DEFAULT_FIELDS_TWIN,
+  DEFAULT_FIELDS_TWIN_HIDDEN,
+} from './form-configs/form.model';
+import { convertToFormConfig } from './form-configs/form.utils';
 
 @Component({
   selector: 'tt-twin-data-form',

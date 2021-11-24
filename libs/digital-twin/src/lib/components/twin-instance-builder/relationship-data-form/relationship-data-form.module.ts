@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { PanelWrapperComponent } from '../wrappers/panel-wrapper.component';
-import { PanelWrapperModule } from '../wrappers/panel-wrapper.module';
-import { TwinDataFormComponent } from './twin-data-form.component';
+import { PanelWrapperComponent } from '../../wrappers/panel-wrapper.component';
+import { PanelWrapperModule } from '../../wrappers/panel-wrapper.module';
+import { RelationshipDataFormComponent } from './relationship-data-form.component';
 
 @NgModule({
-  declarations: [TwinDataFormComponent],
+  declarations: [RelationshipDataFormComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,6 +21,6 @@ import { TwinDataFormComponent } from './twin-data-form.component';
     MatButtonModule,
     PanelWrapperModule,
   ],
-  exports: [TwinDataFormComponent],
+  exports: [RelationshipDataFormComponent],
 })
-export class TwinFormModule {}
+export class RelationshipFormModule {}

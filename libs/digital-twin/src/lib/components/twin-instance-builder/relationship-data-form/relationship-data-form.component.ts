@@ -9,10 +9,10 @@ import {
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TwinRelationship } from '@tributech/self-description';
-import { ModelQuery } from '../../services/store/model.query';
-import { TwinQuery } from '../../services/store/twin.query';
-import { DEFAULT_FIELDS_RELATION } from '../form.model';
-import { convertToFormConfig } from '../form.utils';
+import { ModelQuery } from '../../../services/store/model.query';
+import { TwinQuery } from '../../../services/store/twin.query';
+import { DEFAULT_FIELDS_RELATION } from '../twin-data-form/form-configs/form.model';
+import { convertToFormConfig } from '../twin-data-form/form-configs/form.utils';
 
 @Component({
   selector: 'tt-relationship-data-form',

@@ -17,12 +17,12 @@ import { TrackByPropertyModule } from '../../other-components/track-by-propery/t
 import { LoadService } from '../../services/load.service';
 import { TwinQuery } from '../../services/store/twin.query';
 import { TwinService } from '../../services/store/twin.service';
-import { RelationshipFormModule } from '../relationship-data-form/relationship-data-form.module';
-import { TwinFormModule } from '../twin-data-form/twin-data-form.module';
 import { TwinGraphModule } from '../twin-graph/twin-graph.module';
-import { TwinTreeModule } from '../twin-tree/twin-tree.module';
+import { RelationshipFormModule } from './relationship-data-form/relationship-data-form.module';
 import { OFFLINE_MODE } from './twin-builder.settings';
+import { TwinFormModule } from './twin-data-form/twin-data-form.module';
 import { TwinInstanceBuilderComponent } from './twin-instance-builder.component';
+import { TwinTreeModule } from './twin-tree/twin-tree.module';
 
 describe('TwinInstanceBuilderComponent', () => {
   let spectator: Spectator<TwinInstanceBuilderComponent>;

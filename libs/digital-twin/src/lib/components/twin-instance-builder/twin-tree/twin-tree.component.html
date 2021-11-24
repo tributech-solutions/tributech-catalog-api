@@ -1,0 +1,151 @@
+<div class="twin-list">
+  <mat-toolbar class="twin-list-header">
+    <mat-toolbar-row>
+      <span>Twin Workspace</span>
+      <span class="spacer"></span>
+      <button
+        mat-icon-button
+        [disabled]="disableEditing || (twins$ | async)?.length === 0"
+        (click)="clearGraph()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [disabled]="disableEditing"
+        [matMenuTriggerFor]="importExportMenu"
+      >
+        <mat-icon>import_export</mat-icon>
+      </button>
+      <button
+        *ngIf="(twins$ | async)?.length === 0"
+        mat-icon-button
+        [disabled]="disableEditing"
+        [matMenuTriggerFor]="twinRootAddMenu"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <form class="search-form">
+        <mat-form-field>
+          <span matPrefix> </span>
+          <input
+            type="text"
+            matInput
+            placeholder="Search"
+            name="search"
+            #filter
+            (keyup)="tree.treeModel.filterNodes(filter.value)"
+          />
+          <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+        </mat-form-field>
+      </form>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <tree-root
+    class="tree"
+    #tree
+    [options]="options"
+    [nodes]="twins$ | async"
+    (focus)="_twinSelected($event.node?.data)"
+  >
+    <ng-template #treeNodeTemplate let-node>
+      <div class="twin-node" (contextmenu)="onContextMenu($event, node?.data)">
+        <div class="sd-label-container">
+          <div class="twin-label__label">
+            {{ node?.data?.Name || node?.data?.$modelMetadata?.displayName }}
+          </div>
+          <div class="twin-label__sublabel">
+            {{ node.data.$metadata?.$model }}
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </tree-root>
+</div>
+<div
+  #trigger="matMenuTrigger"
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <span mat-menu-item [disabled]="true">{{ item.$dtId }}</span>
+    <mat-divider></mat-divider>
+    <button
+      mat-menu-item
+      *ngFor="
+        let model of outgoingRelationships;
+        trackBy: '@id' | trackByProperty
+      "
+      [matMenuTriggerFor]="twinRelMenu"
+      [disabled]="!isActionEnabled(model?.target, model?.name)"
+      [matMenuTriggerData]="{
+        source: contextTwin,
+        target: model?.target,
+        rel: model
+      }"
+    >
+      Add {{ model?.displayName || model?.name }}
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="_relationshipsSelected(contextTwin)">
+      Edit Relationship
+    </button>
+    <button
+      mat-menu-item
+      [disabled]="!isActionEnabled(contextTwin?.$metadata?.$model)"
+      (click)="deleteTwin(contextTwin)"
+    >
+      Delete
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #twinRelMenu="matMenu">
+  <ng-template
+    matMenuContent
+    let-modelTargetId="target"
+    let-rel="rel"
+    let-src="source"
+  >
+    <button
+      mat-menu-item
+      *ngFor="
+        let model of getPossibleTargetTwins(modelTargetId);
+        trackBy: 'id' | trackByProperty
+      "
+      (click)="addTwinViaRelationship(rel, src, model)"
+    >
+      {{ model?.displayName }}
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #twinRootAddMenu="matMenu">
+  <ng-template matMenuContent>
+    <button
+      mat-menu-item
+      *ngFor="let model of getRootModels(); trackBy: 'id' | trackByProperty"
+      (click)="addTwin(model)"
+    >
+      {{ model?.displayName }}
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #importExportMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item [matMenuTriggerFor]="importMenu">Import</button>
+    <button mat-menu-item (click)="exportToFile()">Export</button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #importMenu="matMenu">
+  <button mat-menu-item (click)="importViaFile()">From File</button>
+  <button mat-menu-item (click)="importViaText()">From Text</button>
+</mat-menu>
