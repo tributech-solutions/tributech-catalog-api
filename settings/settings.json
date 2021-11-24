@@ -7,5 +7,17 @@
     "Audience": "catalog-api",
     "ClientId": "catalog-api",
     "Scopes": ["profile", "email", "catalog-api", "node-id"] // required scopes
-  }
+  },
+  "ExternalCatalogs": [
+    "https://raw.githubusercontent.com/tributech-solutions/data-asset-twin/master/vocabulary.json"
+    // external catalogs file urls that should be loaded
+    // see example file for file structure
+    // e.g. "https://raw.githubusercontent.com/tributech-solutions/data-asset-twin/master/vocabulary.json",
+  ],
+  "ExternalModels": [
+    // external model file urls that should be loaded
+    // e.g. "https://raw.githubusercontent.com/tributech-solutions/data-asset-twin/master/DTDL/base_annotation.json",
+    // do not add models here that are associated with a certain catalog
+    // all models here will be added to the default catalog
+  ]
 }

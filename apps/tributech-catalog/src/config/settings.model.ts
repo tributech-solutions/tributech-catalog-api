@@ -8,4 +8,6 @@ export interface SettingsModel {
     ClientId: string;
     Scopes: string[];
   };
+  ExternalCatalogs: string[];
+  ExternalModels: string[];
 }

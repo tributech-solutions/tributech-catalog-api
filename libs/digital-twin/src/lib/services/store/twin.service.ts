@@ -30,7 +30,6 @@ export class TwinService {
       this.relationshipService.deleteTwinRelationships(twinId);
     }
 
-    console.log(`Deleting twin ${twinId}`);
     this.twinStore.remove(twinId);
   }
 

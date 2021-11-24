@@ -1,21 +1,41 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { to } from 'await-to-js';
 import { AppModule } from './app.module';
 import jsonConfig from './config/load-config';
 import { SettingsModel } from './config/settings.model';
-import { StorageService } from './services/storage.service';
+import { InitializeService } from './services/initialize.service';
+import { ModelGraphService } from './services/model-graph.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const seeder = app.get(StorageService);
+  const logger = new Logger('Bootstrap');
+
+  const seeder = app.get(InitializeService);
+  const modelGraphService = app.get(ModelGraphService);
+
   const config: SettingsModel = jsonConfig();
   const port = config?.Port;
 
   if (!config) {
-    throw new Error('No config file loaded!');
+    logger.error('No config file found!');
+    throw new Error('No config file found!');
   }
 
-  await seeder?.initStorage();
+  const [errorInit, successInit] = await to(seeder?.initialize());
+  if (errorInit) {
+    logger.error('Error while initializing models', errorInit);
+    throw errorInit;
+  }
+  logger.log('Initialized vocabulary successfully.');
+
+  const [errorGraph, successGraph] = await to(modelGraphService.initialize());
+  if (errorGraph) {
+    logger.error('Error while initializing graph', errorInit);
+    throw errorGraph;
+  }
+  logger.log('Initialized graph successfully.');
 
   const authConfig = config.ApiAuthOptions;
   const swaggerConfig = new DocumentBuilder()

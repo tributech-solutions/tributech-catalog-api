@@ -23,7 +23,6 @@ export class RelationshipService {
   }
 
   deleteRelationship(relationshipId: string) {
-    console.log(`Deleting relationship ${relationshipId}`);
     this.relationshipStore.remove(relationshipId);
   }
 
