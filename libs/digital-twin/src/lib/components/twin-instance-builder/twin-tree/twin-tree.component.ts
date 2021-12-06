@@ -6,7 +6,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { ITreeOptions, TreeNode } from '@circlon/angular-tree-component';
+import {
+  ITreeOptions,
+  TreeComponent,
+  TreeNode,
+} from '@circlon/angular-tree-component';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   createEmptyTwin,
@@ -47,6 +51,9 @@ export class TwinTreeComponent {
 
   @ViewChild('trigger', { read: MatMenuTrigger })
   contextMenu: MatMenuTrigger;
+
+  @ViewChild(TreeComponent)
+  private tree: TreeComponent;
 
   twins$ = this.twinQuery.treeData$;
   outgoingRelationships: TwinRelationship[] = [];
@@ -92,7 +99,9 @@ export class TwinTreeComponent {
 
   _twinSelected(twin: TwinInstance) {
     this.twinSelected.emit(twin);
-    this.twinBuilderService.selectTwin(omit(twin, ['children', 'hasChildren']));
+    this.twinBuilderService.selectTwin(
+      omit(twin, ['children', 'hasChildren', '$modelMetadata'])
+    );
   }
 
   _relationshipsSelected(twin: TwinInstance) {
@@ -107,14 +116,16 @@ export class TwinTreeComponent {
     this.relationshipSelected.emit(rels);
   }
 
-  addTwin(model: ExpandedInterface) {
+  async addTwin(model: ExpandedInterface) {
     const newTwin = createEmptyTwin(model?.['@id']);
-    this.twinBuilderService.saveTwin(newTwin);
+    await this.twinBuilderService.saveTwin(newTwin);
     this.twinBuilderService.selectTwin(newTwin);
+    this.tree.treeModel.update();
   }
 
-  deleteTwin(twin: TwinInstance) {
-    this.twinBuilderService.deleteTwin(twin);
+  async deleteTwin(twin: TwinInstance) {
+    await this.twinBuilderService.deleteTwin(twin);
+    this.tree.treeModel.update();
   }
 
   isActionEnabled(targetTwinModel: string, relType?: string) {
@@ -130,13 +141,18 @@ export class TwinTreeComponent {
     );
   }
 
-  addTwinViaRelationship(
+  async addTwinViaRelationship(
     rel: TwinRelationship,
     source: TwinInstance,
     target: ExpandedInterface
   ) {
     const newTwin = createEmptyTwin(target?.['@id']);
-    this.twinBuilderService.addTwinViaRelation(source, rel?.name, newTwin);
+    await this.twinBuilderService.addTwinViaRelation(
+      source,
+      rel?.name,
+      newTwin
+    );
+    this.tree.treeModel.update();
   }
 
   importViaFile() {
@@ -154,6 +170,7 @@ export class TwinTreeComponent {
 
   clearGraph() {
     this.twinBuilderService.clearLoadedTwins();
+    this.tree.treeModel.update();
   }
 
   private getPossibleOutgoingRelationships() {

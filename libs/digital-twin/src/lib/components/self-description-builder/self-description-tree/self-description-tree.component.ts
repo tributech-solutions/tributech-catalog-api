@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { ITreeOptions, TreeNode } from '@circlon/angular-tree-component';
+import {
+  ITreeOptions,
+  TreeComponent,
+  TreeNode,
+} from '@circlon/angular-tree-component';
 import {
   isInterfaceSD,
   SelfDescription,
@@ -38,6 +42,7 @@ export class SelfDescriptionTreeComponent {
     this.selfDescriptionQuery.treeData$;
 
   @ViewChild(MatMenuTrigger) contextMenu: MatMenuTrigger;
+  @ViewChild(TreeComponent) private tree: TreeComponent;
 
   contextMenuPosition = { x: '0px', y: '0px' };
   SelfDescriptionType = SelfDescriptionType;
@@ -80,6 +85,7 @@ export class SelfDescriptionTreeComponent {
       sd: ensureIDPresent(newSd, this.contextMenu.menuData?.item?.['@id']),
       targetProp: ChildLinkTarget.CONTENTS,
     });
+    this.tree.treeModel.update();
   }
 
   createNewSchema(type: SelfDescriptionType) {
@@ -90,6 +96,7 @@ export class SelfDescriptionTreeComponent {
       sd: ensureIDPresent(newSd, this.contextMenu.menuData?.item?.['@id']),
       targetProp: ChildLinkTarget.SCHEMAS,
     });
+    this.tree.treeModel.update();
   }
 
   createNewInterface() {
