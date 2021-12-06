@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { isArray } from '@datorama/akita';
+import { applyTransaction, isArray } from '@datorama/akita';
 import { createETag, uuidv4 } from '@tributech/self-description';
 import {
   DigitalTwin,
@@ -147,12 +147,14 @@ export class TwinBuilderService {
       this.dialogService.openErrorModal(error);
       return;
     }
-    this.twinService.addTwins(targetTwin);
-    this.dialogService.triggerSnackbar('Twin saved successfully');
+    await applyTransaction(async () => {
+      if (relationship) {
+        await this.saveRel(relationship);
+      }
 
-    if (relationship) {
-      await this.saveRel(relationship);
-    }
+      this.twinService.addTwins(targetTwin);
+      this.dialogService.triggerSnackbar('Twin saved successfully');
+    });
   }
 
   async saveRel(rel: Relationship) {
@@ -194,21 +196,34 @@ export class TwinBuilderService {
     this.loadTwin(dtId, setActive);
   }
 
-  loadTwin(dtId: string, setActive = true) {
+  async loadTwin(dtId: string, setActive = true) {
     if (this.offlineMode) return;
-    this.twinAPIService.getTwinById(dtId).subscribe((twin) => {
+    await applyTransaction(async () => {
+      const [error, twin] = await to(
+        this.twinAPIService.getTwinById(dtId).toPromise()
+      );
+      if (error) {
+        return;
+      }
+
       this.twinService.addTwins(twin);
+
       if (setActive) {
         this.selectTwin(twin);
       }
-      this.relationshipAPIService
-        .getOutgoingRelationships(twin?.$dtId)
-        .subscribe((rels) => {
-          rels.forEach((r) => {
-            this.loadTwin(r.$targetId, false);
-            this.relationshipService.addRelationships(r);
-          });
-        });
+      const [relsError, rels] = await to(
+        this.relationshipAPIService
+          .getOutgoingRelationships(twin?.$dtId)
+          .toPromise()
+      );
+      if (relsError) {
+        return;
+      }
+
+      rels?.forEach((r) => {
+        this.loadTwin(r.$targetId, false);
+        this.relationshipService.addRelationships(r);
+      });
     });
   }
 }
