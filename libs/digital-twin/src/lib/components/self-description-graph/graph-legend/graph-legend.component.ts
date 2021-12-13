@@ -56,7 +56,7 @@ export class GraphLegendComponent implements OnInit, OnChanges {
     });
   }
 
-  private _selectionChanged() {
+  _selectionChanged() {
     const selectedNodes: string[] = this.nodeList.selectedOptions.selected.map(
       (o) => o?.value?.id
     );
