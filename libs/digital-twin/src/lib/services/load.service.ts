@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ManageModelsService, ModelEntity } from '@tributech/catalog-api';
+import { ManageModelsService } from '@tributech/catalog-api';
 import {
   ensureIsTwinGraph,
   Interface,
@@ -62,9 +62,7 @@ export class LoadService {
       return Promise.reject('Unknown error at base model import!');
     }
     return this.importModels(
-      (twinModels?.data as unknown as ModelEntity[]).map(
-        (m) => m.model as unknown as Interface
-      )
+      twinModels?.data.map((m) => m.model as unknown as Interface)
     );
   }
 
