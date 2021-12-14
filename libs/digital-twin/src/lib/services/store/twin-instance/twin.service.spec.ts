@@ -1,10 +1,10 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { TwinInstance } from '@tributech/self-description';
 import { MockProvider } from 'ng-mocks';
-import { ModelQuery } from './model.query';
-import { RelationshipQuery } from './relationship.query';
-import { RelationshipService } from './relationship.service';
-import { RelationshipStore } from './relationship.store';
+import { RelationshipQuery } from '../relationship/relationship.query';
+import { RelationshipService } from '../relationship/relationship.service';
+import { RelationshipStore } from '../relationship/relationship.store';
+import { SelfDescriptionQuery } from '../self-description/self-description.query';
 import { TwinQuery } from './twin.query';
 import { TwinService } from './twin.service';
 import { TwinStore } from './twin.store';
@@ -37,7 +37,7 @@ describe('Twin-Service|Store', () => {
       MockProvider(RelationshipStore),
       MockProvider(RelationshipService),
       MockProvider(RelationshipQuery),
-      MockProvider(ModelQuery),
+      MockProvider(SelfDescriptionQuery),
     ],
     imports: [],
   });

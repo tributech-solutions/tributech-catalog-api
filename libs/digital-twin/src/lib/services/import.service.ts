@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Interface, TwinGraph } from '@tributech/self-description';
-import { ModelService } from './store/model.service';
-import { RelationshipService } from './store/relationship.service';
-import { TwinService } from './store/twin.service';
+import { RelationshipService } from './store/relationship/relationship.service';
+import { SelfDescriptionService } from './store/self-description/self-description.service';
+import { TwinService } from './store/twin-instance/twin.service';
 
 @Injectable({ providedIn: 'root' })
 export class ImportService {
   constructor(
-    private modelService: ModelService,
+    private selfDescriptionService: SelfDescriptionService,
     private twinService: TwinService,
     private relationshipService: RelationshipService
   ) {}
@@ -16,7 +16,7 @@ export class ImportService {
     if (!models || models?.length === 0) {
       return;
     }
-    this.modelService.addModels(models);
+    this.selfDescriptionService.addInterfaces(models);
   }
 
   importInstances(twin: TwinGraph) {

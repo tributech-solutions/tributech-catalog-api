@@ -9,8 +9,8 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { createEmptyTwin } from '@tributech/self-description';
 import { MockModule } from 'ng-mocks';
-import { ModelQuery } from '../../../services/store/model.query';
-import { TwinService } from '../../../services/store/twin.service';
+import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';
+import { TwinService } from '../../../services/store/twin-instance/twin.service';
 import { TwinDataFormComponent } from './twin-data-form.component';
 
 describe('TwinDataFormComponent', () => {
@@ -24,7 +24,7 @@ describe('TwinDataFormComponent', () => {
       FormsModule,
       ReactiveFormsModule,
     ],
-    providers: [mockProvider(ModelQuery), mockProvider(TwinService)],
+    providers: [mockProvider(SelfDescriptionQuery), mockProvider(TwinService)],
   });
 
   beforeEach(() => {

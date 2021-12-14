@@ -16,8 +16,8 @@ import {
 import { groupBy } from 'lodash';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { RelationshipQuery } from '../../services/store/relationship.query';
-import { TwinQuery } from '../../services/store/twin.query';
+import { RelationshipQuery } from '../../services/store/relationship/relationship.query';
+import { TwinQuery } from '../../services/store/twin-instance/twin.query';
 
 @UntilDestroy()
 @Component({

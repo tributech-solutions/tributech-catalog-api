@@ -10,11 +10,11 @@ import {
 } from '@tributech/twin-api';
 import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
 import { LoadService } from '../../services/load.service';
-import { RelationshipQuery } from '../../services/store/relationship.query';
-import { RelationshipService } from '../../services/store/relationship.service';
+import { RelationshipQuery } from '../../services/store/relationship/relationship.query';
+import { RelationshipService } from '../../services/store/relationship/relationship.service';
 import { SelfDescriptionService } from '../../services/store/self-description/self-description.service';
-import { TwinQuery } from '../../services/store/twin.query';
-import { TwinService } from '../../services/store/twin.service';
+import { TwinQuery } from '../../services/store/twin-instance/twin.query';
+import { TwinService } from '../../services/store/twin-instance/twin.service';
 import { TwinBuilderService } from './twin-builder.service';
 import { OFFLINE_MODE } from './twin-builder.settings';
 

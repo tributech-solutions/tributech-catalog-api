@@ -23,9 +23,9 @@ import {
 import { omit } from 'lodash';
 import { ExportService } from '../../../services/export.service';
 import { LoadService } from '../../../services/load.service';
-import { ModelQuery } from '../../../services/store/model.query';
-import { RelationshipQuery } from '../../../services/store/relationship.query';
-import { TwinQuery } from '../../../services/store/twin.query';
+import { RelationshipQuery } from '../../../services/store/relationship/relationship.query';
+import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';
+import { TwinQuery } from '../../../services/store/twin-instance/twin.query';
 import { TwinBuilderService } from '../twin-builder.service';
 
 type TwinInstanceTreeNode = { data: TwinInstance } & TreeNode;
@@ -71,7 +71,7 @@ export class TwinTreeComponent {
 
   constructor(
     private twinQuery: TwinQuery,
-    private modelQuery: ModelQuery,
+    private selfDescriptionQuery: SelfDescriptionQuery,
     private relationshipQuery: RelationshipQuery,
     private twinBuilderService: TwinBuilderService,
     private loadService: LoadService,
@@ -90,11 +90,11 @@ export class TwinTreeComponent {
   }
 
   getRootModels() {
-    return this.modelQuery.getRootModels();
+    return this.selfDescriptionQuery.getRootModels();
   }
 
   getPossibleTargetTwins(modelId: string) {
-    return this.modelQuery.getTwinGraphModelWithParents(modelId);
+    return this.selfDescriptionQuery.getTwinGraphModelWithParents(modelId);
   }
 
   _twinSelected(twin: TwinInstance) {
@@ -175,7 +175,7 @@ export class TwinTreeComponent {
 
   private getPossibleOutgoingRelationships() {
     if (!this.contextTwin?.$metadata?.$model) return [];
-    return this.modelQuery.getTwinGraphModel(
+    return this.selfDescriptionQuery.getTwinGraphModel(
       this.contextTwin?.$metadata?.$model
     )?.relationships;
   }

@@ -10,7 +10,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TwinInstance } from '@tributech/self-description';
 import { isEqual, isNil, omitBy } from 'lodash';
-import { ModelQuery } from '../../../services/store/model.query';
+import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';
 import {
   DEFAULT_FIELDS_TWIN,
   DEFAULT_FIELDS_TWIN_HIDDEN,
@@ -39,7 +39,7 @@ export class TwinDataFormComponent implements OnChanges {
     },
   };
 
-  constructor(private modelQuery: ModelQuery) {}
+  constructor(private selfDescriptionQuery: SelfDescriptionQuery) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.twin || changes.hideDefaultData) {
@@ -70,7 +70,7 @@ export class TwinDataFormComponent implements OnChanges {
     if (!modelId) return;
     this.form = new FormGroup({});
 
-    const twinSchema = this.modelQuery.getTwinGraphModel(modelId);
+    const twinSchema = this.selfDescriptionQuery.getTwinGraphModel(modelId);
     const properties = twinSchema?.properties;
 
     this.fields = [

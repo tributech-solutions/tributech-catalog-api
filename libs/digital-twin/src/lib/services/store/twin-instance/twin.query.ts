@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
 import { RelationType, TwinInstance } from '@tributech/self-description';
 import { map } from 'rxjs/operators';
-import { ModelQuery } from './model.query';
-import { RelationshipQuery } from './relationship.query';
+import { RelationshipQuery } from '../relationship/relationship.query';
+import { SelfDescriptionQuery } from '../self-description/self-description.query';
 import { TwinState, TwinStore } from './twin.store';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +11,7 @@ export class TwinQuery extends QueryEntity<TwinState> {
   constructor(
     protected store: TwinStore,
     protected relationshipQuery: RelationshipQuery,
-    protected modelQuery: ModelQuery
+    protected selfDescriptionQuery: SelfDescriptionQuery
   ) {
     super(store);
   }
@@ -68,7 +68,7 @@ export class TwinQuery extends QueryEntity<TwinState> {
           instance?.$dtId,
           RelationType.Source
         ).length > 0,
-      $modelMetadata: this.modelQuery.getTwinGraphModel(
+      $modelMetadata: this.selfDescriptionQuery.getTwinGraphModel(
         instance?.$metadata?.$model
       ),
     };

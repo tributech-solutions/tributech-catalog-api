@@ -7,9 +7,9 @@ import {
 } from '@tributech/self-description';
 import { MockProvider } from 'ng-mocks';
 import { ImportService } from './import.service';
-import { ModelService } from './store/model.service';
-import { RelationshipService } from './store/relationship.service';
-import { TwinService } from './store/twin.service';
+import { RelationshipService } from './store/relationship/relationship.service';
+import { SelfDescriptionService } from './store/self-description/self-description.service';
+import { TwinService } from './store/twin-instance/twin.service';
 
 const exampleModel: Interface = {
   '@context': 'dtmi:dtdl:context;2',
@@ -44,7 +44,7 @@ describe('ImportService', () => {
   const createService = createServiceFactory({
     service: ImportService,
     providers: [
-      MockProvider(ModelService),
+      MockProvider(SelfDescriptionService),
       MockProvider(TwinService),
       MockProvider(RelationshipService),
     ],
@@ -59,16 +59,16 @@ describe('ImportService', () => {
   });
 
   it('should import models if some are passed', () => {
-    const modelService = spectator.inject(ModelService);
+    const modelService = spectator.inject(SelfDescriptionService);
 
     spectator.service.importModels([]);
 
-    expect(modelService.addModels).not.toHaveBeenCalled();
+    expect(modelService.addInterfaces).not.toHaveBeenCalled();
 
     spectator.service.importModels([exampleModel]);
 
-    expect(modelService.addModels).toHaveBeenCalledTimes(1);
-    expect(modelService.addModels).toHaveBeenCalledWith(
+    expect(modelService.addInterfaces).toHaveBeenCalledTimes(1);
+    expect(modelService.addInterfaces).toHaveBeenCalledWith(
       expect.arrayContaining([exampleModel])
     );
   });

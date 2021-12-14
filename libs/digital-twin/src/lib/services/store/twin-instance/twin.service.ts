@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { isArray, OrArray } from '@datorama/akita';
 import { createETag, TwinInstance } from '@tributech/self-description';
-import { RelationshipService } from './relationship.service';
-import { RelationshipStore } from './relationship.store';
+import { RelationshipService } from '../relationship/relationship.service';
+import { RelationshipStore } from '../relationship/relationship.store';
 import { TwinStore } from './twin.store';
 
 @Injectable({ providedIn: 'root' })

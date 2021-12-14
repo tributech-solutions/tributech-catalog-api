@@ -9,8 +9,8 @@ import {
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TwinRelationship } from '@tributech/self-description';
-import { ModelQuery } from '../../../services/store/model.query';
-import { TwinQuery } from '../../../services/store/twin.query';
+import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';
+import { TwinQuery } from '../../../services/store/twin-instance/twin.query';
 import { DEFAULT_FIELDS_RELATION } from '../twin-data-form/form-configs/form.model';
 import { convertToFormConfig } from '../twin-data-form/form-configs/form.utils';
 
@@ -34,7 +34,10 @@ export class RelationshipDataFormComponent implements OnChanges {
     },
   };
 
-  constructor(private modelQuery: ModelQuery, private twinQuery: TwinQuery) {}
+  constructor(
+    private selfDescriptionQuery: SelfDescriptionQuery,
+    private twinQuery: TwinQuery
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.relationship || changes.hideDefaultData) {
@@ -66,7 +69,7 @@ export class RelationshipDataFormComponent implements OnChanges {
 
     const sourceTwin = this.twinQuery.getTwinById(sourceId);
     const relationships =
-      this.modelQuery.getTwinGraphModel(sourceTwin?.$metadata?.$model)
+      this.selfDescriptionQuery.getTwinGraphModel(sourceTwin?.$metadata?.$model)
         ?.relationships || [];
 
     const selectedRelationship = relationships.find(

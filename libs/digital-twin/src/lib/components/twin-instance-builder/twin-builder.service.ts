@@ -18,12 +18,12 @@ import {
 import { debounceTime, map, mapTo } from 'rxjs/operators';
 import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
 import { LoadService } from '../../services/load.service';
-import { ModelQuery } from '../../services/store/model.query';
-import { RelationshipQuery } from '../../services/store/relationship.query';
-import { RelationshipService } from '../../services/store/relationship.service';
+import { RelationshipQuery } from '../../services/store/relationship/relationship.query';
+import { RelationshipService } from '../../services/store/relationship/relationship.service';
+import { SelfDescriptionQuery } from '../../services/store/self-description/self-description.query';
 import { SelfDescriptionService } from '../../services/store/self-description/self-description.service';
-import { TwinQuery } from '../../services/store/twin.query';
-import { TwinService } from '../../services/store/twin.service';
+import { TwinQuery } from '../../services/store/twin-instance/twin.query';
+import { TwinService } from '../../services/store/twin-instance/twin.service';
 import { OFFLINE_MODE } from './twin-builder.settings';
 
 @Injectable({
@@ -63,7 +63,7 @@ export class TwinBuilderService {
     private relationshipAPIService: RelationshipAPIService,
     private relationshipService: RelationshipService,
     private selfDescriptionService: SelfDescriptionService,
-    private modelQuery: ModelQuery,
+    private selfDescriptionQuery: SelfDescriptionQuery,
     @Inject(OFFLINE_MODE) private offlineMode: boolean
   ) {}
 
@@ -71,9 +71,6 @@ export class TwinBuilderService {
     const loadingRef = this.dialogService.openLoadingModal('Loading models...');
     return this.modelLoadService.loadRemoteBaseModels().then(() => {
       loadingRef.close();
-      this.selfDescriptionService.addInterfaces(
-        this.modelQuery.getAll() as any[]
-      );
     });
   }
 
