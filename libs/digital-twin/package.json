@@ -1,6 +1,6 @@
 {
   "name": "@tributech/digital-twin",
-  "version": "0.0.6",
+  "version": "0.0.11",
   "description": "A collection of components and services to handle digital twins based on the DTDL.",
   "author": "Tributech Solutions GmbH <support@tributech.io>",
   "homepage": "https://github.com/tributech-solutions/tributech-catalog-api",

@@ -59,9 +59,17 @@
   <ng-template #linkTemplate let-link>
     <svg:g class="edge">
       <svg:path
+        *ngIf="!link?.dashed"
         class="line"
         stroke-width="2"
         marker-end="url(#arrow)"
+      ></svg:path>
+      <svg:path
+        *ngIf="link?.dashed"
+        class="line"
+        stroke-width="2"
+        marker-end="url(#arrow)"
+        stroke-dasharray="5,5"
       ></svg:path>
       <svg:text class="edge-label" text-anchor="middle">
         <textPath

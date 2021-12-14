@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
 import { TwinFileModel } from '@tributech/self-description';
-import { ModelQuery } from './store/model.query';
-import { RelationshipQuery } from './store/relationship.query';
-import { TwinQuery } from './store/twin.query';
+import { RelationshipQuery } from './store/relationship/relationship.query';
+import { SelfDescriptionQuery } from './store/self-description/self-description.query';
+import { TwinQuery } from './store/twin-instance/twin.query';
 
 @Injectable({ providedIn: 'root' })
 export class ExportService {
   constructor(
     protected twinQuery: TwinQuery,
     protected relationshipQuery: RelationshipQuery,
-    protected modelQuery: ModelQuery
+    protected selfDescriptionQuery: SelfDescriptionQuery
   ) {}
 
-  exportToFile() {
+  exportToFile(withModels: boolean = true) {
     this.downloadObjectAsJson(
-      this.save(),
+      this.save(withModels),
       `created-twin-${new Date().toISOString()}`
     );
   }
 
-  save() {
+  save(withModels: boolean = true) {
     const data = new TwinFileModel();
 
     data.digitalTwinsGraph.digitalTwins = this.twinQuery.getAll();
     data.digitalTwinsGraph.relationships = this.relationshipQuery.getAll();
-    data.digitalTwinsModels = this.modelQuery.getAll();
+    if (withModels) {
+      data.digitalTwinsModels = this.selfDescriptionQuery.getAllInterfaces();
+    }
     return data;
   }
 

@@ -14,7 +14,7 @@ import { MockComponent, MockModule } from 'ng-mocks';
 import { EMPTY } from 'rxjs';
 import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
 import { TrackByPropertyModule } from '../../other-components/track-by-propery/track-by-property.module';
-import { ModelQuery } from '../../services/store/model.query';
+import { SelfDescriptionQuery } from '../../services/store/self-description/self-description.query';
 import { GraphLegendComponent } from './graph-legend/graph-legend.component';
 import { SelfDescriptionGraphComponent } from './self-description-graph.component';
 
@@ -33,7 +33,7 @@ describe('SelfDescriptionGraphComponent', () => {
       MockModule(ResizeObserverModule),
     ],
     providers: [
-      mockProvider(ModelQuery, {
+      mockProvider(SelfDescriptionQuery, {
         selectAll: () => EMPTY,
       }),
       mockProvider(DialogService),

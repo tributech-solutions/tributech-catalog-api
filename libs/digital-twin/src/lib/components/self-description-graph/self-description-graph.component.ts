@@ -12,7 +12,7 @@ import { ExpandedInterface, TwinInstance } from '@tributech/self-description';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
-import { ModelQuery } from '../../services/store/model.query';
+import { SelfDescriptionQuery } from '../../services/store/self-description/self-description.query';
 import { LegendChanged } from './graph-legend/graph-legend.component';
 
 @UntilDestroy()
@@ -37,20 +37,20 @@ export class SelfDescriptionGraphComponent implements OnInit, OnDestroy {
   graphSize = new Subject<[number, number]>();
 
   constructor(
-    private modelQuery: ModelQuery,
+    private selfDescriptionQuery: SelfDescriptionQuery,
     private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
-    this.modelQuery
+    this.selfDescriptionQuery
       .selectAll()
-      .pipe(debounceTime(100), untilDestroyed(this))
+      .pipe(debounceTime(500), untilDestroyed(this))
       .subscribe(() => {
         const ref = this.dialogService.openLoadingModal(
           'Building model graph...'
         );
         const [nodes, edges] = this.generateModelGraph(
-          this.modelQuery.getTwinGraphModels()
+          this.selfDescriptionQuery.getTwinGraphModels()
         );
         this.nodeModels = nodes;
         this.relationshipModels = edges;
@@ -112,10 +112,10 @@ export class SelfDescriptionGraphComponent implements OnInit, OnDestroy {
         ...parent?.relationships.map(
           (rel) =>
             ({
-              id: rel?.['@id'],
               label: rel?.name,
               source: parent['@id'],
               target: rel?.target,
+              dashed: true,
               rel,
             } as Edge)
         ),
@@ -131,6 +131,7 @@ export class SelfDescriptionGraphComponent implements OnInit, OnDestroy {
             label: 'Extends',
             source: twin?.bases?.shift(),
             target: twin?.['@id'],
+            dashed: false,
           } as Edge)
       );
 

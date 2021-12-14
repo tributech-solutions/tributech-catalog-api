@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -11,7 +12,7 @@ import {
   TreeComponent,
   TreeNode,
 } from '@circlon/angular-tree-component';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   createEmptyTwin,
   ExpandedInterface,
@@ -23,9 +24,9 @@ import {
 import { omit } from 'lodash';
 import { ExportService } from '../../../services/export.service';
 import { LoadService } from '../../../services/load.service';
-import { ModelQuery } from '../../../services/store/model.query';
-import { RelationshipQuery } from '../../../services/store/relationship.query';
-import { TwinQuery } from '../../../services/store/twin.query';
+import { RelationshipQuery } from '../../../services/store/relationship/relationship.query';
+import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';
+import { TwinQuery } from '../../../services/store/twin-instance/twin.query';
 import { TwinBuilderService } from '../twin-builder.service';
 
 type TwinInstanceTreeNode = { data: TwinInstance } & TreeNode;
@@ -40,7 +41,7 @@ export interface CreateNewTwinInstancePayload {
   templateUrl: './twin-tree.component.html',
   styleUrls: ['./twin-tree.component.scss'],
 })
-export class TwinTreeComponent {
+export class TwinTreeComponent implements OnInit {
   @Input() disableEditing: boolean;
   @Input() modelWhitelist: string[] = [];
   @Input() relationshipWhitelist: string[] = [];
@@ -63,6 +64,7 @@ export class TwinTreeComponent {
     displayField: 'Name',
     getChildren: this.getChildren.bind(this),
     useVirtualScroll: true,
+    nodeHeight: 40,
   };
 
   get contextTwin() {
@@ -71,12 +73,26 @@ export class TwinTreeComponent {
 
   constructor(
     private twinQuery: TwinQuery,
-    private modelQuery: ModelQuery,
+    private selfDescriptionQuery: SelfDescriptionQuery,
     private relationshipQuery: RelationshipQuery,
     private twinBuilderService: TwinBuilderService,
     private loadService: LoadService,
     private exportService: ExportService
   ) {}
+
+  ngOnInit(): void {
+    this.twinBuilderService.twinGraphChanged$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.tree.treeModel.update());
+
+    this.twinBuilderService.expandAll$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.expandAll());
+
+    this.twinBuilderService.collapseAll$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.collapseAll());
+  }
 
   onContextMenu(event: MouseEvent, item: SelfDescription) {
     event.preventDefault();
@@ -89,12 +105,20 @@ export class TwinTreeComponent {
     this.outgoingRelationships = this.getPossibleOutgoingRelationships();
   }
 
+  collapseAll() {
+    this.tree.treeModel.collapseAll();
+  }
+
+  expandAll() {
+    this.tree.treeModel.expandAll();
+  }
+
   getRootModels() {
-    return this.modelQuery.getRootModels();
+    return this.selfDescriptionQuery.getRootModels();
   }
 
   getPossibleTargetTwins(modelId: string) {
-    return this.modelQuery.getTwinGraphModelWithParents(modelId);
+    return this.selfDescriptionQuery.getTwinGraphModelWithParents(modelId);
   }
 
   _twinSelected(twin: TwinInstance) {
@@ -120,12 +144,10 @@ export class TwinTreeComponent {
     const newTwin = createEmptyTwin(model?.['@id']);
     await this.twinBuilderService.saveTwin(newTwin);
     this.twinBuilderService.selectTwin(newTwin);
-    this.tree.treeModel.update();
   }
 
   async deleteTwin(twin: TwinInstance) {
     await this.twinBuilderService.deleteTwin(twin);
-    this.tree.treeModel.update();
   }
 
   isActionEnabled(targetTwinModel: string, relType?: string) {
@@ -152,16 +174,15 @@ export class TwinTreeComponent {
       rel?.name,
       newTwin
     );
-    this.tree.treeModel.update();
   }
 
-  importViaFile() {
+  async importViaFile() {
     this.twinBuilderService.clearLoadedTwins();
-    this.loadService.loadExternalTwinFile();
+    await this.loadService.loadExternalTwinFile();
   }
 
-  importViaText() {
-    this.loadService.loadFromDialog();
+  async importViaText() {
+    await this.loadService.loadFromDialog();
   }
 
   exportToFile() {
@@ -170,12 +191,11 @@ export class TwinTreeComponent {
 
   clearGraph() {
     this.twinBuilderService.clearLoadedTwins();
-    this.tree.treeModel.update();
   }
 
   private getPossibleOutgoingRelationships() {
     if (!this.contextTwin?.$metadata?.$model) return [];
-    return this.modelQuery.getTwinGraphModel(
+    return this.selfDescriptionQuery.getTwinGraphModel(
       this.contextTwin?.$metadata?.$model
     )?.relationships;
   }

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
+import { applyTransaction } from '@datorama/akita';
 import { Interface, TwinGraph } from '@tributech/self-description';
-import { ModelService } from './store/model.service';
-import { RelationshipService } from './store/relationship.service';
-import { TwinService } from './store/twin.service';
+import { RelationshipService } from './store/relationship/relationship.service';
+import { SelfDescriptionService } from './store/self-description/self-description.service';
+import { TwinService } from './store/twin-instance/twin.service';
 
 @Injectable({ providedIn: 'root' })
 export class ImportService {
   constructor(
-    private modelService: ModelService,
+    private selfDescriptionService: SelfDescriptionService,
     private twinService: TwinService,
     private relationshipService: RelationshipService
   ) {}
@@ -16,18 +17,18 @@ export class ImportService {
     if (!models || models?.length === 0) {
       return;
     }
-    this.modelService.addModels(models);
+    this.selfDescriptionService.addInterfaces(models);
   }
 
   importInstances(twin: TwinGraph) {
-    if (!twin?.digitalTwins || twin?.digitalTwins.length === 0) {
-      return;
-    }
-    if (!twin?.relationships && twin?.relationships?.length === 0) {
-      return;
-    }
+    applyTransaction(() => {
+      if (twin?.relationships?.length > 0) {
+        this.relationshipService.addRelationships(twin?.relationships);
+      }
 
-    this.twinService.addTwins(twin?.digitalTwins);
-    this.relationshipService.addRelationships(twin?.relationships);
+      if (twin?.digitalTwins?.length > 0) {
+        this.twinService.addTwins(twin?.digitalTwins);
+      }
+    });
   }
 }

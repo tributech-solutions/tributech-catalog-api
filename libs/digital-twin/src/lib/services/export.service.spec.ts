@@ -9,9 +9,9 @@ import {
 } from '@tributech/self-description';
 import { MockProvider } from 'ng-mocks';
 import { ExportService } from './export.service';
-import { ModelQuery } from './store/model.query';
-import { RelationshipQuery } from './store/relationship.query';
-import { TwinQuery } from './store/twin.query';
+import { RelationshipQuery } from './store/relationship/relationship.query';
+import { SelfDescriptionQuery } from './store/self-description/self-description.query';
+import { TwinQuery } from './store/twin-instance/twin.query';
 
 const exampleTwin: TwinInstance = {
   $dtId: 'test01',
@@ -58,7 +58,9 @@ describe('ExportService', () => {
         getAll: () => [exampleTwin, exampleTwin1],
       } as never),
       MockProvider(RelationshipQuery, { getAll: () => [exampleRel] } as never),
-      MockProvider(ModelQuery, { getAll: () => [exampleModel] } as never),
+      MockProvider(SelfDescriptionQuery, {
+        getAllInterfaces: () => [exampleModel],
+      } as never),
     ],
   });
 

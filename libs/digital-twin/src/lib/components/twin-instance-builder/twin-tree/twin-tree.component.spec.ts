@@ -7,13 +7,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TreeModule } from '@circlon/angular-tree-component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockModule, MockProvider } from 'ng-mocks';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { TrackByPropertyModule } from '../../../other-components/track-by-propery/track-by-property.module';
 import { ExportService } from '../../../services/export.service';
 import { LoadService } from '../../../services/load.service';
-import { ModelQuery } from '../../../services/store/model.query';
-import { RelationshipQuery } from '../../../services/store/relationship.query';
-import { TwinQuery } from '../../../services/store/twin.query';
+import { RelationshipQuery } from '../../../services/store/relationship/relationship.query';
+import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';
+import { TwinQuery } from '../../../services/store/twin-instance/twin.query';
 import { TwinBuilderService } from '../twin-builder.service';
 import { TwinTreeComponent } from './twin-tree.component';
 
@@ -33,9 +33,13 @@ describe('TwinTreeComponent', () => {
     ],
     providers: [
       MockProvider(TwinQuery, { treeData$: of([]) }),
-      MockProvider(ModelQuery),
+      MockProvider(SelfDescriptionQuery),
       MockProvider(RelationshipQuery),
-      MockProvider(TwinBuilderService),
+      MockProvider(TwinBuilderService, {
+        twinGraphChanged$: EMPTY,
+        expandAll$: EMPTY,
+        collapseAll$: EMPTY,
+      }),
       MockProvider(LoadService),
       MockProvider(ExportService),
     ],
