@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -11,7 +12,7 @@ import {
   TreeComponent,
   TreeNode,
 } from '@circlon/angular-tree-component';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   createEmptyTwin,
   ExpandedInterface,
@@ -40,7 +41,7 @@ export interface CreateNewTwinInstancePayload {
   templateUrl: './twin-tree.component.html',
   styleUrls: ['./twin-tree.component.scss'],
 })
-export class TwinTreeComponent {
+export class TwinTreeComponent implements OnInit {
   @Input() disableEditing: boolean;
   @Input() modelWhitelist: string[] = [];
   @Input() relationshipWhitelist: string[] = [];
@@ -63,6 +64,7 @@ export class TwinTreeComponent {
     displayField: 'Name',
     getChildren: this.getChildren.bind(this),
     useVirtualScroll: true,
+    nodeHeight: 40,
   };
 
   get contextTwin() {
@@ -77,6 +79,12 @@ export class TwinTreeComponent {
     private loadService: LoadService,
     private exportService: ExportService
   ) {}
+
+  ngOnInit(): void {
+    this.twinBuilderService.twinGraphChanged$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.tree.treeModel.update());
+  }
 
   onContextMenu(event: MouseEvent, item: SelfDescription) {
     event.preventDefault();
@@ -155,13 +163,15 @@ export class TwinTreeComponent {
     this.tree.treeModel.update();
   }
 
-  importViaFile() {
+  async importViaFile() {
     this.twinBuilderService.clearLoadedTwins();
-    this.loadService.loadExternalTwinFile();
+    await this.loadService.loadExternalTwinFile();
+    this.tree.treeModel.update();
   }
 
-  importViaText() {
-    this.loadService.loadFromDialog();
+  async importViaText() {
+    await this.loadService.loadFromDialog();
+    this.tree.treeModel.update();
   }
 
   exportToFile() {

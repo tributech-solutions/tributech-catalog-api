@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { applyTransaction } from '@datorama/akita';
 import { Interface, TwinGraph } from '@tributech/self-description';
 import { RelationshipService } from './store/relationship/relationship.service';
 import { SelfDescriptionService } from './store/self-description/self-description.service';
@@ -20,14 +21,14 @@ export class ImportService {
   }
 
   importInstances(twin: TwinGraph) {
-    if (!twin?.digitalTwins || twin?.digitalTwins.length === 0) {
-      return;
-    }
-    if (!twin?.relationships && twin?.relationships?.length === 0) {
-      return;
-    }
+    applyTransaction(() => {
+      if (twin?.relationships?.length > 0) {
+        this.relationshipService.addRelationships(twin?.relationships);
+      }
 
-    this.twinService.addTwins(twin?.digitalTwins);
-    this.relationshipService.addRelationships(twin?.relationships);
+      if (twin?.digitalTwins?.length > 0) {
+        this.twinService.addTwins(twin?.digitalTwins);
+      }
+    });
   }
 }

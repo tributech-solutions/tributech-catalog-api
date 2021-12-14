@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrArray } from '@datorama/akita';
+import { isArray, OrArray } from '@datorama/akita';
 import {
   createETag,
   filterRelType,
@@ -13,7 +13,12 @@ export class RelationshipService {
   constructor(private relationshipStore: RelationshipStore) {}
 
   addRelationships(relationship: OrArray<TwinRelationship>) {
-    this.relationshipStore.add(relationship, { loading: false });
+    this.relationshipStore.upsertMany(
+      isArray(relationship) ? relationship : [relationship],
+      {
+        loading: false,
+      }
+    );
   }
 
   updateRelationship(relationship: Partial<TwinRelationship>) {
