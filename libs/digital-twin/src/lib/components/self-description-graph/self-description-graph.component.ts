@@ -115,6 +115,7 @@ export class SelfDescriptionGraphComponent implements OnInit, OnDestroy {
               label: rel?.name,
               source: parent['@id'],
               target: rel?.target,
+              dashed: true,
               rel,
             } as Edge)
         ),
@@ -130,6 +131,7 @@ export class SelfDescriptionGraphComponent implements OnInit, OnDestroy {
             label: 'Extends',
             source: twin?.bases?.shift(),
             target: twin?.['@id'],
+            dashed: false,
           } as Edge)
       );
 
