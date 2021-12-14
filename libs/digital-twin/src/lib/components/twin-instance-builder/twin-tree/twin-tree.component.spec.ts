@@ -7,7 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TreeModule } from '@circlon/angular-tree-component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockModule, MockProvider } from 'ng-mocks';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { TrackByPropertyModule } from '../../../other-components/track-by-propery/track-by-property.module';
 import { ExportService } from '../../../services/export.service';
 import { LoadService } from '../../../services/load.service';
@@ -35,7 +35,11 @@ describe('TwinTreeComponent', () => {
       MockProvider(TwinQuery, { treeData$: of([]) }),
       MockProvider(SelfDescriptionQuery),
       MockProvider(RelationshipQuery),
-      MockProvider(TwinBuilderService),
+      MockProvider(TwinBuilderService, {
+        twinGraphChanged$: EMPTY,
+        expandAll$: EMPTY,
+        collapseAll$: EMPTY,
+      }),
       MockProvider(LoadService),
       MockProvider(ExportService),
     ],

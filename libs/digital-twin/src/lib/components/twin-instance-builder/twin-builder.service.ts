@@ -53,6 +53,12 @@ export class TwinBuilderService {
     this.manualRefreshTrigger.asObservable()
   ).pipe(debounceTime(500), mapTo(void 0));
 
+  private expandAllTrigger: Subject<void> = new Subject<void>();
+  expandAll$ = this.expandAllTrigger.asObservable();
+
+  private collapseAllTrigger: Subject<void> = new Subject<void>();
+  collapseAll$ = this.collapseAllTrigger.asObservable();
+
   constructor(
     private modelLoadService: LoadService,
     private twinService: TwinService,
@@ -72,6 +78,14 @@ export class TwinBuilderService {
     return this.modelLoadService.loadRemoteBaseModels().then(() => {
       loadingRef.close();
     });
+  }
+
+  expandAll() {
+    this.expandAllTrigger.next();
+  }
+
+  collapseAll() {
+    this.collapseAllTrigger.next();
   }
 
   clearLoadedTwins() {

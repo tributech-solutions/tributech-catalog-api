@@ -3,10 +3,17 @@
     <mat-toolbar-row>
       <span>Twin Workspace</span>
       <span class="spacer"></span>
+      <button mat-icon-button (click)="expandAll()" matTooltip="Expand All">
+        <mat-icon>unfold_more</mat-icon>
+      </button>
+      <button mat-icon-button (click)="collapseAll()" matTooltip="Collapse All">
+        <mat-icon>unfold_less</mat-icon>
+      </button>
       <button
         mat-icon-button
         [disabled]="disableEditing || (twins$ | async)?.length === 0"
         (click)="clearGraph()"
+        matTooltip="Clear Twins"
       >
         <mat-icon>delete</mat-icon>
       </button>
@@ -14,6 +21,7 @@
         mat-icon-button
         [disabled]="disableEditing"
         [matMenuTriggerFor]="importExportMenu"
+        matTooltip="Import/Export"
       >
         <mat-icon>import_export</mat-icon>
       </button>
@@ -22,6 +30,7 @@
         mat-icon-button
         [disabled]="disableEditing"
         [matMenuTriggerFor]="twinRootAddMenu"
+        matTooltip="Add Twin"
       >
         <mat-icon>add</mat-icon>
       </button>

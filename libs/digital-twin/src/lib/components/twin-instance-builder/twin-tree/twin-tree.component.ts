@@ -84,6 +84,14 @@ export class TwinTreeComponent implements OnInit {
     this.twinBuilderService.twinGraphChanged$
       .pipe(untilDestroyed(this))
       .subscribe(() => this.tree.treeModel.update());
+
+    this.twinBuilderService.expandAll$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.expandAll());
+
+    this.twinBuilderService.collapseAll$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.collapseAll());
   }
 
   onContextMenu(event: MouseEvent, item: SelfDescription) {
@@ -95,6 +103,14 @@ export class TwinTreeComponent implements OnInit {
     this.contextMenu.openMenu();
 
     this.outgoingRelationships = this.getPossibleOutgoingRelationships();
+  }
+
+  collapseAll() {
+    this.tree.treeModel.collapseAll();
+  }
+
+  expandAll() {
+    this.tree.treeModel.expandAll();
   }
 
   getRootModels() {
@@ -128,12 +144,10 @@ export class TwinTreeComponent implements OnInit {
     const newTwin = createEmptyTwin(model?.['@id']);
     await this.twinBuilderService.saveTwin(newTwin);
     this.twinBuilderService.selectTwin(newTwin);
-    this.tree.treeModel.update();
   }
 
   async deleteTwin(twin: TwinInstance) {
     await this.twinBuilderService.deleteTwin(twin);
-    this.tree.treeModel.update();
   }
 
   isActionEnabled(targetTwinModel: string, relType?: string) {
@@ -160,18 +174,15 @@ export class TwinTreeComponent implements OnInit {
       rel?.name,
       newTwin
     );
-    this.tree.treeModel.update();
   }
 
   async importViaFile() {
     this.twinBuilderService.clearLoadedTwins();
     await this.loadService.loadExternalTwinFile();
-    this.tree.treeModel.update();
   }
 
   async importViaText() {
     await this.loadService.loadFromDialog();
-    this.tree.treeModel.update();
   }
 
   exportToFile() {
@@ -180,7 +191,6 @@ export class TwinTreeComponent implements OnInit {
 
   clearGraph() {
     this.twinBuilderService.clearLoadedTwins();
-    this.tree.treeModel.update();
   }
 
   private getPossibleOutgoingRelationships() {
