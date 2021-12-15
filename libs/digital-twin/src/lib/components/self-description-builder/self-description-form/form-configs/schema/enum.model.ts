@@ -1,5 +1,5 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { DEFAULT_FIELDS } from '../common.model';
+import { DEFAULT_FIELDS, DEFAULT_SCHEMA_FIELDS } from '../common.model';
 
 export const DEFAULT_FIELDS_ENUM: FormlyFieldConfig[] = [
   ...DEFAULT_FIELDS,
@@ -20,13 +20,12 @@ export const DEFAULT_FIELDS_ENUM: FormlyFieldConfig[] = [
     key: 'enumValues',
     type: 'repeat',
     templateOptions: {
+      label: 'Enum Values',
       addText: 'Add another enum key',
     },
     fieldArray: {
-      fieldGroupClassName: 'row',
       fieldGroup: [
         {
-          className: 'col-4',
           key: 'name',
           type: 'input',
           templateOptions: {
@@ -35,15 +34,6 @@ export const DEFAULT_FIELDS_ENUM: FormlyFieldConfig[] = [
           },
         },
         {
-          className: 'col-4',
-          key: 'displayName',
-          type: 'input',
-          templateOptions: {
-            label: 'Display Name',
-          },
-        },
-        {
-          className: 'col-4',
           key: 'enumValue',
           type: 'input',
           templateOptions: {
@@ -51,6 +41,7 @@ export const DEFAULT_FIELDS_ENUM: FormlyFieldConfig[] = [
             required: true,
           },
         },
+        ...DEFAULT_SCHEMA_FIELDS,
       ],
     },
     expressionProperties: {

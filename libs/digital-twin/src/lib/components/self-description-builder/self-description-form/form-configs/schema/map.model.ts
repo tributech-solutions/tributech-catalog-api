@@ -1,6 +1,7 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import {
   DEFAULT_FIELDS,
+  DEFAULT_SCHEMA_FIELDS,
   getSchemaProperty,
   SelectOption,
 } from '../common.model';
@@ -38,6 +39,7 @@ export const DEFAULT_FIELDS_MAP: (
           label: 'Schema',
         },
       },
+      ...DEFAULT_SCHEMA_FIELDS,
     ],
   },
   {
@@ -59,6 +61,7 @@ export const DEFAULT_FIELDS_MAP: (
         },
       },
       getSchemaProperty(items, 'schema'),
+      ...DEFAULT_SCHEMA_FIELDS,
     ],
   },
 ];

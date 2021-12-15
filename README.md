@@ -24,7 +24,7 @@ Both projects of this repository are used in production to power the [Tributech 
 
 #### Catalog-UI
 
-The model builder is currently under develop and not feature complete, missing functionality mainly affects complex properties for now e.g. it is currently not possible to add/edit/remove enum values.
+The model builder is currently under development and not feature complete, missing functionality mainly affects complex properties for now (creating instances of twins with maps, objects is not working). The DTDL model builder now supports all possibilities, full validation however is not yet built in.
 
 ### Example DTDL-Models
 
