@@ -55,7 +55,9 @@ export class SelfDescriptionFormService {
       case SelfDescriptionType.Command:
         return DEFAULT_FIELDS_COMMAND;
       case SelfDescriptionType.Map:
-        return DEFAULT_FIELDS_MAP;
+        return DEFAULT_FIELDS_MAP(
+          this.selfDescriptionQuery.getSchemaIRIs().map(this.mapToSelectOption)
+        );
       case SelfDescriptionType.Enum:
         return DEFAULT_FIELDS_ENUM;
       case SelfDescriptionType.Object:

@@ -16,4 +16,45 @@ export const DEFAULT_FIELDS_ENUM: FormlyFieldConfig[] = [
       ],
     },
   },
+  {
+    key: 'enumValues',
+    type: 'repeat',
+    templateOptions: {
+      addText: 'Add another enum key',
+    },
+    fieldArray: {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          className: 'col-4',
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'Name',
+            required: true,
+          },
+        },
+        {
+          className: 'col-4',
+          key: 'displayName',
+          type: 'input',
+          templateOptions: {
+            label: 'Display Name',
+          },
+        },
+        {
+          className: 'col-4',
+          key: 'enumValue',
+          type: 'input',
+          templateOptions: {
+            label: 'Enum Value',
+            required: true,
+          },
+        },
+      ],
+    },
+    expressionProperties: {
+      'templateOptions.disabled': 'formState.disabled',
+    },
+  },
 ];
