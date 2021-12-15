@@ -22,7 +22,7 @@ export function ensureIDPresent(
   const prefix = getDTMIPrefix(parentDTMI);
   const targetVersion = getDTMIVersion(parentDTMI);
   const contentType = getContentType(value?.['@type'])?.toLowerCase();
-  const contentName = value.name?.toLowerCase() || shortUniqueId();
+  const contentName = value.name?.toLowerCase() || contentType + 'Value';
   const id = `${prefix}:${contentType}:${contentName};${targetVersion}`;
   value['@id'] = id;
   return value;

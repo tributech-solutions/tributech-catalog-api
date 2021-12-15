@@ -35,9 +35,7 @@ export class TwinInstanceBuilderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.twinBuilderService.loadModels().then(() => {
-      this.modelLoaded.emit();
-    });
+    this.modelLoaded.emit();
   }
 
   selectTwin(twin: TwinInstance) {

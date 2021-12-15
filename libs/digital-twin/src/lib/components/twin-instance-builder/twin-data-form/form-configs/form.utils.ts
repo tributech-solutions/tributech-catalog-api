@@ -158,7 +158,7 @@ function createNumberInput(
 ): FormlyFieldConfig {
   return {
     type: 'input',
-    key: propertyData?.name,
+    key: propertyData?.name || uuidv4(),
     templateOptions: {
       type: 'number',
       label: propertyData?.displayName || propertyData?.name,
@@ -205,7 +205,6 @@ function createObjectFormField(
   parent?: ExpandedInterface
 ): FormlyFieldConfig {
   const objectSchema = propertyData?.schema as ObjectSchema;
-
   return {
     key: propertyData?.name,
     wrappers: ['panel'],
@@ -215,9 +214,7 @@ function createObjectFormField(
       readonly: isReadOnly(propertyData),
       required: false,
     },
-    fieldGroup: [
-      ...objectSchema.fields.map((field) => processPropertyEntry(field)),
-    ],
+    fieldGroup: objectSchema.fields.map((field) => processPropertyEntry(field)),
     expressionProperties: {
       'templateOptions.disabled': 'formState.disabled',
     },

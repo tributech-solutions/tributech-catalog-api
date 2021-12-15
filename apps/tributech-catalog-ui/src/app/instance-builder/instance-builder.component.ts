@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoadService } from '@tributech/digital-twin';
 import { TwinInstance, TwinRelationship } from '@tributech/self-description';
 
@@ -7,15 +7,11 @@ import { TwinInstance, TwinRelationship } from '@tributech/self-description';
   templateUrl: './instance-builder.component.html',
   styleUrls: ['./instance-builder.component.scss'],
 })
-export class InstanceBuilderComponent implements OnInit {
+export class InstanceBuilderComponent {
   selectedTwin: TwinInstance;
   selectedRelationships: TwinRelationship[];
 
   constructor(private modelLoadService: LoadService) {}
-
-  ngOnInit(): void {
-    this.modelLoadService.loadRemoteBaseModels();
-  }
 
   twinClicked(twin: TwinInstance) {
     this.selectedRelationships = null;
