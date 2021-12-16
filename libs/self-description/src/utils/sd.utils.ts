@@ -125,7 +125,8 @@ export function isContentType(
 }
 
 export function getContentType(
-  type: string | string[] | SelfDescriptionType | SelfDescriptionType[]
+  type: string | string[] | SelfDescriptionType | SelfDescriptionType[],
+  fallbackType: string = ''
 ): string {
   const validTypes = [
     SelfDescriptionType.Property.toString(),
@@ -135,7 +136,8 @@ export function getContentType(
     SelfDescriptionType.Telemetry.toString(),
   ];
 
-  if (!type) throw new Error('No type present!');
+  if (!type && !fallbackType) throw new Error('No type present!');
+  if (!type) return fallbackType;
 
   if (isArray(type) && type.every((t) => isString(t))) {
     return type.filter((t) => validTypes.includes(t.toString()))[0];

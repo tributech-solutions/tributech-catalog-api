@@ -7,7 +7,6 @@
   },
   "allowedNonPeerDependencies": [
     "lodash",
-    "short-unique-id",
     "angular-split",
     "@ngneat/until-destroy",
     "@circlon/angular-tree-component",

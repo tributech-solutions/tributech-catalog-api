@@ -12,10 +12,14 @@ import {
   CommandPayload,
   Component,
   EnumSchema,
+  EnumValue,
+  Field,
   getDTDLType,
   Interface,
   isInterfaceSD,
+  MapKey,
   MapSchema,
+  MapValue,
   ObjectSchema,
   Property,
   Relationship,
@@ -90,8 +94,8 @@ export class SelfDescriptionService {
     applyTransaction(() => {
       const contentIRIs: string[] = [];
       const schemaIRIs: string[] = [];
-      this.normalizeContents(contents, sd['@id'], sd, contentIRIs, schemaIRIs);
-      this.normalizeSchemas(schemas, sd, contentIRIs, schemaIRIs);
+      this.normalizeContents(contents, sd['@id'], contentIRIs, schemaIRIs);
+      this.normalizeSchemas(schemas, sd['@id'], contentIRIs, schemaIRIs);
 
       const latestVersion: any = sd as any;
 
@@ -104,24 +108,16 @@ export class SelfDescriptionService {
   private normalizeContents = (
     contentArray: SelfDescription[] | undefined,
     parentDTMI: string,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) =>
     forEach(contentArray, (c) =>
-      this.normalizeContent(
-        c,
-        parentDTMI,
-        parentInterface,
-        contentIRIs,
-        schemaIRIs
-      )
+      this.normalizeContent(c, parentDTMI, contentIRIs, schemaIRIs)
     );
 
   private normalizeContent = (
     _content: SelfDescription,
     parentDTMI: string,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
@@ -129,44 +125,23 @@ export class SelfDescriptionService {
 
     switch (getDTDLType(content?.['@type'])) {
       case SelfDescriptionType.Property:
-        this.processProperty(
-          content as Property,
-          parentInterface,
-          contentIRIs,
-          schemaIRIs
-        );
+        this.processProperty(content as Property, contentIRIs, schemaIRIs);
         break;
       case SelfDescriptionType.Relationship:
         this.processRelationship(
           content as Relationship,
-          parentInterface,
           contentIRIs,
           schemaIRIs
         );
         break;
       case SelfDescriptionType.Telemetry:
-        this.processTelemetry(
-          content as Telemetry,
-          parentInterface,
-          contentIRIs,
-          schemaIRIs
-        );
+        this.processTelemetry(content as Telemetry, contentIRIs, schemaIRIs);
         break;
       case SelfDescriptionType.Component:
-        this.processComponent(
-          content as Component,
-          parentInterface,
-          contentIRIs,
-          schemaIRIs
-        );
+        this.processComponent(content as Component, contentIRIs, schemaIRIs);
         break;
       case SelfDescriptionType.Command:
-        this.processCommand(
-          content as Command,
-          parentInterface,
-          contentIRIs,
-          schemaIRIs
-        );
+        this.processCommand(content as Command, contentIRIs, schemaIRIs);
         break;
       default:
         throw new Error('Could not identify type');
@@ -175,14 +150,12 @@ export class SelfDescriptionService {
 
   private processProperty = (
     value: Property,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
     const schemaIRI = this.processSchema(
       value?.schema,
       value?.['@id'],
-      parentInterface,
       contentIRIs,
       schemaIRIs
     );
@@ -193,14 +166,12 @@ export class SelfDescriptionService {
 
   private processTelemetry = (
     value: Telemetry,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
     const schemaIRI = this.processSchema(
       value?.schema,
       value?.['@id'],
-      parentInterface,
       contentIRIs,
       schemaIRIs
     );
@@ -211,14 +182,12 @@ export class SelfDescriptionService {
 
   private processRelationship = (
     value: Relationship,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
     const propertyIRIs = this.normalizeContents(
       value?.properties,
       value?.['@id'],
-      parentInterface,
       contentIRIs,
       schemaIRIs
     );
@@ -229,21 +198,18 @@ export class SelfDescriptionService {
 
   private processCommand = (
     value: Command,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
     const requestIRI = this.processCommandPayload(
       value?.request,
       value?.['@id'],
-      parentInterface,
       contentIRIs,
       schemaIRIs
     );
     const responseIRI = this.processCommandPayload(
       value?.response,
       value?.['@id'],
-      parentInterface,
       contentIRIs,
       schemaIRIs
     );
@@ -258,7 +224,6 @@ export class SelfDescriptionService {
   private processCommandPayload = (
     _value: CommandPayload,
     parentDTMI: string,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
@@ -266,7 +231,6 @@ export class SelfDescriptionService {
     const schemaIRI = this.processSchema(
       content?.schema,
       content?.['@id'],
-      parentInterface,
       contentIRIs,
       schemaIRIs
     );
@@ -278,7 +242,6 @@ export class SelfDescriptionService {
 
   private processComponent = (
     value: Component,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
@@ -297,7 +260,6 @@ export class SelfDescriptionService {
   private processSchema = (
     _value: Schema,
     parentDTMI: string,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
@@ -306,33 +268,17 @@ export class SelfDescriptionService {
 
     switch (getDTDLType(value?.['@type'])) {
       case SelfDescriptionType.Enum:
-        return this.processEnum(
-          value as EnumSchema,
-          parentInterface,
-          contentIRIs,
-          schemaIRIs
-        );
+        return this.processEnum(value as EnumSchema, contentIRIs, schemaIRIs);
       case SelfDescriptionType.Array:
-        return this.processArray(
-          value as ArraySchema,
-          parentInterface,
-          contentIRIs,
-          schemaIRIs
-        );
+        return this.processArray(value as ArraySchema, contentIRIs, schemaIRIs);
       case SelfDescriptionType.Object:
         return this.processObject(
           value as ObjectSchema,
-          parentInterface,
           contentIRIs,
           schemaIRIs
         );
       case SelfDescriptionType.Map:
-        return this.processMap(
-          value as MapSchema,
-          parentInterface,
-          contentIRIs,
-          schemaIRIs
-        );
+        return this.processMap(value as MapSchema, contentIRIs, schemaIRIs);
       default:
         throw new Error('Could not identify type');
     }
@@ -340,26 +286,31 @@ export class SelfDescriptionService {
 
   private processEnum = (
     value: EnumSchema,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
-    // also assign iris to enumvalues?
+    const enumValueIRIs = value.enumValues.map((val) =>
+      this.processEnumValue(val, value?.['@id'])
+    );
+
     schemaIRIs.push(value?.['@id']);
+    value.enumValues = enumValueIRIs as any;
     this.add([value]);
     return value?.['@id'];
   };
 
+  private processEnumValue = (_value: EnumValue, parentDTMI: string) => {
+    return ensureIDPresent(cloneDeep(_value), parentDTMI, true);
+  };
+
   private processArray = (
     value: ArraySchema,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
     const schemaIRI = this.processSchema(
       value?.elementSchema,
       value?.['@id'],
-      parentInterface,
       contentIRIs,
       schemaIRIs
     );
@@ -372,42 +323,96 @@ export class SelfDescriptionService {
 
   private processMap = (
     value: MapSchema,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
-    // also process mapkey/mapvalue ?
+    const mapKey = this.processMapKeyValue(
+      value?.mapKey,
+      value?.['@id'],
+      contentIRIs,
+      schemaIRIs
+    );
+    const mapValue = this.processMapKeyValue(
+      value?.mapValue,
+      value?.['@id'],
+      contentIRIs,
+      schemaIRIs
+    );
+
     schemaIRIs.push(value?.['@id']);
+
+    value.mapKey = mapKey as any;
+    value.mapValue = mapValue as any;
+
     this.add([value]);
 
     return value?.['@id'];
+  };
+
+  private processMapKeyValue = (
+    _value: MapKey | MapValue,
+    parentDTMI: string,
+    contentIRIs: string[],
+    schemaIRIs: string[]
+  ) => {
+    const content = ensureIDPresent(cloneDeep(_value), parentDTMI, true);
+    const schemaIRI = this.processSchema(
+      content?.schema,
+      content?.['@id'],
+      contentIRIs,
+      schemaIRIs
+    );
+    content.schema = schemaIRI;
+
+    if (schemaIRIs.includes('dtmi')) {
+      schemaIRIs.push(schemaIRI);
+    }
+    return content;
   };
 
   private processObject = (
     value: ObjectSchema,
-    parentInterface: Interface,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) => {
-    // also process fields ?
+    const fieldIRIs = value?.fields?.map((field) =>
+      this.processField(field, value?.['@id'], contentIRIs, schemaIRIs)
+    );
     schemaIRIs.push(value?.['@id']);
+    value.fields = fieldIRIs as any;
     this.add([value]);
     return value?.['@id'];
   };
 
+  private processField = (
+    _value: Field,
+    parentDTMI: string,
+    contentIRIs: string[],
+    schemaIRIs: string[]
+  ) => {
+    const content = ensureIDPresent(cloneDeep(_value), parentDTMI, true);
+
+    const schemaIRI = this.processSchema(
+      content?.schema,
+      content?.['@id'],
+      contentIRIs,
+      schemaIRIs
+    );
+    content.schema = schemaIRI;
+
+    if (schemaIRIs.includes('dtmi')) {
+      schemaIRIs.push(schemaIRI);
+    }
+    return content;
+  };
+
   private normalizeSchemas = (
     schemas: SelfDescription[] | undefined,
-    parentInterface: Interface,
+    parentDTMI: string,
     contentIRIs: string[],
     schemaIRIs: string[]
   ) =>
     forEach(schemas, (s) =>
-      this.processSchema(
-        s as Schema,
-        parentInterface['@id'],
-        parentInterface,
-        contentIRIs,
-        schemaIRIs
-      )
+      this.processSchema(s as Schema, parentDTMI, contentIRIs, schemaIRIs)
     );
 }

@@ -1,5 +1,4 @@
 import { getContentType, SelfDescription } from '@tributech/self-description';
-import ShortUniqueId from 'short-unique-id';
 
 export function generateDTMI(
   value: SelfDescription,
@@ -12,25 +11,43 @@ export function generateDTMI(
   return `${parentIdentifier}:${contentType?.toLowerCase()}:${contentName?.toLowerCase()};1`;
 }
 
-const shortUniqueId = new ShortUniqueId({ length: 6 });
-
 export function ensureIDPresent(
   value: SelfDescription,
-  parentDTMI: string
+  parentDTMI: string,
+  skipTypeName: boolean = false,
+  skipName: boolean = false
 ): SelfDescription {
   if (value?.['@id']) return value;
+
   const prefix = getDTMIPrefix(parentDTMI);
   const targetVersion = getDTMIVersion(parentDTMI);
-  const contentType = getContentType(value?.['@type'])?.toLowerCase();
-  const contentName = value.name?.toLowerCase() || contentType + 'Value';
-  const id = `${prefix}:${contentType}:${contentName};${targetVersion}`;
-  value['@id'] = id;
+  const id: string[] = [];
+
+  id.push(prefix);
+
+  if (!skipTypeName) {
+    const contentType = getContentType(value?.['@type'])?.toLowerCase();
+    if (contentType) {
+      id.push(contentType);
+    }
+  }
+
+  if (!skipName) {
+    const contentName = value.name?.toLowerCase();
+    if (contentName) {
+      id.push(contentName);
+    }
+  }
+
+  value['@id'] = `${id.join(':')};${targetVersion}`;
+
   return value;
 }
 
 export function getDTMIPrefix(dtmi: string) {
   return dtmi.substr(0, dtmi.lastIndexOf(';'));
 }
+
 export function getDTMIVersion(dtmi: string) {
   return parseInt(dtmi.substr(dtmi.lastIndexOf(';') + 1), 10);
 }
