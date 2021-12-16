@@ -69,7 +69,7 @@ export class MainSidebarComponent {
       name: 'Catalog-API',
       type: 'externalLink',
       icon: faFileCode,
-      path: this.configService.endpoints.catalogApiUrl,
+      path: this.configService.endpoints.catalogApiUrl + '/api',
     },
     {
       name: 'Twin-API',

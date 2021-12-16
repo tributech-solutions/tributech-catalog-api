@@ -12,6 +12,7 @@ import {
   getBaseModelPropertiesFromVertex,
   getInterfaceFromVertex,
 } from './model.utils';
+import { getName } from './vertex.utils';
 
 export function getObjectSchema(vertex: Vertex): ObjectSchema {
   return {
@@ -21,6 +22,7 @@ export function getObjectSchema(vertex: Vertex): ObjectSchema {
         .getOutgoing('dtmi:dtdl:property:fields;2')
         .map((edge) => ({
           ...getBaseModelPropertiesFromVertex(edge.to),
+          name: getName(edge.to),
           schema: inferSchema(edge.to) as Schema,
         }))
         .filter((edge) => !!edge.schema),
@@ -51,6 +53,7 @@ export function getMapSchema(vertex: Vertex): MapSchema {
       .getOutgoing('dtmi:dtdl:property:mapKey;2')
       .map((edge) => ({
         ...getBaseModelPropertiesFromVertex(edge.to),
+        name: getName(edge.to),
         schema: inferSchema(edge.to) as string,
       }))
       .first(),
@@ -58,6 +61,7 @@ export function getMapSchema(vertex: Vertex): MapSchema {
       .getOutgoing('dtmi:dtdl:property:mapValue;2')
       .map((edge) => ({
         ...getBaseModelPropertiesFromVertex(edge.to),
+        name: getName(edge.to),
         schema: inferSchema(edge.to) as Schema,
       }))
       .first(),

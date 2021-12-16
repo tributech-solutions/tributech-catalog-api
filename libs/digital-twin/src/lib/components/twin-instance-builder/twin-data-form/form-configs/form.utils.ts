@@ -6,6 +6,7 @@ import {
   MapSchema,
   ObjectSchema,
   Property,
+  SelfDescriptionType,
   uuidv4,
 } from '@tributech/self-description';
 import { filter } from 'lodash';
@@ -26,7 +27,7 @@ export function convertToFormConfig(
 }
 
 function processPropertyEntry(
-  propertyData: Property,
+  propertyData: Property | Field,
   parent?: ExpandedInterface
 ) {
   switch (propertyData?.schema) {
@@ -79,15 +80,15 @@ function processFieldEntry(fieldData: Field, parent?: ExpandedInterface) {
 }
 
 function processComplexPropertyEntry(
-  propertyData: Property,
+  propertyData: Property | Field,
   parent?: ExpandedInterface
 ) {
   switch (propertyData?.schema?.['@type']) {
-    case 'Object':
+    case SelfDescriptionType.Object:
       return createObjectFormField(propertyData);
-    case 'Enum':
+    case SelfDescriptionType.Enum:
       return createEnumFormField(propertyData);
-    case 'Map':
+    case SelfDescriptionType.Map:
       return createMapFormField(propertyData);
     default: {
       console.warn('Unknown propertyType', propertyData);
@@ -106,9 +107,11 @@ function getDefaultForSpecialFields(
     case 'Name':
       return parent?.displayName;
     default:
-      return undefined;
+      return '';
   }
 }
+
+/******************************************************************************/
 
 function createStringInput(
   propertyData: Property | Field,
@@ -155,7 +158,7 @@ function createNumberInput(
 ): FormlyFieldConfig {
   return {
     type: 'input',
-    key: propertyData?.name,
+    key: propertyData?.name || uuidv4(),
     templateOptions: {
       type: 'number',
       label: propertyData?.displayName || propertyData?.name,
@@ -169,8 +172,10 @@ function createNumberInput(
   };
 }
 
+/******************************************************************************/
+
 function createEnumFormField(
-  propertyData: Property,
+  propertyData: Property | Field,
   parent?: ExpandedInterface
 ): FormlyFieldConfig {
   const enumSchema: EnumSchema = propertyData?.schema as EnumSchema;
@@ -196,11 +201,10 @@ function createEnumFormField(
 }
 
 function createObjectFormField(
-  propertyData: Property,
+  propertyData: Property | Field,
   parent?: ExpandedInterface
 ): FormlyFieldConfig {
   const objectSchema = propertyData?.schema as ObjectSchema;
-
   return {
     key: propertyData?.name,
     wrappers: ['panel'],
@@ -210,9 +214,7 @@ function createObjectFormField(
       readonly: isReadOnly(propertyData),
       required: false,
     },
-    fieldGroup: [
-      ...objectSchema.fields.map((field) => processFieldEntry(field)),
-    ],
+    fieldGroup: objectSchema.fields.map((field) => processPropertyEntry(field)),
     expressionProperties: {
       'templateOptions.disabled': 'formState.disabled',
     },
@@ -220,13 +222,14 @@ function createObjectFormField(
 }
 
 function createMapFormField(
-  propertyData: Property,
+  propertyData: Property | Field,
   parent?: ExpandedInterface
 ): FormlyFieldConfig {
   const mapSchema = propertyData?.schema as MapSchema;
 
   return {
     key: propertyData?.name,
+    type: 'repeat',
     templateOptions: {
       addText: 'Add another value pair',
       label: propertyData?.displayName || propertyData?.name,
@@ -240,16 +243,10 @@ function createMapFormField(
           key: mapSchema?.mapKey?.name,
           type: 'input',
           templateOptions: {
-            label: propertyData?.displayName || propertyData?.name,
+            label: mapSchema?.mapKey?.displayName || mapSchema?.mapKey?.name,
           },
         },
-        {
-          key: mapSchema?.mapValue?.name,
-          type: 'input',
-          templateOptions: {
-            label: propertyData?.displayName || propertyData?.name,
-          },
-        },
+        processPropertyEntry(mapSchema?.mapValue),
       ],
     },
     expressionProperties: {
@@ -257,6 +254,8 @@ function createMapFormField(
     },
   };
 }
+
+/******************************************************************************/
 
 function isReadOnly(propertyData: Property | Field): boolean {
   return isProperty(propertyData) ? !propertyData?.writable : false;
