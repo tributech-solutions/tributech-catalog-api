@@ -2,7 +2,9 @@
 
 :host {
   display: block;
+  background-color: white;
+
   width: 100%;
-  margin-left: $grid-gutter-base * 2;
-  padding-left: $grid-gutter-base * 2;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }

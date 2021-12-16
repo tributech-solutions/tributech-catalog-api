@@ -10,7 +10,7 @@ import { FormGroup } from '@angular/forms';
 import { isArray } from '@datorama/akita';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { SelfDescription } from '@tributech/self-description';
-import { isEqual, isNil, omitBy } from 'lodash';
+import { cloneDeep, isEqual, isNil, omitBy } from 'lodash';
 import { SelfDescriptionFormService } from '../self-description-form.service';
 
 @Component({
@@ -61,10 +61,7 @@ export class SelfDescriptionFormComponent implements OnChanges {
     ) {
       this.selfDescription.extends = [this.selfDescription.extends];
     }
-
-    setTimeout(() => {
-      this.form.patchValue(this.selfDescription);
-    });
+    this.model = cloneDeep(this.selfDescription);
   }
 
   private emitChanges(updatedSelfDescription: SelfDescription) {

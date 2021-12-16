@@ -76,6 +76,53 @@ export const DEFAULT_FIELDS: FormlyFieldConfig[] = [
   },
 ];
 
+export const DEFAULT_SCHEMA_FIELDS: FormlyFieldConfig[] = [
+  {
+    type: 'input',
+    key: '@id',
+    templateOptions: {
+      label: '@id',
+      required: false,
+      readonly: false,
+      maxLength: 2048,
+    },
+    validators: {
+      validation: [DTMIRegex],
+    },
+  },
+  {
+    type: 'textarea',
+    key: 'comment',
+    templateOptions: {
+      label: 'Comment',
+      required: false,
+      maxLength: 512,
+      grow: true,
+      rows: 3,
+    },
+  },
+  {
+    type: 'textarea',
+    key: 'description',
+    templateOptions: {
+      label: 'Description',
+      required: false,
+      maxLength: 512,
+      grow: true,
+      rows: 3,
+    },
+  },
+  {
+    type: 'input',
+    key: 'displayName',
+    templateOptions: {
+      label: 'Display Name',
+      required: false,
+      maxLength: 64,
+    },
+  },
+];
+
 export const NAME_PROPERTY: FormlyFieldConfig = {
   type: 'input',
   key: 'name',
