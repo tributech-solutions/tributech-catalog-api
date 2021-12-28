@@ -35,7 +35,6 @@
   "dependencies": {
     "tslib": "^2.2.0",
     "lodash": "^4.17.21",
-    "short-unique-id": "^4.4.4",
     "angular-split": "^5.0.0",
     "@ngneat/until-destroy": "^8.0.3",
     "@datorama/akita": "^6.0.0",
