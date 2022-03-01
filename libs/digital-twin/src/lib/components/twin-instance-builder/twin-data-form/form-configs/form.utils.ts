@@ -88,8 +88,8 @@ function processComplexPropertyEntry(
       return createObjectFormField(propertyData);
     case SelfDescriptionType.Enum:
       return createEnumFormField(propertyData);
-    case SelfDescriptionType.Map:
-      return createMapFormField(propertyData);
+    // case SelfDescriptionType.Map:
+    //   return createMapFormField(propertyData);
     default: {
       console.warn('Unknown propertyType', propertyData);
       return undefined;
