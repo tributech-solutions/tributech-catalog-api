@@ -13,14 +13,6 @@ import { TwinBuilderService } from './twin-builder.service';
 })
 export class TwinInstanceBuilderComponent implements OnInit {
   @Input() disableEditing = true;
-
-  // When disableEditing is true only models from the whitelist can be edited
-  @Input()
-  modelWhitelist: string[] = [];
-  // When disableEditing is true only relationships from the whitelist can be edited
-  @Input()
-  relationshipWhitelist: string[] = [];
-
   @Output() modelLoaded: EventEmitter<void> = new EventEmitter<void>();
 
   selectedTwin$: Observable<TwinInstance> =
@@ -48,18 +40,6 @@ export class TwinInstanceBuilderComponent implements OnInit {
 
   resetSelection() {
     this.twinBuilderService.resetSelection();
-  }
-
-  canEditTwin(twinModel: string) {
-    if (!this.disableEditing) return true;
-    // if edit is forbidden check whitelist
-    return this.modelWhitelist.includes(twinModel);
-  }
-
-  canEditRelationship(relName: string) {
-    if (!this.disableEditing) return true;
-    // if edit is forbidden check whitelist
-    return this.relationshipWhitelist.includes(relName);
   }
 
   saveTwin(twin: TwinInstance | [TwinRelationship, TwinInstance]) {

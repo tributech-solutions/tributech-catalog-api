@@ -7,11 +7,7 @@
 >
   <as-split class="content-container" direction="horizontal">
     <as-split-area class="twin-list" [size]="30">
-      <tt-twin-tree
-        [disableEditing]="disableEditing"
-        [modelWhitelist]="modelWhitelist"
-        [relationshipWhitelist]="relationshipWhitelist"
-      ></tt-twin-tree>
+      <tt-twin-tree [disableEditing]="disableEditing"></tt-twin-tree>
     </as-split-area>
     <as-split-area *ngIf="state?.hasSelection" [size]="30" class="twin-form">
       <button
@@ -24,7 +20,7 @@
 
       <tt-twin-data-form
         *ngIf="state?.selectedTwin"
-        [disableEditing]="!canEditTwin(state?.selectedTwin?.$metadata?.$model)"
+        [disableEditing]="disableEditing"
         [twin]="state?.selectedTwin"
         (twinChanged)="saveTwin($event)"
       ></tt-twin-data-form>
@@ -36,7 +32,7 @@
             trackBy: '$relationshipId' | trackByProperty
           "
           [relationship]="rel"
-          [disableEditing]="!rel || !canEditRelationship(rel.$relationshipName)"
+          [disableEditing]="!rel || disableEditing"
           (relChanged)="saveRel($event)"
         >
         </tt-relationship-data-form>

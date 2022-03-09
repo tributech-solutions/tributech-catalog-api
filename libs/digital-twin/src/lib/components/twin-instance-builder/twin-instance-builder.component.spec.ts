@@ -19,7 +19,7 @@ import { TwinQuery } from '../../services/store/twin-instance/twin.query';
 import { TwinService } from '../../services/store/twin-instance/twin.service';
 import { TwinGraphModule } from '../twin-graph/twin-graph.module';
 import { RelationshipFormModule } from './relationship-data-form/relationship-data-form.module';
-import { OFFLINE_MODE } from './twin-builder.settings';
+import { BUILDER_SETTINGS } from './twin-builder.settings';
 import { TwinFormModule } from './twin-data-form/twin-data-form.module';
 import { TwinInstanceBuilderComponent } from './twin-instance-builder.component';
 import { TwinTreeModule } from './twin-tree/twin-tree.module';
@@ -48,8 +48,11 @@ describe('TwinInstanceBuilderComponent', () => {
         loadRemoteBaseModels: () => Promise.resolve(),
       }),
       {
-        provide: OFFLINE_MODE,
-        useValue: true,
+        provide: BUILDER_SETTINGS,
+        useValue: {
+          saveTwinsOnApply: true,
+          loadTwinsFromServer: true,
+        },
       },
     ],
     mocks: [TwinService, TwinsService, TwinQuery, DialogService],
