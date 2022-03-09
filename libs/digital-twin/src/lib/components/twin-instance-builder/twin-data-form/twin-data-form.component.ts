@@ -59,7 +59,7 @@ export class TwinDataFormComponent implements OnChanges {
 
   onSubmit() {
     if (this.form.valid && this.twin) {
-      const updatedTwin = { ...this.twin, ...this.form.value };
+      const updatedTwin = omitBy({ ...this.twin, ...this.form.value }, isNil);
       this.emitChanges(updatedTwin);
     }
   }

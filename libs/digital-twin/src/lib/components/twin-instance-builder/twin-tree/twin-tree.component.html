@@ -92,7 +92,7 @@
         trackBy: '@id' | trackByProperty
       "
       [matMenuTriggerFor]="twinRelMenu"
-      [disabled]="!isActionEnabled(model?.target, model?.name)"
+      [disabled]="disableEditing"
       [matMenuTriggerData]="{
         source: contextTwin,
         target: model?.target,
@@ -107,7 +107,7 @@
     </button>
     <button
       mat-menu-item
-      [disabled]="!isActionEnabled(contextTwin?.$metadata?.$model)"
+      [disabled]="disableEditing"
       (click)="deleteTwin(contextTwin)"
     >
       Delete

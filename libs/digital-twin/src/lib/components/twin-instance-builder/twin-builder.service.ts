@@ -24,7 +24,7 @@ import { SelfDescriptionQuery } from '../../services/store/self-description/self
 import { SelfDescriptionService } from '../../services/store/self-description/self-description.service';
 import { TwinQuery } from '../../services/store/twin-instance/twin.query';
 import { TwinService } from '../../services/store/twin-instance/twin.service';
-import { OFFLINE_MODE } from './twin-builder.settings';
+import { BUILDER_SETTINGS, TwinBuilderSettings } from './twin-builder.settings';
 
 @Injectable({
   providedIn: 'root',
@@ -70,7 +70,7 @@ export class TwinBuilderService {
     private relationshipService: RelationshipService,
     private selfDescriptionService: SelfDescriptionService,
     private selfDescriptionQuery: SelfDescriptionQuery,
-    @Inject(OFFLINE_MODE) private offlineMode: boolean
+    @Inject(BUILDER_SETTINGS) private builderSettings: TwinBuilderSettings
   ) {}
 
   loadModels() {
@@ -113,20 +113,22 @@ export class TwinBuilderService {
     const _twin = isArray(twin) ? twin?.[1] : twin;
     const _rel = isArray(twin) ? twin?.[0] : null;
 
-    const [error, success] = await to(
-      this.offlineMode
-        ? Promise.resolve(true)
-        : this.twinAPIService
-            .createTwin(_twin)
-            .toPromise()
-            .then(() => true)
-    );
-    if (error) {
-      this.dialogService.openErrorModal(error);
-      return;
+    // should we immediately update twins in twin-api
+    if (this.builderSettings.saveTwinsOnApply) {
+      const [error, success] = await to(
+        this.twinAPIService
+          .createTwin(_twin)
+          .toPromise()
+          .then(() => true)
+      );
+      if (error) {
+        this.dialogService.openErrorModal(error);
+        return;
+      }
+      this.dialogService.triggerSnackbar('Twin saved successfully');
     }
+
     this.twinService.addTwins(_twin);
-    this.dialogService.triggerSnackbar('Twin saved successfully');
 
     if (_rel) {
       await this.saveRel(_rel);
@@ -146,60 +148,63 @@ export class TwinBuilderService {
       $sourceId: sourceTwin?.$dtId,
     };
 
-    const [error, success] = await to(
-      this.offlineMode
-        ? Promise.resolve(true)
-        : this.twinAPIService
-            .createTwin(targetTwin)
-            .toPromise()
-            .then(() => true)
-    );
-    if (error) {
-      this.dialogService.openErrorModal(error);
-      return;
+    // should we immediately update twins in twin-api
+    if (this.builderSettings.saveTwinsOnApply) {
+      const [error, success] = await to(
+        this.twinAPIService
+          .createTwin(targetTwin)
+          .toPromise()
+          .then(() => true)
+      );
+      if (error) {
+        this.dialogService.openErrorModal(error);
+        return;
+      }
+      this.dialogService.triggerSnackbar('Twin saved successfully');
     }
+
     await applyTransaction(async () => {
       if (relationship) {
         await this.saveRel(relationship);
       }
-
       this.twinService.addTwins(targetTwin);
-      this.dialogService.triggerSnackbar('Twin saved successfully');
     });
   }
 
   async saveRel(rel: Relationship) {
-    const [error, success] = await to(
-      this.offlineMode
-        ? Promise.resolve(true)
-        : this.relationshipAPIService
-            .createRelationship(rel)
-            .toPromise()
-            .then(() => true)
-    );
-    if (error) {
-      this.dialogService.openErrorModal(error);
-      return;
+    if (this.builderSettings.saveTwinsOnApply) {
+      const [error, success] = await to(
+        this.relationshipAPIService
+          .createRelationship(rel)
+          .toPromise()
+          .then(() => true)
+      );
+      if (error) {
+        this.dialogService.openErrorModal(error);
+        return;
+      }
+      this.dialogService.triggerSnackbar('Relationship saved successfully');
     }
+
     this.relationshipService.addRelationships(rel);
-    this.dialogService.triggerSnackbar('Relationship saved successfully');
   }
 
   async deleteTwin(twin: DigitalTwin) {
-    const [error, success] = await to(
-      this.offlineMode
-        ? Promise.resolve(true)
-        : this.twinAPIService
-            .deleteTwin(twin?.$dtId)
-            .toPromise()
-            .then(() => true)
-    );
-    if (error) {
-      this.dialogService.openErrorModal(error);
-      return;
+    if (this.builderSettings.saveTwinsOnApply) {
+      const [error, success] = await to(
+        this.twinAPIService
+          .deleteTwin(twin?.$dtId)
+          .toPromise()
+          .then(() => true)
+      );
+      if (error) {
+        this.dialogService.openErrorModal(error);
+        return;
+      }
+      this.dialogService.triggerSnackbar('Twin deleted successfully');
     }
+
     this.twinService.deleteTwin(twin?.$dtId);
-    this.dialogService.triggerSnackbar('Twin deleted successfully');
   }
 
   clearAndLoad(dtId: string, setActive = true) {
@@ -208,7 +213,7 @@ export class TwinBuilderService {
   }
 
   async loadTwin(dtId: string, setActive = true) {
-    if (this.offlineMode) return;
+    if (!this.builderSettings.loadTwinsFromServer) return;
     await applyTransaction(async () => {
       const [error, twin] = await to(
         this.twinAPIService.getTwinById(dtId).toPromise()

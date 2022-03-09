@@ -1,4 +1,9 @@
 import { InjectionToken } from '@angular/core';
 
-export const OFFLINE_MODE: InjectionToken<boolean> =
-  new InjectionToken<boolean>('Should changes be synced to the server?');
+export interface TwinBuilderSettings {
+  saveTwinsOnApply: boolean;
+  loadTwinsFromServer: boolean;
+}
+
+export const BUILDER_SETTINGS: InjectionToken<TwinBuilderSettings> =
+  new InjectionToken<TwinBuilderSettings>('Settings for twin builder');

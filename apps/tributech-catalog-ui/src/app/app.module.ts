@@ -12,7 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormlyModule } from '@ngx-formly/core';
 import { CatalogApiConfiguration } from '@tributech/catalog-api';
 import {
-  OFFLINE_MODE,
+  BUILDER_SETTINGS,
   RelationshipFormModule,
   SelfDescriptionBuilderModule,
   TrackByPropertyModule,
@@ -92,7 +92,13 @@ export function configureApis(
     FontAwesomeModule,
   ],
   providers: [
-    { provide: OFFLINE_MODE, useValue: false },
+    {
+      provide: BUILDER_SETTINGS,
+      useValue: {
+        saveTwinsOnApply: true,
+        loadTwinsFromServer: true,
+      },
+    },
     {
       provide: CatalogApiConfiguration,
       useValue: new CatalogApiConfiguration(),
@@ -114,7 +120,6 @@ export function configureApis(
       useClass: AuthInterceptor,
       multi: true,
     },
-    { provide: OFFLINE_MODE, useValue: false },
     {
       provide: BASE_AUTH_CONFIG,
       useValue: authConfig,

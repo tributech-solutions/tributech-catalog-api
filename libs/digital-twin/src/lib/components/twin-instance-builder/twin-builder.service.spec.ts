@@ -16,7 +16,7 @@ import { SelfDescriptionService } from '../../services/store/self-description/se
 import { TwinQuery } from '../../services/store/twin-instance/twin.query';
 import { TwinService } from '../../services/store/twin-instance/twin.service';
 import { TwinBuilderService } from './twin-builder.service';
-import { OFFLINE_MODE } from './twin-builder.settings';
+import { BUILDER_SETTINGS } from './twin-builder.settings';
 
 describe('TwinBuilderService', () => {
   let spectator: SpectatorService<TwinBuilderService>;
@@ -24,8 +24,11 @@ describe('TwinBuilderService', () => {
     service: TwinBuilderService,
     providers: [
       {
-        provide: OFFLINE_MODE,
-        useValue: true,
+        provide: BUILDER_SETTINGS,
+        useValue: {
+          saveTwinsOnApply: true,
+          loadTwinsFromServer: true,
+        },
       },
       mockProvider(LoadService),
       mockProvider(TwinService),

@@ -43,8 +43,6 @@ export interface CreateNewTwinInstancePayload {
 })
 export class TwinTreeComponent implements OnInit {
   @Input() disableEditing: boolean;
-  @Input() modelWhitelist: string[] = [];
-  @Input() relationshipWhitelist: string[] = [];
 
   @Output() twinSelected = new EventEmitter<TwinInstance>();
   @Output() relationshipSelected = new EventEmitter<TwinRelationship[]>();
@@ -148,19 +146,6 @@ export class TwinTreeComponent implements OnInit {
 
   async deleteTwin(twin: TwinInstance) {
     await this.twinBuilderService.deleteTwin(twin);
-  }
-
-  isActionEnabled(targetTwinModel: string, relType?: string) {
-    if (!this.disableEditing) return true;
-
-    if (!relType) {
-      return this.modelWhitelist.includes(targetTwinModel);
-    }
-
-    return (
-      this.modelWhitelist.includes(targetTwinModel) &&
-      this.relationshipWhitelist.includes(relType)
-    );
   }
 
   async addTwinViaRelationship(
