@@ -27,6 +27,16 @@ export class TwinQuery extends QueryEntity<TwinState> {
     map((models) => [...models])
   );
 
+  getRootTwin() {
+    return this.getAll({
+      filterBy: (twin) =>
+        this.relationshipQuery.getRelationshipsForTwin(
+          twin?.$dtId,
+          RelationType.Target
+        ).length === 0,
+    })?.[0];
+  }
+
   getChildren(parent: TwinInstance) {
     if (!parent) return [];
 

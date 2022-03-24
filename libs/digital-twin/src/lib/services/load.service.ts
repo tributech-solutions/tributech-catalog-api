@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { arrayUpdate } from '@datorama/akita';
 import { ManageModelsService } from '@tributech/catalog-api';
 import {
   ensureIsTwinGraph,
@@ -10,10 +11,12 @@ import {
   TwinGraph,
   uuidv4,
 } from '@tributech/self-description';
+import { DigitalTwin } from '@tributech/twin-api';
 import { to } from 'await-to-js';
 import { every as _every } from 'lodash';
 import { take } from 'rxjs/operators';
 import { TwinJsonModalComponent } from '../components/twin-json-modal/twin-json-modal.component';
+import { getDeterministicGuid } from '../helpers/deterministic-utils';
 import { DialogService } from '../other-components/dynamic-dialog/dialog.service';
 import { FileService, ReadType } from './file.service';
 import { ImportService } from './import.service';
@@ -91,11 +94,9 @@ export class LoadService {
       return Promise.reject(error);
     }
 
-    const [parseError, twin] = await to(
-      this.parseTwinString(this.replaceTokens(JSON.stringify(demoTwin)))
-    );
-    if (parseError || !twin) {
-      return Promise.reject(parseError);
+    const twin = this.resolveTwinTemplate(demoTwin);
+    if (!twin) {
+      return Promise.reject('Could not resolve template!');
     }
 
     return this.importTwinFile(twin);
@@ -116,6 +117,21 @@ export class LoadService {
 
     if (uploadError || !twin) {
       return Promise.reject(uploadError);
+    }
+
+    return this.importTwinFile(twin);
+  }
+
+  async loadExternalTemplateFile(currentRoot?: DigitalTwin) {
+    const [uploadError, templateTwin] = await to(this.uploadTwinFile());
+
+    if (uploadError || !templateTwin) {
+      return Promise.reject(uploadError);
+    }
+
+    const twin = this.resolveTwinTemplate(templateTwin, currentRoot);
+    if (!twin) {
+      return Promise.reject('Could not resolve template!');
     }
 
     return this.importTwinFile(twin);
@@ -159,13 +175,41 @@ export class LoadService {
     return Promise.resolve(twin);
   }
 
-  private replaceTokens(twinString: string): string {
-    const tokenRegex = new RegExp('\\$\\$uuid([0-9]+)\\$\\$', 'g');
-    const replaceTokens = new Set<string>();
+  private resolveTwinTemplate(
+    templateGraph: TwinGraph,
+    currentRoot?: DigitalTwin
+  ): TwinGraph {
+    let rootGuid: string;
+    let newRootTwin: DigitalTwin;
+
+    if (currentRoot) {
+      newRootTwin = templateGraph.digitalTwins.find(
+        (t) => t.$metadata.$model === currentRoot.$metadata.$model
+      );
+      if (!newRootTwin) {
+        return null;
+      }
+      rootGuid = currentRoot.$dtId;
+    }
+
+    if (!rootGuid) {
+      rootGuid = uuidv4();
+    }
+
     let m;
+    let twinString;
+
+    try {
+      twinString = JSON.stringify(templateGraph);
+    } catch (e) {
+      return null;
+    }
+
+    const baseTokenRegex = new RegExp('\\$\\$uuid([0-9]+)\\$\\$', 'g');
+    const replaceTokens = new Set<string>();
 
     do {
-      m = tokenRegex.exec(twinString);
+      m = baseTokenRegex.exec(twinString);
       if (m) {
         replaceTokens.add(m[0]);
       }
@@ -175,22 +219,54 @@ export class LoadService {
       twinString = this.replaceAll(twinString, token, uuidv4());
     });
 
-    while (twinString.includes('$$uuid$$')) {
-      twinString = this.replaceSingle(twinString, '$$uuid$$', uuidv4());
+    while (twinString.includes('$$random_uuid$$')) {
+      twinString = this.replaceSingle(twinString, '$$random_uuid$$', uuidv4());
     }
 
-    return twinString;
+    if (twinString.includes('$$root_uuid$$')) {
+      twinString = this.replaceAll(twinString, '$$root_uuid$$', rootGuid);
+    }
+
+    let newGraph: TwinGraph;
+    try {
+      newGraph = JSON.parse(twinString);
+    } catch (e) {
+      return null;
+    }
+
+    // deterministic relationship its
+    newGraph.relationships = newGraph.relationships.map((r) => {
+      r.$relationshipId = getDeterministicGuid(r.$targetId, r.$sourceId);
+      r.$etag = getDeterministicGuid(r.$targetId, r.$sourceId, 'ETag');
+      return r;
+    });
+
+    // its its a device template we need to replace some additional parameters
+    if (
+      currentRoot &&
+      ('DeviceId' in currentRoot || 'PublicKey' in currentRoot)
+    ) {
+      newRootTwin = {
+        ...newRootTwin,
+        DeviceId: currentRoot.DeviceId,
+        PublicKey: currentRoot.PublicKey,
+        $dtId: rootGuid,
+      };
+      newGraph.digitalTwins = arrayUpdate(
+        newGraph.digitalTwins,
+        (t) => t.$metadata.$model === currentRoot.$metadata.$model,
+        newRootTwin
+      );
+    }
+
+    return newGraph;
   }
 
   replaceAll(str: string, find: string, replace: string): string {
-    return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
+    return str.split(find).join(replace);
   }
 
   replaceSingle(str: string, find: string, replace: string): string {
     return str.replace(find, replace);
-  }
-
-  escapeRegExp(string: string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
 }

@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { applyTransaction, isArray } from '@datorama/akita';
-import { createETag, uuidv4 } from '@tributech/self-description';
 import {
   DigitalTwin,
   Relationship,
@@ -16,6 +15,7 @@ import {
   Subject,
 } from 'rxjs';
 import { debounceTime, map, mapTo } from 'rxjs/operators';
+import { getDeterministicGuid } from '../../helpers/deterministic-utils';
 import { DialogService } from '../../other-components/dynamic-dialog/dialog.service';
 import { LoadService } from '../../services/load.service';
 import { RelationshipQuery } from '../../services/store/relationship/relationship.query';
@@ -141,8 +141,11 @@ export class TwinBuilderService {
     targetTwin: DigitalTwin
   ) {
     const relationship: Relationship = {
-      $etag: createETag(),
-      $relationshipId: uuidv4(),
+      $etag: getDeterministicGuid(targetTwin?.$dtId, sourceTwin?.$dtId, 'ETag'),
+      $relationshipId: getDeterministicGuid(
+        targetTwin?.$dtId,
+        sourceTwin?.$dtId
+      ),
       $relationshipName: relationshipName,
       $targetId: targetTwin?.$dtId,
       $sourceId: sourceTwin?.$dtId,

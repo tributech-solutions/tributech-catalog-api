@@ -150,11 +150,19 @@
 <mat-menu #importExportMenu="matMenu">
   <ng-template matMenuContent>
     <button mat-menu-item [matMenuTriggerFor]="importMenu">Import</button>
-    <button mat-menu-item (click)="exportToFile()">Export</button>
+    <button mat-menu-item [matMenuTriggerFor]="exportMenu">Export</button>
   </ng-template>
 </mat-menu>
 
 <mat-menu #importMenu="matMenu">
   <button mat-menu-item (click)="importViaFile()">From File</button>
   <button mat-menu-item (click)="importViaText()">From Text</button>
+  <button mat-menu-item (click)="importViaTemplate()">From Template</button>
+</mat-menu>
+
+<mat-menu #exportMenu="matMenu">
+  <button mat-menu-item (click)="exportToFile()">To File</button>
+  <button mat-menu-item (click)="exportToTemplateFile()">
+    To Template File
+  </button>
 </mat-menu>
