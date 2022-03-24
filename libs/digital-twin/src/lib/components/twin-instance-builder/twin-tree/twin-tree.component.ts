@@ -166,12 +166,21 @@ export class TwinTreeComponent implements OnInit {
     await this.loadService.loadExternalTwinFile();
   }
 
+  async importViaTemplate() {
+    const rootTwin = this.twinQuery.getRootTwin();
+    this.twinBuilderService.clearLoadedTwins();
+    await this.loadService.loadExternalTemplateFile(rootTwin);
+  }
+
   async importViaText() {
     await this.loadService.loadFromDialog();
   }
 
   exportToFile() {
     this.exportService.exportToFile();
+  }
+  exportToTemplateFile() {
+    this.exportService.exportAsTemplateToFile();
   }
 
   clearGraph() {
