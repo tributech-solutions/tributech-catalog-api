@@ -145,10 +145,10 @@ export class TwinBuilderService {
     forceSaveToApi: boolean = false
   ) {
     const relationship: Relationship = {
-      $etag: getDeterministicGuid(targetTwin?.$dtId, sourceTwin?.$dtId, 'ETag'),
+      $etag: getDeterministicGuid(sourceTwin?.$dtId, targetTwin?.$dtId, 'ETag'),
       $relationshipId: getDeterministicGuid(
-        targetTwin?.$dtId,
-        sourceTwin?.$dtId
+        sourceTwin?.$dtId,
+        targetTwin?.$dtId
       ),
       $relationshipName: relationshipName,
       $targetId: targetTwin?.$dtId,
