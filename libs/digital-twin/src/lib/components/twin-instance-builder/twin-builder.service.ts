@@ -109,12 +109,15 @@ export class TwinBuilderService {
     this.selectedRelSubject.next(null);
   }
 
-  async saveTwin(twin: DigitalTwin | [Relationship, DigitalTwin]) {
+  async saveTwin(
+    twin: DigitalTwin | [Relationship, DigitalTwin],
+    forceSaveToApi: boolean = false
+  ) {
     const _twin = isArray(twin) ? twin?.[1] : twin;
     const _rel = isArray(twin) ? twin?.[0] : null;
 
     // should we immediately update twins in twin-api
-    if (this.builderSettings.saveTwinsOnApply) {
+    if (this.builderSettings.saveTwinsOnApply || forceSaveToApi) {
       const [error, success] = await to(
         this.twinAPIService
           .createTwin(_twin)
@@ -131,14 +134,15 @@ export class TwinBuilderService {
     this.twinService.addTwins(_twin);
 
     if (_rel) {
-      await this.saveRel(_rel);
+      await this.saveRel(_rel, forceSaveToApi);
     }
   }
 
   async addTwinViaRelation(
     sourceTwin: DigitalTwin,
     relationshipName: string,
-    targetTwin: DigitalTwin
+    targetTwin: DigitalTwin,
+    forceSaveToApi: boolean = false
   ) {
     const relationship: Relationship = {
       $etag: getDeterministicGuid(targetTwin?.$dtId, sourceTwin?.$dtId, 'ETag'),
@@ -152,7 +156,7 @@ export class TwinBuilderService {
     };
 
     // should we immediately update twins in twin-api
-    if (this.builderSettings.saveTwinsOnApply) {
+    if (this.builderSettings.saveTwinsOnApply || forceSaveToApi) {
       const [error, success] = await to(
         this.twinAPIService
           .createTwin(targetTwin)
@@ -168,14 +172,14 @@ export class TwinBuilderService {
 
     await applyTransaction(async () => {
       if (relationship) {
-        await this.saveRel(relationship);
+        await this.saveRel(relationship, forceSaveToApi);
       }
       this.twinService.addTwins(targetTwin);
     });
   }
 
-  async saveRel(rel: Relationship) {
-    if (this.builderSettings.saveTwinsOnApply) {
+  async saveRel(rel: Relationship, forceSaveToApi: boolean = false) {
+    if (this.builderSettings.saveTwinsOnApply || forceSaveToApi) {
       const [error, success] = await to(
         this.relationshipAPIService
           .createRelationship(rel)
@@ -192,8 +196,8 @@ export class TwinBuilderService {
     this.relationshipService.addRelationships(rel);
   }
 
-  async deleteTwin(twin: DigitalTwin) {
-    if (this.builderSettings.saveTwinsOnApply) {
+  async deleteTwin(twin: DigitalTwin, forceSaveToApi: boolean = false) {
+    if (this.builderSettings.saveTwinsOnApply || forceSaveToApi) {
       const [error, success] = await to(
         this.twinAPIService
           .deleteTwin(twin?.$dtId)
