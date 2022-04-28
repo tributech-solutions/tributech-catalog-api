@@ -236,8 +236,8 @@ export class LoadService {
 
     // deterministic relationship its
     newGraph.relationships = newGraph.relationships.map((r) => {
-      r.$relationshipId = getDeterministicGuid(r.$targetId, r.$sourceId);
-      r.$etag = getDeterministicGuid(r.$targetId, r.$sourceId, 'ETag');
+      r.$relationshipId = getDeterministicGuid(r.$sourceId, r.$targetId);
+      r.$etag = getDeterministicGuid(r.$sourceId, r.$targetId, 'ETag');
       return r;
     });
 
