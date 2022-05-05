@@ -133,9 +133,9 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "(stream:Twin:BaseStreamTributechIoV1)-[relationship:Options]-&gt;(option:Twin:BaseOptionsTributechIoV1)"
+              "example": "(stream:Twin:BaseStreamTributechIoV1)-[relationship:Options]->(option:Twin:BaseOptionsTributechIoV1)"
             },
-            "example": "(stream:Twin:BaseStreamTributechIoV1)-[relationship:Options]-&gt;(option:Twin:BaseOptionsTributechIoV1)"
+            "example": "(stream:Twin:BaseStreamTributechIoV1)-[relationship:Options]->(option:Twin:BaseOptionsTributechIoV1)"
           },
           {
             "name": "Where",
