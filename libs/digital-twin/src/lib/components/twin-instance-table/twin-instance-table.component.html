@@ -1,0 +1,10 @@
+<tt-table
+  *ngIf="columns"
+  [columns]="columns"
+  [pagination]="pagination"
+  [rowData]="rowData$ | async"
+  [showFilter]="true"
+  [noDataHint]="noDataHint"
+  (rowClicked)="instanceClicked.emit($event)"
+>
+</tt-table>

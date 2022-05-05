@@ -3,6 +3,7 @@
 /dist
 /coverage
 /reports
-/ssl
-/tools/schemas
+/apps/tributech-catalog-ui/ssl
 /node_modules
+/libs/connectors/catalog-api/src/**/*
+/libs/connectors/twin-api/src/**/*

@@ -1,0 +1,8 @@
+<button *ngIf="data?.disableClose === false" mat-dialog-close>
+  <mat-icon class="color--2-700">clear</mat-icon>
+</button>
+
+<ndc-dynamic
+  [ndcDynamicComponent]="data?.component"
+  [ndcDynamicInputs]="data?.inputs"
+></ndc-dynamic>

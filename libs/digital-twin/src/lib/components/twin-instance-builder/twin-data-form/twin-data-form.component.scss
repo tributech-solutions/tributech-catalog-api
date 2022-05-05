@@ -1,0 +1,17 @@
+@import 'libs/theme/variables';
+
+:host {
+  display: block;
+  width: 100%;
+  padding: $grid-gutter-base * 3;
+
+  ::ng-deep {
+    .mat-form-field {
+      margin-bottom: $grid-gutter-base * 2;
+    }
+  }
+}
+
+.twin-form {
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,40 @@
+@import 'variables';
+
+.mat-checkbox-label {
+  font-size: $fs-body-3;
+}
+
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-primary
+  .mat-ripple-element,
+.mat-checkbox:active:not(.mat-checkbox-disabled).mat-primary
+  .mat-ripple-element {
+  background: transparent !important;
+}
+
+.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background,
+.mat-checkbox-checked.mat-primary .mat-checkbox-background {
+  background-color: transparent !important;
+}
+
+.mat-checkbox-checkmark-path {
+  stroke: $blue !important;
+}
+
+.mat-checkbox-checkmark-path {
+  stroke-width: 3px !important;
+}
+
+.mat-checkbox-background,
+.mat-checkbox-frame {
+  border-radius: 100% !important;
+}
+
+.mat-checkbox-checked .mat-checkbox-checkmark {
+  width: 12px;
+  height: 12px;
+}
+
+.mat-checkbox-checkmark {
+  top: 2px !important;
+  left: 2px !important;
+}

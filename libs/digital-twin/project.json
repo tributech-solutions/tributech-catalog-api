@@ -1,0 +1,49 @@
+{
+  "projectType": "library",
+  "root": "libs/digital-twin",
+  "sourceRoot": "libs/digital-twin/src",
+  "prefix": "tt",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/digital-twin"],
+      "options": {
+        "project": "libs/digital-twin/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/digital-twin/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/digital-twin/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/digital-twin/src/**/*.ts",
+          "libs/digital-twin/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/digital-twin"],
+      "options": {
+        "jestConfig": "libs/digital-twin/jest.config.js",
+        "passWithNoTests": true,
+        "runInBand": true
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production"
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+@import 'variables';
+
+:host {
+  display: block;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 0 15px;
+}
+
+.dataset {
+  &-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    margin-bottom: $grid-gutter-base * 2;
+
+    &__text {
+      font-size: $fs-h1;
+      font-weight: 300;
+      margin-left: $grid-gutter-base;
+    }
+
+    &__actions {
+      margin-left: auto;
+    }
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: row;
+    &__column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      font-weight: 300;
+    }
+  }
+}
+
+.instance-table {
+  margin-top: $grid-gutter-base * 4;
+}
+
+.primary-button {
+  padding: 0 16px;
+}

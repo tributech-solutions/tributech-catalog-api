@@ -1,0 +1,10 @@
+{
+  "endpoints": {
+    "identityServerUrl": "YOUR KEYCLOAK IDENTITY SERVER",
+    "catalogApiUrl": "CATALOG API URL",
+    "twinApiUrl": "TWIN API URL"
+  },
+  "realm": {
+    "name": "YOUR REALM"
+  }
+}

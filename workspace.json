@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "projects": {
+    "connectors-catalog-api": "libs/connectors/catalog-api",
+    "connectors-twin-api": "libs/connectors/twin-api",
+    "digital-twin": "libs/digital-twin",
+    "self-description": "libs/self-description",
+    "tributech-catalog": "apps/tributech-catalog",
+    "tributech-catalog-ui": "apps/tributech-catalog-ui"
+  }
+}

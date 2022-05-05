@@ -1,0 +1,12 @@
+<div class="error-header">
+  <fa-icon [icon]="faAlert"></fa-icon>
+  <span class="error-title">Twin validation - Error</span>
+</div>
+<div class="error-body">
+  <ng-container *ngFor="let validationError of error?.errors">
+    <span>{{ validationError.instancePath }}</span>
+    <ul>
+      <li>{{ validationError?.message }}</li>
+    </ul>
+  </ng-container>
+</div>

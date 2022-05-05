@@ -1,0 +1,46 @@
+@import 'variables';
+.ts-dialog {
+  width: 100%;
+  .ts-dialog__content {
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+    min-width: 300px;
+    max-width: 500px;
+  }
+  .ts-dialog__header {
+    button {
+      border: none;
+      background-color: transparent;
+    }
+  }
+
+  img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .button {
+    cursor: pointer;
+    width: 50%;
+    border-top: 1px solid #e2e2e2;
+    &:hover {
+      background-color: #e8e8e8 !important;
+    }
+    &:first-child {
+      border-right: 1px solid #e2e2e2;
+    }
+  }
+
+  .close-button {
+    cursor: pointer;
+    width: 100%;
+    border-top: 1px solid #e2e2e2;
+    &:hover {
+      background-color: #e8e8e8 !important;
+    }
+  }
+}
+
+// mat-dialog-container {
+//   padding: 0 !important;
+// }

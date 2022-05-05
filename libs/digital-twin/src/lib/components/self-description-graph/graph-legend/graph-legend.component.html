@@ -1,0 +1,63 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Nodes </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-selection-list class="list" #nodeList>
+      <mat-list-option
+        [value]="node"
+        *ngFor="let node of uniqueNodes; trackBy: 'id' | trackByProperty"
+      >
+        {{ node?.label }}
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-action-row>
+      <button
+        mat-button
+        color="primary"
+        (click)="nodeList.selectAll(); _selectionChanged()"
+      >
+        Select All
+      </button>
+      <button
+        mat-button
+        color="primary"
+        (click)="nodeList.deselectAll(); _selectionChanged()"
+      >
+        Deselect All
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Edges </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-selection-list class="list" #edgeList>
+      <mat-list-option
+        [value]="edge"
+        *ngFor="let edge of uniqueEdges; trackBy: 'id' | trackByProperty"
+      >
+        {{ edge?.label }}
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-action-row>
+      <button
+        mat-button
+        color="primary"
+        (click)="edgeList.selectAll(); _selectionChanged()"
+      >
+        Select All
+      </button>
+      <button
+        mat-button
+        color="primary"
+        (click)="edgeList.deselectAll(); _selectionChanged()"
+      >
+        Deselect All
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

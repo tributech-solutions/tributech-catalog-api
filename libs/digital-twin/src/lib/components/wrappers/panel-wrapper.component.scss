@@ -1,0 +1,10 @@
+@import 'libs/theme/variables';
+
+:host {
+  display: block;
+  background-color: white;
+
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}

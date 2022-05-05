@@ -1,0 +1,33 @@
+{
+  "name": "@tributech/catalog-api",
+  "version": "0.0.2",
+  "description": "API services for the Tributech Catalog API.",
+  "author": "Tributech Solutions GmbH <support@tributech.io>",
+  "homepage": "https://github.com/tributech-solutions/tributech-catalog-api",
+  "repository": "https://github.com/tributech-solutions/tributech-catalog-api.git",
+  "bugs": {
+    "url": "https://github.com/tributech-solutions/tributech-catalog-api/issues"
+  },
+  "engines": {
+    "node": ">=10.21.0"
+  },
+  "keywords": [
+    "ng",
+    "angular",
+    "dtdl",
+    "digital-twin",
+    "digital-twins"
+  ],
+  "readme": "https://github.com/tributech-solutions/tributech-catalog-api/blob/develop/libs/connectors/catalog-api/README.md",
+  "contributors": [
+    "Maximilian Mayr <m.mayr@tributech.io>"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^12.1.2",
+    "@angular/core": "^12.1.2"
+  },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  },
+  "devDependencies": {}
+}

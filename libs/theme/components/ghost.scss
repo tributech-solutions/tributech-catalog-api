@@ -1,0 +1,39 @@
+.ghost {
+  pointer-events: none;
+
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-name: ghostAnimation;
+  animation-timing-function: linear;
+  background: $grey-900;
+  background: linear-gradient(
+    to right,
+    $grey-900 8%,
+    $grey-800 18%,
+    $grey-900 33%
+  );
+  background-size: 1000px 100%;
+  position: relative;
+  opacity: 0.8;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  p,
+  span {
+    display: block;
+  }
+}
+
+@keyframes ghostAnimation {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}

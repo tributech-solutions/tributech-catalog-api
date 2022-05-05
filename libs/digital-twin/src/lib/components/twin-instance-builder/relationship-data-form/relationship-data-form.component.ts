@@ -1,0 +1,100 @@
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { TwinRelationship } from '@tributech/self-description';
+import { SelfDescriptionQuery } from '../../../services/store/self-description/self-description.query';
+import { TwinQuery } from '../../../services/store/twin-instance/twin.query';
+import { DEFAULT_FIELDS_RELATION } from '../twin-data-form/form-configs/form.model';
+import { convertToFormConfig } from '../twin-data-form/form-configs/form.utils';
+
+@Component({
+  selector: 'tt-relationship-data-form',
+  templateUrl: './relationship-data-form.component.html',
+  styleUrls: ['./relationship-data-form.component.scss'],
+})
+export class RelationshipDataFormComponent implements OnChanges {
+  @Input() disableEditing: boolean;
+  @Input() relationship: TwinRelationship;
+  @Output()
+  relChanged: EventEmitter<TwinRelationship> = new EventEmitter<TwinRelationship>();
+
+  form = new FormGroup({});
+  model = {};
+  fields: FormlyFieldConfig[] = [];
+  options: FormlyFormOptions = {
+    formState: {
+      disabled: false,
+    },
+  };
+
+  constructor(
+    private selfDescriptionQuery: SelfDescriptionQuery,
+    private twinQuery: TwinQuery
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.relationship || changes.hideDefaultData) {
+      this.model = {};
+      this.setupForm();
+    }
+
+    if (changes.disableEditing) {
+      this.options = {
+        formState: {
+          disabled: this.disableEditing,
+        },
+      };
+    }
+  }
+
+  onSubmit() {
+    if (this.form.valid && this.relationship) {
+      this.emitChanges();
+    }
+  }
+
+  private setupForm() {
+    const relationshipName: string = this.relationship?.$relationshipName;
+    const sourceId: string = this.relationship?.$sourceId;
+
+    if (!relationshipName) return;
+    this.form = new FormGroup({});
+
+    const sourceTwin = this.twinQuery.getTwinById(sourceId);
+    const relationships =
+      this.selfDescriptionQuery.getTwinGraphModel(sourceTwin?.$metadata?.$model)
+        ?.relationships || [];
+
+    const selectedRelationship = relationships.find(
+      (rel) => rel?.name === relationshipName
+    );
+    if (!selectedRelationship) return;
+
+    this.fields = [
+      ...DEFAULT_FIELDS_RELATION,
+      ...convertToFormConfig(selectedRelationship?.properties),
+    ];
+
+    // delay one tick
+    setTimeout(() => {
+      this.form.patchValue(this.relationship);
+      // We set some defaults in our form configuration, due to that we need to
+      // store the latest form state as our instance state after setting the configuration.
+      if (this.relationship?.$relationshipId) {
+        this.emitChanges();
+      }
+    });
+  }
+
+  private emitChanges() {
+    if (this.disableEditing) return;
+    this.relChanged.emit(this.form.value);
+  }
+}

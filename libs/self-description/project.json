@@ -1,0 +1,49 @@
+{
+  "root": "libs/self-description",
+  "sourceRoot": "libs/self-description/src",
+  "projectType": "library",
+  "prefix": "tt",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/self-description"],
+      "options": {
+        "project": "libs/self-description/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/self-description/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/self-description/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/self-description"],
+      "options": {
+        "jestConfig": "libs/self-description/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/self-description/src/**/*.ts",
+          "libs/self-description/src/**/*.html"
+        ]
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production"
+      }
+    }
+  },
+  "tags": []
+}

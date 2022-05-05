@@ -1,0 +1,130 @@
+.fs-hero-1 {
+  font-size: $fs-hero-1 !important;
+  line-height: $fs-hero-1 !important;
+}
+
+.fs-hero-2 {
+  font-size: $fs-hero-2 !important;
+  line-height: $fs-hero-2 !important;
+}
+
+.fs-hero-3 {
+  font-size: $fs-hero-3 !important;
+  line-height: $fs-hero-3 !important;
+}
+
+.fs-hero-4 {
+  font-size: $fs-hero-4 !important;
+  line-height: $fs-hero-4 !important;
+}
+
+.fs-h1 {
+  font-size: $fs-h1 !important;
+}
+
+.fs-h2 {
+  font-size: $fs-h2 !important;
+}
+
+.fs-h3 {
+  font-size: $fs-h3 !important;
+  @media (min-width: 1300px) {
+    font-size: $fs-h3-lg !important;
+  }
+}
+
+.fs-h4 {
+  font-size: $fs-h4 !important;
+}
+
+.fs-body-1 {
+  font-size: $fs-body-1 !important;
+  font-weight: 300;
+  @media (min-width: 1500px) {
+    font-size: $fs-body-1-lg !important;
+  }
+}
+
+.fs-body-2 {
+  font-size: $fs-body-2 !important;
+  font-weight: 300;
+  @media (min-width: 1500px) {
+    font-size: $fs-body-2-lg !important;
+  }
+}
+
+.fs-body-3 {
+  font-size: $fs-body-3 !important;
+  font-weight: 300;
+  @media (min-width: 1500px) {
+    font-size: $fs-body-3-lg !important;
+  }
+}
+
+.fs-body-4 {
+  font-weight: 300;
+  font-size: $fs-body-4 !important;
+}
+
+.fs-body-6 {
+  font-weight: 300;
+  font-size: $fs-body-6 !important;
+}
+
+.fw-100 {
+  font-weight: 100 !important;
+}
+
+.fw-200 {
+  font-weight: 200 !important;
+}
+
+.fw-300 {
+  font-weight: 300 !important;
+}
+
+.fw-400 {
+  font-weight: 400 !important;
+}
+
+.fw-600 {
+  font-weight: 600 !important;
+}
+
+.fw-700 {
+  font-weight: 700 !important;
+}
+
+.fw-800 {
+  font-weight: 800 !important;
+}
+
+.fw-900 {
+  font-weight: 900 !important;
+}
+
+.mat-body,
+.mat-body-1,
+.mat-typography {
+  @media (min-width: 1500px) {
+    font-size: 18px !important;
+  }
+}
+
+@mixin word-wrap() {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+@mixin ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

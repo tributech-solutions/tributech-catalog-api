@@ -1,0 +1,32 @@
+{
+  "root": "libs/connectors/catalog-api",
+  "sourceRoot": "libs/connectors/catalog-api/src",
+  "projectType": "library",
+  "prefix": "tt",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/connectors/catalog-api"],
+      "options": {
+        "project": "libs/connectors/catalog-api/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/connectors/catalog-api/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/connectors/catalog-api/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production"
+      }
+    }
+  },
+  "tags": []
+}

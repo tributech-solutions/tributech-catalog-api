@@ -5,3 +5,5 @@ services:
     image: ${DOCKER_REGISTRY:-tributech.azurecr.io/}catalog-api:${TAG:-latest}
     volumes:
       - ./settings/settings.json:/app/settings/settings.json
+  catalog-ui:
+    image: ${DOCKER_REGISTRY:-tributech.azurecr.io/}catalog-ui:${TAG:-latest}

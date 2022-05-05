@@ -7,12 +7,11 @@ on:
   # https://tributech.atlassian.net/wiki/spaces/TM/pages/99614725/Branches+Build-Pipelines+Tags#Issue-with-merge%2Fbuild-for-master-branch)
 
   push:
-    branches: [ release, develop, hotfix/* ]
+    branches: [release, develop, hotfix/*]
     tags:
       - '*'
   pull_request:
-    branches: [ release, develop, feature/*, hotfix/* ]
-
+    branches: [release, develop, feature/*, hotfix/*]
 
 jobs:
   check:
@@ -23,12 +22,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - run: yarn --frozen-lockfile
-      - run: yarn run format-check
-      - run: yarn run lint
-      - run: yarn run test:cov
-      - run: yarn run build
-  images:
+      - run: npm i --ci
+      - run: npm run generate-connectors
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build
+
+  image-api:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -52,6 +53,7 @@ jobs:
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
+      - run: npm i --ci
       - name: Login to Azure Container Registry
         uses: docker/login-action@v1
         with:
@@ -59,11 +61,62 @@ jobs:
           username: ${{ secrets.AZURE_CLIENT_ID }}
           password: ${{ secrets.AZURE_CLIENT_SECRET  }}
 
-      - name: Build and push images
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.prep.outputs.tags }}
+      - name: 'nx build'
+        run: npm run docker-api
+        env:
+          INPUT_TAGS: ${{ steps.prep.outputs.tags }}
+          INPUT_PUSH: ${{ github.event_name != 'pull_request' }}
 
+  image-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare
+        id: prep
+        run: |
+          DOCKER_IMAGE=tributech.azurecr.io/catalog-ui
+          TAGS=""
+          VERSION=alpha
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:beta,${DOCKER_IMAGE}:stable,${DOCKER_IMAGE}:latest"
+          elif [[ $GITHUB_REF == refs/heads/develop ]]; then
+            TAGS="$TAGS,${DOCKER_IMAGE}:beta"
+          elif [[ $GITHUB_REF == refs/heads/release/* ]]; then
+            VERSION=${GITHUB_REF#refs/release/}
+            TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:beta"
+          fi
+          TAGS="$TAGS,${DOCKER_IMAGE}:${GITHUB_SHA::8},${DOCKER_IMAGE}:alpha"
+          echo ::set-output name=version::${VERSION}
+          echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+
+      - run: npm i --ci
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: tributech.azurecr.io
+          username: ${{ secrets.AZURE_CLIENT_ID }}
+          password: ${{ secrets.AZURE_CLIENT_SECRET  }}
+
+      - name: 'nx build'
+        run: npm run docker-ui
+        env:
+          INPUT_TAGS: ${{ steps.prep.outputs.tags }}
+          INPUT_PUSH: ${{ github.event_name != 'pull_request' }}
+
+  npm:
+    runs-on: ubuntu-latest
+    if: contains(github.ref, '/heads/tags') || contains(github.ref, 'refs/tags')
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - run: npm i --ci
+      - run: npm run generate-connectors
+      # Set NPM token to be able to publish
+      - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/.npmrc
+      - run: npm whoami
+      - run: npm run affected:deploy-all
